@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Switching from Drupal and Wordpress to Wintersmith // Marat Sharifullin</title>
+
+        <meta charset="utf-8">
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="author" content="">
+        <meta property="og:title" content="Switching from Drupal and Wordpress to Wintersmith" />
+    <meta property="og:description" content="" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:url" content="https://ifnull.org/articles/drupal_wordpress_to_wintersmith/" />
+    
+
+    <link href="" rel="alternate" type="application/rss+xml" title="Marat Sharifullin" />
+    <link rel="shortcut icon" href="/favicon.ico">
+
+    <link href="https://ifnull.org/webfonts/ptserif/main.css" rel='stylesheet' type='text/css'>
+    <link href="https://ifnull.org/webfonts/source-code-pro/main.css" rel="stylesheet" type="text/css">
+    
+    <link rel="stylesheet" href="https://ifnull.org/css/style.css">
+
+    <link href="http://gmpg.org/xfn/11" rel="profile">
+
+    
+
+    <meta name="generator" content="Hugo 0.91.0" />
+</head>
+
+
+<body>
+<div id="container">
+    
+<div class="banner" style="padding:15px; text-align:center; background-color:#bb3434">
+    <div class="banner-content">
+        This is a copy or a backup of <a href="https://ifnull.org" class="btn btn-primary">ifnull.org</a>.
+    </div>
+</div>
+
+
+<header id="header">
+    <div id="header-outer" class="outer">
+        <div id="header-inner" class="inner">
+            <a id="main-nav-toggle" class="nav-icon" href="javascript:;"></a>
+            <a id="logo" class="logo-text" href="https://ifnull.org/">Marat Sharifullin</a>
+            <nav id="main-nav">
+                
+                <a class="main-nav-link" href="/">Blog</a>
+                
+                <a class="main-nav-link" href="/projects/all/">Projects</a>
+                
+                <a class="main-nav-link" href="/archive/">Archive</a>
+                
+                <a class="main-nav-link" href="/mabsurdation/">Mabsurdation</a>
+                
+                <a class="main-nav-link" href="/gallery/public/">Gallery</a>
+                
+                <a class="main-nav-link" href="/contact/">Contact</a>
+                
+            </nav>
+            <nav id="sub-nav">
+                <div id="search-form-wrap">
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+
+    <section id="main" class="outer">
+        <article class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        <header class="article-header">
+            <h1 class="article-title" itemprop="name">Switching from Drupal and Wordpress to Wintersmith</h1>
+        </header>
+        
+        <div class="article-meta">
+	    
+                <a href="/articles/drupal_wordpress_to_wintersmith/" class="article-date">
+                    <time datetime='2016-03-13T00:00:00.000&#43;00:00' itemprop="datePublished">2016-03-13</time>
+                </a>
+	    
+            
+            
+	    
+            <div class="article-comment-link-wrap">
+                <a href="/articles/drupal_wordpress_to_wintersmith/#disqus_thread" class="article-comment-link">Comments</a>
+            </div>
+            
+        </div>
+        <div class="article-entry" itemprop="articleBody">
+            <p>I have been using WordPress and Drupal for a while. It worked well, but recently I have decided to switch to
+Wintersmith, static site generator.</p>
+<h3 id="wordpress-and-drupal">WordPress and Drupal</h3>
+<p>Wordpress and Drupal are quite popular CMS (content management system). These platforms are easy to install and start to use.
+I like that they offer many themes and I always could find an appropriate one for a website. Trivial integration with MySQL,
+comments are available from the box. If you need to extend your webiste it is possible with lots of available plugins.</p>
+<p>Altough there are many advandages they also come with negative aspects. What I did not like about them?</p>
+<h2 id="complexity">Complexity</h2>
+<p>I have already mentioned that they are easy to use. What I mean by complexity is that they are big. It is very hard
+to know everything about these CMS. And the bigger the system the more possible vulnerabilities it has. They constantly
+get targeted by automatic bots. And who knows how many 0-day exploits for Wordpress are around?</p>
+<h2 id="resource-usage">Resource usage</h2>
+<p>This blog is hosted with multiple other sites on a single machine.  Altough there are not so many visitors here I have started
+to notice RAM shortages. It was mainly due to MySQL. Wordpress and Drupal use database to store site content and comments.
+Recently MySQL service started to crash due to memory shortages. One could say that I should have just upgraded the machine.
+But why does the modern computer cannot serve a few small websites? I remeber that 16 MiB of memory was enough to play
+so many different computer games.</p>
+<p>I have tried to solve memory issue using caching plugins but it did not work very well for me.
+I even had to create swap partition on SSD to aviod MySQL crashes.</p>
+<h3 id="wintersmith-static-site-generator">Wintersmith, static site generator</h3>
+<p>I decided to move to a static site generator. It solves the issues I had with Wordpress and Drupal. After short research on
+static site generators I have chosen the <a href="http://wintersmith.io/">Wintersmith</a>.</p>
+<p>Wintersmith takes text files (either plain html or Markdown files) and generates static html pages.
+It is very transparent. On the other hand it is also flexible as it supports plugins and templates written in Jade.</p>
+<p>There is no more database (you can still add one if you need), no more constant CMS security updates.
+I could store the source for a website on git. The Wintersmith supports site preview which is very convinient when
+adding site content.</p>
+<p>Obviously it comes with downsides:</p>
+<ul>
+<li>Not as simple as Wordpress or Drupal</li>
+<li>You need to regenerate website manually</li>
+<li>No comments support from the box. If you need comments you could extend the website with <a href="https://disqus.com/">Disqus</a></li>
+<li>Need to learn a few new things (like Jade templating)</li>
+</ul>
+<p>These downsides were not critical for me so I have decided to swith to Wintersmith.</p>
+<h3 id="installation">Installation</h3>
+<p>Installation is simple. Assuming that you have <code>npm</code> packet manager:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">npm install -g wintersmith
+</code></pre></div><p><code>-g</code> option is to install the package globally rather than locally.</p>
+<p>To initialize the new website generated by the Wintersmith:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wintersmith new &lt;path_to_site&gt;
+</code></pre></div><p>It creates a framework for your future side. There are some examples and how-to as a starting point.
+Wintersmith allows to preview your site:</p>
+<pre tabindex="0"><code>wintersmith preview -p 8080
+</code></pre><p>It starts a lightweight web server on port 8080. Open <code>http://localhost:8080</code> in your browser.
+Once you modify anything the webserver picks changes immediately and you can see them in the browser.</p>
+<p>When the website is ready you can generate static content using command <code>wintersmith build -o build</code>.
+Where <code>-o</code> options specifies the path for generated pages.</p>
+<h3 id="workflow-git-and-automatic-website-regeneration">Workflow, git and automatic website regeneration</h3>
+<p>I have installed Wintersmith locally and on the hosting computer. In addition I have started the git repository
+for a website. All development is done locally using <code>wintersmith preview</code> feature.</p>
+<p>Once I have modified the content and tested it locally I submit changes to the remote repository:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">git commit
+git push
+
+</code></pre></div><p>On the hosting machine I have created a separate user to update website content.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">adduser --disabled-login website
+</code></pre></div><p>Get website by clonning git repository:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">git clone https://git_remote_path &lt;site_local_path&gt;
+</code></pre></div><p>Generate static content:</p>
+<pre tabindex="0"><code>cd site_local_path &amp;&amp; wintersmith build
+</code></pre><p>And tell your web server to server content from <code>&lt;site_local_path&gt;/build</code> path.</p>
+<p>To automatically pull changes from git and update the website I wrote a script:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e">#!/bin/bash
+</span><span style="color:#75715e"></span>
+<span style="color:#75715e"># path to wintersmith binary, use `which wintersmith` command to locate it</span>
+WINTERSMITH<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;/usr/local/bin/wintersmith&#34;</span>
+
+<span style="color:#75715e"># function to update the website content</span>
+<span style="color:#66d9ef">function</span> update_site <span style="color:#f92672">{</span>
+  <span style="color:#66d9ef">if</span> <span style="color:#f92672">[</span> <span style="color:#e6db74">&#34;</span>$#<span style="color:#e6db74">&#34;</span> -ne <span style="color:#ae81ff">2</span> <span style="color:#f92672">]</span>; <span style="color:#66d9ef">then</span>
+    echo <span style="color:#e6db74">&#34;Update site function requires 2 arguments&#34;</span>
+    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">1</span>
+  <span style="color:#66d9ef">fi</span>
+  SITE_NAME<span style="color:#f92672">=</span>$1
+  SITE_DIR<span style="color:#f92672">=</span>$2
+
+  echo <span style="color:#e6db74">&#34;Trying to update site </span>$SITE_NAME<span style="color:#e6db74">&#34;</span>
+
+  <span style="color:#75715e"># Check if pull is needed from the remote repo.</span>
+  REV_COUNT<span style="color:#f92672">=</span><span style="color:#e6db74">`</span>cd $SITE_DIR <span style="color:#f92672">&amp;&amp;</span> git fetch <span style="color:#f92672">&amp;&amp;</span> git rev-list HEAD...origin/master --count<span style="color:#e6db74">`</span>
+  echo <span style="color:#e6db74">&#34;Found </span>$REV_COUNT<span style="color:#e6db74"> new revisions&#34;</span>
+
+  <span style="color:#66d9ef">if</span> <span style="color:#f92672">[</span> $REV_COUNT -eq <span style="color:#ae81ff">0</span> <span style="color:#f92672">]</span>; <span style="color:#66d9ef">then</span>
+    echo <span style="color:#e6db74">&#34;Nothing to do...&#34;</span>
+    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>
+  <span style="color:#66d9ef">fi</span>
+
+  <span style="color:#75715e"># Pull remote changes</span>
+  echo <span style="color:#e6db74">&#34;Rebasing changes...&#34;</span>
+  cd $SITE_DIR <span style="color:#f92672">&amp;&amp;</span> git rebase origin/master
+
+  <span style="color:#75715e"># Backup existing build (just in case)</span>
+  <span style="color:#66d9ef">if</span> <span style="color:#f92672">[</span> -d $SITE_DIR/build <span style="color:#f92672">]</span>; <span style="color:#66d9ef">then</span>
+    echo <span style="color:#e6db74">&#34;Making back up of existinb build&#34;</span>
+    mkdir -p /home/website/site_backups
+    cd $SITE_DIR <span style="color:#f92672">&amp;&amp;</span> tar czf /home/website/site_backups/<span style="color:#e6db74">${</span>SITE_NAME<span style="color:#e6db74">}</span>-<span style="color:#e6db74">`</span>date +%Y-%m-%d.%H.%M.%S<span style="color:#e6db74">`</span>.tar.gz build
+  <span style="color:#66d9ef">fi</span>
+
+  echo <span style="color:#e6db74">&#34;Building new site...&#34;</span>
+  cd $SITE_DIR <span style="color:#f92672">&amp;&amp;</span> $WINTERSMITH build
+
+  <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>
+<span style="color:#f92672">}</span>
+
+update_site <span style="color:#e6db74">&#34;ifnull.org&#34;</span> <span style="color:#e6db74">&#34;path_to_site&#34;</span>
+update_site <span style="color:#e6db74">&#34;site2.com&#34;</span> <span style="color:#e6db74">&#34;path_to_site2&#34;</span>
+update_site <span style="color:#e6db74">&#34;site3.com&#34;</span> <span style="color:#e6db74">&#34;path_to_site3&#34;</span>
+update_site <span style="color:#e6db74">&#34;site4.com&#34;</span> <span style="color:#e6db74">&#34;path_to_site4&#34;</span>
+</code></pre></div><p>And the last step is to add a regular job to run this script:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">crontab -u website -e
+</code></pre></div><p>It opens the file with tasks of user <code>website</code> to run by <code>cron</code>. Add the following line:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#ae81ff">0</span> *  *  *  *  &lt;path_to_script&gt;
+</code></pre></div><p>to execute script every hour and save the file.</p>
+<hr>
+<p>The next step would be to add possiblity to submit articles by email.</p>
+        </div>
+
+        
+        
+        <div class="article-toc" >
+            <h3></h3>
+            <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#wordpress-and-drupal">WordPress and Drupal</a></li>
+      </ul>
+    </li>
+    <li><a href="#complexity">Complexity</a></li>
+    <li><a href="#resource-usage">Resource usage</a>
+      <ul>
+        <li><a href="#wintersmith-static-site-generator">Wintersmith, static site generator</a></li>
+        <li><a href="#installation">Installation</a></li>
+        <li><a href="#workflow-git-and-automatic-website-regeneration">Workflow, git and automatic website regeneration</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+        </div>
+        
+        
+
+        
+
+
+        
+    </div>
+</article>
+
+        
+            
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    var disqus_shortname = 'ifnull';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com/" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+        
+    </section>
+    <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            &copy; 2022 Marat Sharifullin&nbsp;
+            Powered by <a href="https://gohugo.io" target="_blank">Hugo</a> with theme <a href="https://github.com/carsonip/hugo-theme-minos">Minos</a>
+        </div>
+    </div>
+    
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/styles/tomorrow-night.min.css" integrity="sha256-2wL88NKUqvJi/ExflDzkzUumjUM73mcK2gBvBBeLvTk=" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/highlight.min.js" integrity="sha256-KbfTjB0WZ8vvXngdpJGY3Yp3xKk+tttbqClO11anCIU=" crossorigin="anonymous"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+
+    
+    <script>
+        document.getElementById('main-nav-toggle').addEventListener('click', function () {
+            var header = document.getElementById('header');
+            if (header.classList.contains('mobile-on')) {
+                header.classList.remove('mobile-on');
+            } else {
+                header.classList.add('mobile-on');
+            }
+        });
+    </script>
+</footer>
+</div>
+</body>
+</html>

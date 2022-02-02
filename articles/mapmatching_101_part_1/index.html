@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Map matching 101 - part 1 // Marat Sharifullin</title>
+
+        <meta charset="utf-8">
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="author" content="">
+        <meta property="og:title" content="Map matching 101 - part 1" />
+    <meta property="og:description" content="" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:url" content="https://ifnull.org/articles/mapmatching_101_part_1/" />
+    
+
+    <link href="" rel="alternate" type="application/rss+xml" title="Marat Sharifullin" />
+    <link rel="shortcut icon" href="/favicon.ico">
+
+    <link href="https://ifnull.org/webfonts/ptserif/main.css" rel='stylesheet' type='text/css'>
+    <link href="https://ifnull.org/webfonts/source-code-pro/main.css" rel="stylesheet" type="text/css">
+    
+    <link rel="stylesheet" href="https://ifnull.org/css/style.css">
+
+    <link href="http://gmpg.org/xfn/11" rel="profile">
+
+    
+
+    <meta name="generator" content="Hugo 0.91.0" />
+</head>
+
+
+<body>
+<div id="container">
+    
+<div class="banner" style="padding:15px; text-align:center; background-color:#bb3434">
+    <div class="banner-content">
+        This is a copy or a backup of <a href="https://ifnull.org" class="btn btn-primary">ifnull.org</a>.
+    </div>
+</div>
+
+
+<header id="header">
+    <div id="header-outer" class="outer">
+        <div id="header-inner" class="inner">
+            <a id="main-nav-toggle" class="nav-icon" href="javascript:;"></a>
+            <a id="logo" class="logo-text" href="https://ifnull.org/">Marat Sharifullin</a>
+            <nav id="main-nav">
+                
+                <a class="main-nav-link" href="/">Blog</a>
+                
+                <a class="main-nav-link" href="/projects/all/">Projects</a>
+                
+                <a class="main-nav-link" href="/archive/">Archive</a>
+                
+                <a class="main-nav-link" href="/mabsurdation/">Mabsurdation</a>
+                
+                <a class="main-nav-link" href="/gallery/public/">Gallery</a>
+                
+                <a class="main-nav-link" href="/contact/">Contact</a>
+                
+            </nav>
+            <nav id="sub-nav">
+                <div id="search-form-wrap">
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+
+    <section id="main" class="outer">
+        <article class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        <header class="article-header">
+            <h1 class="article-title" itemprop="name">Map matching 101 - part 1</h1>
+        </header>
+        
+        <div class="article-meta">
+	    
+                <a href="/articles/mapmatching_101_part_1/" class="article-date">
+                    <time datetime='2017-08-31T00:00:00.000&#43;00:00' itemprop="datePublished">2017-08-31</time>
+                </a>
+	    
+            
+            
+	    
+            <div class="article-comment-link-wrap">
+                <a href="/articles/mapmatching_101_part_1/#disqus_thread" class="article-comment-link">Comments</a>
+            </div>
+            
+        </div>
+        <div class="article-entry" itemprop="articleBody">
+            <p>Map matching is an interesting problem which is used in car navigation,
+self-driving cars, traffic analysis, map correction and more.
+Let&rsquo;s write a simple map matching algorithm in Julia.</p>
+<h1 id="map-matching">Map matching</h1>
+<p>Map matching is the process of estimating actual trajectory traveled by a vehicle/bicycle
+on a road network (map) from certain observations. These observations could be:</p>
+<ul>
+<li>
+<p>track points of Global Navigation Satellite System (e.g. GPS, GLONASS, Galileo)</p>
+</li>
+<li>
+<p>sensor data (e.g. LiDAR, gyroscope, accelerometer)</p>
+</li>
+<li>
+<p>known locations of mobile network cell sites</p>
+</li>
+<li>
+<p>even Wi-Fi access points</p>
+</li>
+</ul>
+<p>All these observations contain measurement/hardware errors.
+A digital road network (map) does not match real world either.
+Map matching algorithms suppose to account for such
+inaccuracies and estimate actual locations on the road network.</p>
+<h1 id="julia">Julia</h1>
+<p>It can be done in almost any programming language. But I decided to go with
+<a href="https://julialang.org/">Julia</a> as it is a fairly new programming
+language made specifically for high-level and high-performance numerical computing.
+Julia&rsquo;s backend is LLVM and it supports Lisp-like macros.
+I think it is worth trying Julia as an alternative to expensive
+and buggy (especially on Linux) MATLAB.</p>
+<h1 id="map-data">Map data</h1>
+<p>To map match input observations a digital map data must be available.
+OpenStreetMap can expose all its map data in a single file.
+There are also extracts which contain OpenStreetMap data for individual countries,
+cities and areas of interest. See <a href="https://wiki.openstreetmap.org/wiki/Planet.osm">Planet.osm</a> for
+more information. To extract your own region you can use <a href="https://download.bbbike.org/osm/">bbbike.org</a>.</p>
+<p>OpenStreetMap mainly uses two of the following formats:</p>
+<ul>
+<li>OSM XML is a human readable format</li>
+<li>PBF is a binary format design for faster access and smaller size</li>
+</ul>
+<p>I&rsquo;m going to use Amsterdam&rsquo;s extract in OSM XML format. The extract contains data primitives:
+nodes, ways and relations.</p>
+<h2 id="node">Node</h2>
+<p>It is represented by identifier, latitude and longitude. It can represent some standalone
+features or shape of continuous ways.</p>
+<h2 id="way">Way</h2>
+<p>A way is an ordered list of nodes to represent linear features like rivers, roads, boundaries (&ldquo;closed way&rdquo;).</p>
+<h2 id="relation">Relation</h2>
+<p>A relation represents a relationship between two or more elements.</p>
+<h2 id="example">Example:</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml">        <span style="color:#f92672">&lt;node</span> <span style="color:#a6e22e">id=</span><span style="color:#e6db74">&#34;16568166&#34;</span> <span style="color:#a6e22e">lat=</span><span style="color:#e6db74">&#34;52.3776574&#34;</span> <span style="color:#a6e22e">lon=</span><span style="color:#e6db74">&#34;4.8988379&#34;</span> <span style="color:#a6e22e">version=</span><span style="color:#e6db74">&#34;1&#34;</span><span style="color:#f92672">&gt;</span>
+                <span style="color:#f92672">&lt;tag</span> <span style="color:#a6e22e">k=</span><span style="color:#e6db74">&#34;ref&#34;</span> <span style="color:#a6e22e">v=</span><span style="color:#e6db74">&#34;29-V&#34;</span><span style="color:#f92672">/&gt;</span>
+                <span style="color:#f92672">&lt;tag</span> <span style="color:#a6e22e">k=</span><span style="color:#e6db74">&#34;railway&#34;</span> <span style="color:#a6e22e">v=</span><span style="color:#e6db74">&#34;switch&#34;</span><span style="color:#f92672">/&gt;</span>
+        <span style="color:#f92672">&lt;/node&gt;</span>
+        <span style="color:#f92672">&lt;node</span> <span style="color:#a6e22e">id=</span><span style="color:#e6db74">&#34;16568167&#34;</span> <span style="color:#a6e22e">lat=</span><span style="color:#e6db74">&#34;52.3777968&#34;</span> <span style="color:#a6e22e">lon=</span><span style="color:#e6db74">&#34;4.899034&#34;</span> <span style="color:#a6e22e">version=</span><span style="color:#e6db74">&#34;1&#34;</span><span style="color:#f92672">/&gt;</span>
+        <span style="color:#f92672">&lt;node</span> <span style="color:#a6e22e">id=</span><span style="color:#e6db74">&#34;25596477&#34;</span> <span style="color:#a6e22e">lat=</span><span style="color:#e6db74">&#34;52.367&#34;</span> <span style="color:#a6e22e">lon=</span><span style="color:#e6db74">&#34;4.9060967&#34;</span> <span style="color:#a6e22e">version=</span><span style="color:#e6db74">&#34;1&#34;</span><span style="color:#f92672">/&gt;</span>
+
+        <span style="color:#f92672">&lt;way</span> <span style="color:#a6e22e">id=</span><span style="color:#e6db74">&#34;7045991&#34;</span> <span style="color:#a6e22e">version=</span><span style="color:#e6db74">&#34;1&#34;</span><span style="color:#f92672">&gt;</span>
+                <span style="color:#f92672">&lt;nd</span> <span style="color:#a6e22e">ref=</span><span style="color:#e6db74">&#34;46385578&#34;</span><span style="color:#f92672">/&gt;</span>
+                <span style="color:#f92672">&lt;nd</span> <span style="color:#a6e22e">ref=</span><span style="color:#e6db74">&#34;252129511&#34;</span><span style="color:#f92672">/&gt;</span>
+                <span style="color:#f92672">&lt;nd</span> <span style="color:#a6e22e">ref=</span><span style="color:#e6db74">&#34;330036893&#34;</span><span style="color:#f92672">/&gt;</span>
+                <span style="color:#f92672">&lt;nd</span> <span style="color:#a6e22e">ref=</span><span style="color:#e6db74">&#34;46384590&#34;</span><span style="color:#f92672">/&gt;</span>
+                <span style="color:#f92672">&lt;tag</span> <span style="color:#a6e22e">k=</span><span style="color:#e6db74">&#34;ref&#34;</span> <span style="color:#a6e22e">v=</span><span style="color:#e6db74">&#34;s116&#34;</span><span style="color:#f92672">/&gt;</span>
+                <span style="color:#f92672">&lt;tag</span> <span style="color:#a6e22e">k=</span><span style="color:#e6db74">&#34;name&#34;</span> <span style="color:#a6e22e">v=</span><span style="color:#e6db74">&#34;Kattenburgerplein&#34;</span><span style="color:#f92672">/&gt;</span>
+                <span style="color:#f92672">&lt;tag</span> <span style="color:#a6e22e">k=</span><span style="color:#e6db74">&#34;lanes&#34;</span> <span style="color:#a6e22e">v=</span><span style="color:#e6db74">&#34;1&#34;</span><span style="color:#f92672">/&gt;</span>
+                <span style="color:#f92672">&lt;tag</span> <span style="color:#a6e22e">k=</span><span style="color:#e6db74">&#34;oneway&#34;</span> <span style="color:#a6e22e">v=</span><span style="color:#e6db74">&#34;yes&#34;</span><span style="color:#f92672">/&gt;</span>
+                <span style="color:#f92672">&lt;tag</span> <span style="color:#a6e22e">k=</span><span style="color:#e6db74">&#34;bicycle&#34;</span> <span style="color:#a6e22e">v=</span><span style="color:#e6db74">&#34;use_sidepath&#34;</span><span style="color:#f92672">/&gt;</span>
+                <span style="color:#f92672">&lt;tag</span> <span style="color:#a6e22e">k=</span><span style="color:#e6db74">&#34;highway&#34;</span> <span style="color:#a6e22e">v=</span><span style="color:#e6db74">&#34;secondary&#34;</span><span style="color:#f92672">/&gt;</span>
+                <span style="color:#f92672">&lt;tag</span> <span style="color:#a6e22e">k=</span><span style="color:#e6db74">&#34;surface&#34;</span> <span style="color:#a6e22e">v=</span><span style="color:#e6db74">&#34;asphalt&#34;</span><span style="color:#f92672">/&gt;</span>
+                <span style="color:#f92672">&lt;tag</span> <span style="color:#a6e22e">k=</span><span style="color:#e6db74">&#34;maxspeed&#34;</span> <span style="color:#a6e22e">v=</span><span style="color:#e6db74">&#34;50&#34;</span><span style="color:#f92672">/&gt;</span>
+        <span style="color:#f92672">&lt;/way&gt;</span>
+
+        <span style="color:#f92672">&lt;relation</span> <span style="color:#a6e22e">id=</span><span style="color:#e6db74">&#34;2816&#34;</span> <span style="color:#a6e22e">version=</span><span style="color:#e6db74">&#34;1&#34;</span><span style="color:#f92672">&gt;</span>
+                <span style="color:#f92672">&lt;member</span> <span style="color:#a6e22e">type=</span><span style="color:#e6db74">&#34;way&#34;</span> <span style="color:#a6e22e">ref=</span><span style="color:#e6db74">&#34;382853413&#34;</span> <span style="color:#a6e22e">role=</span><span style="color:#e6db74">&#34;&#34;</span><span style="color:#f92672">/&gt;</span>
+                <span style="color:#f92672">&lt;member</span> <span style="color:#a6e22e">type=</span><span style="color:#e6db74">&#34;way&#34;</span> <span style="color:#a6e22e">ref=</span><span style="color:#e6db74">&#34;504938884&#34;</span> <span style="color:#a6e22e">role=</span><span style="color:#e6db74">&#34;&#34;</span><span style="color:#f92672">/&gt;</span>
+                <span style="color:#f92672">&lt;tag</span> <span style="color:#a6e22e">k=</span><span style="color:#e6db74">&#34;ref&#34;</span> <span style="color:#a6e22e">v=</span><span style="color:#e6db74">&#34;LF2&#34;</span><span style="color:#f92672">/&gt;</span>
+                <span style="color:#f92672">&lt;tag</span> <span style="color:#a6e22e">k=</span><span style="color:#e6db74">&#34;name&#34;</span> <span style="color:#a6e22e">v=</span><span style="color:#e6db74">&#34;Stedenroute&#34;</span><span style="color:#f92672">/&gt;</span>
+                <span style="color:#f92672">&lt;tag</span> <span style="color:#a6e22e">k=</span><span style="color:#e6db74">&#34;type&#34;</span> <span style="color:#a6e22e">v=</span><span style="color:#e6db74">&#34;route&#34;</span><span style="color:#f92672">/&gt;</span>
+                <span style="color:#f92672">&lt;tag</span> <span style="color:#a6e22e">k=</span><span style="color:#e6db74">&#34;route&#34;</span> <span style="color:#a6e22e">v=</span><span style="color:#e6db74">&#34;bicycle&#34;</span><span style="color:#f92672">/&gt;</span>
+                <span style="color:#f92672">&lt;tag</span> <span style="color:#a6e22e">k=</span><span style="color:#e6db74">&#34;remark&#34;</span> <span style="color:#a6e22e">v=</span><span style="color:#e6db74">&#34;relation contains two alternative routes&#34;</span><span style="color:#f92672">/&gt;</span>
+                <span style="color:#f92672">&lt;tag</span> <span style="color:#a6e22e">k=</span><span style="color:#e6db74">&#34;network&#34;</span> <span style="color:#a6e22e">v=</span><span style="color:#e6db74">&#34;ncn&#34;</span><span style="color:#f92672">/&gt;</span>
+        <span style="color:#f92672">&lt;/relation&gt;</span>
+</code></pre></div><h1 id="observations-gnss">Observations (GNSS)</h1>
+<p>OpenStreetMap also provides access to huge
+<a href="https://wiki.openstreetmap.org/wiki/Planet.gpx">database with GNSS traces</a>.
+These traces can be used to test map matching algorithms.</p>
+<p>The format used is <a href="https://en.wikipedia.org/wiki/GPS_Exchange_Format">GPX or GPS Exchange Format</a>.</p>
+<p>Example:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#75715e">&lt;?xml version=&#39;1.0&#39; encoding=&#39;utf-8&#39;?&gt;</span>
+<span style="color:#f92672">&lt;gpx</span> <span style="color:#a6e22e">xmlns=</span><span style="color:#e6db74">&#34;http://www.topografix.com/GPX/1/0&#34;</span> <span style="color:#a6e22e">version=</span><span style="color:#e6db74">&#34;1.0&#34;</span> <span style="color:#a6e22e">creator=</span><span style="color:#e6db74">&#34;OSM gpx_dump.py&#34;</span><span style="color:#f92672">&gt;</span>
+  <span style="color:#f92672">&lt;trk&gt;</span>
+    <span style="color:#f92672">&lt;name&gt;</span>Track 0<span style="color:#f92672">&lt;/name&gt;</span>
+    <span style="color:#f92672">&lt;number&gt;</span>0<span style="color:#f92672">&lt;/number&gt;</span>
+    <span style="color:#f92672">&lt;trkseg&gt;</span>
+      <span style="color:#f92672">&lt;trkpt</span> <span style="color:#a6e22e">lat=</span><span style="color:#e6db74">&#34;52.0709250&#34;</span> <span style="color:#a6e22e">lon=</span><span style="color:#e6db74">&#34;5.1255720&#34;</span><span style="color:#f92672">&gt;</span>
+        <span style="color:#f92672">&lt;ele&gt;</span>11.19<span style="color:#f92672">&lt;/ele&gt;</span>
+      <span style="color:#f92672">&lt;/trkpt&gt;</span>
+      <span style="color:#f92672">&lt;trkpt</span> <span style="color:#a6e22e">lat=</span><span style="color:#e6db74">&#34;52.0729630&#34;</span> <span style="color:#a6e22e">lon=</span><span style="color:#e6db74">&#34;5.1228470&#34;</span><span style="color:#f92672">&gt;</span>
+        <span style="color:#f92672">&lt;ele&gt;</span>-1.79<span style="color:#f92672">&lt;/ele&gt;</span>
+      <span style="color:#f92672">&lt;/trkpt&gt;</span>
+</code></pre></div><h1 id="to-be-continued">To be continued</h1>
+<p>In the next posts I&rsquo;m going to write a program which loads map data, plots a GPS trace and
+start with map matching.</p>
+        </div>
+
+        
+        
+        <div class="article-toc" >
+            <h3></h3>
+            <nav id="TableOfContents">
+  <ul>
+    <li><a href="#node">Node</a></li>
+    <li><a href="#way">Way</a></li>
+    <li><a href="#relation">Relation</a></li>
+    <li><a href="#example">Example:</a></li>
+  </ul>
+</nav>
+        </div>
+        
+        
+
+        
+
+
+        
+    </div>
+</article>
+
+        
+            
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    var disqus_shortname = 'ifnull';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com/" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+        
+    </section>
+    <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            &copy; 2022 Marat Sharifullin&nbsp;
+            Powered by <a href="https://gohugo.io" target="_blank">Hugo</a> with theme <a href="https://github.com/carsonip/hugo-theme-minos">Minos</a>
+        </div>
+    </div>
+    
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/styles/tomorrow-night.min.css" integrity="sha256-2wL88NKUqvJi/ExflDzkzUumjUM73mcK2gBvBBeLvTk=" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/highlight.min.js" integrity="sha256-KbfTjB0WZ8vvXngdpJGY3Yp3xKk+tttbqClO11anCIU=" crossorigin="anonymous"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+
+    
+    <script>
+        document.getElementById('main-nav-toggle').addEventListener('click', function () {
+            var header = document.getElementById('header');
+            if (header.classList.contains('mobile-on')) {
+                header.classList.remove('mobile-on');
+            } else {
+                header.classList.add('mobile-on');
+            }
+        });
+    </script>
+</footer>
+</div>
+</body>
+</html>

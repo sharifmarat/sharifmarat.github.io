@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dialogues on size_type vs size_t // Marat Sharifullin</title>
+
+        <meta charset="utf-8">
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="author" content="">
+        <meta property="og:title" content="Dialogues on size_type vs size_t" />
+    <meta property="og:description" content="" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:url" content="https://ifnull.org/articles/dialogue_on_size_type/" />
+    
+
+    <link href="" rel="alternate" type="application/rss+xml" title="Marat Sharifullin" />
+    <link rel="shortcut icon" href="/favicon.ico">
+
+    <link href="https://ifnull.org/webfonts/ptserif/main.css" rel='stylesheet' type='text/css'>
+    <link href="https://ifnull.org/webfonts/source-code-pro/main.css" rel="stylesheet" type="text/css">
+    
+    <link rel="stylesheet" href="https://ifnull.org/css/style.css">
+
+    <link href="http://gmpg.org/xfn/11" rel="profile">
+
+    
+
+    <meta name="generator" content="Hugo 0.91.0" />
+</head>
+
+
+<body>
+<div id="container">
+    
+<div class="banner" style="padding:15px; text-align:center; background-color:#bb3434">
+    <div class="banner-content">
+        This is a copy or a backup of <a href="https://ifnull.org" class="btn btn-primary">ifnull.org</a>.
+    </div>
+</div>
+
+
+<header id="header">
+    <div id="header-outer" class="outer">
+        <div id="header-inner" class="inner">
+            <a id="main-nav-toggle" class="nav-icon" href="javascript:;"></a>
+            <a id="logo" class="logo-text" href="https://ifnull.org/">Marat Sharifullin</a>
+            <nav id="main-nav">
+                
+                <a class="main-nav-link" href="/">Blog</a>
+                
+                <a class="main-nav-link" href="/projects/all/">Projects</a>
+                
+                <a class="main-nav-link" href="/archive/">Archive</a>
+                
+                <a class="main-nav-link" href="/mabsurdation/">Mabsurdation</a>
+                
+                <a class="main-nav-link" href="/gallery/public/">Gallery</a>
+                
+                <a class="main-nav-link" href="/contact/">Contact</a>
+                
+            </nav>
+            <nav id="sub-nav">
+                <div id="search-form-wrap">
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+
+    <section id="main" class="outer">
+        <article class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        <header class="article-header">
+            <h1 class="article-title" itemprop="name">Dialogues on size_type vs size_t</h1>
+        </header>
+        
+        <div class="article-meta">
+	    
+                <a href="/articles/dialogue_on_size_type/" class="article-date">
+                    <time datetime='2017-08-24T00:00:00.000&#43;00:00' itemprop="datePublished">2017-08-24</time>
+                </a>
+	    
+            
+            
+	    
+            <div class="article-comment-link-wrap">
+                <a href="/articles/dialogue_on_size_type/#disqus_thread" class="article-comment-link">Comments</a>
+            </div>
+            
+        </div>
+        <div class="article-entry" itemprop="articleBody">
+            <p>It all began, as usual, with a simple yes or no question on how to loop in C++.
+Which led to <code>size_type</code> vs <code>size_t</code> discussion and ended with a joke and a bit of assembly.</p>
+<p><strong>M:</strong>  Assuming type of x is known and the code is not inside a template function or class, 1 or 2?</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#75715e">// 1
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">const</span> size_t n <span style="color:#f92672">=</span> x.size();
+<span style="color:#66d9ef">for</span> (size_t i <span style="color:#f92672">=</span> n <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>; ....
+
+<span style="color:#75715e">// OR
+</span><span style="color:#75715e"></span>
+<span style="color:#75715e">// 2
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">const</span> <span style="color:#66d9ef">auto</span> n <span style="color:#f92672">=</span> x.size();
+<span style="color:#66d9ef">for</span> (std<span style="color:#f92672">::</span>decay<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">decltype</span>(n)<span style="color:#f92672">&gt;::</span>type i <span style="color:#f92672">=</span> n <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>; ....
+</code></pre></div><p><strong>AL:</strong> Is it a joke?</p>
+<p><strong>M:</strong> No. Why?</p>
+<p><strong>AL:</strong> Then the 1<sup>st</sup>. How can anyone pick the 2<sup>nd</sup>? No templates, more difficult to read.</p>
+<p><strong>M:</strong> More generic?</p>
+<p><strong>AL:</strong> Yeah&hellip; Potentially generic, but readability is much worse. But let&rsquo;s ask <strong>AR</strong>, he loves generic code.</p>
+<p><strong>AR:</strong> First of all, you don&rsquo;t care about <code>x</code>. You only care about type deduction on <code>x.size()</code>. Further in the second option
+you don&rsquo;t need <code>decay</code>, <code>auto</code> will simply work. So I vote for the third option (if we agree that ranges/iterators are out of the scope):</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#66d9ef">const</span> <span style="color:#66d9ef">auto</span> n <span style="color:#f92672">=</span> x.size();
+<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">auto</span> i <span style="color:#f92672">=</span> n <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>; ....
+</code></pre></div><p>But the first option is also fine for every-day code. But not for STL or library code.</p>
+<p><strong>AL:</strong> Type of <code>x</code> itself is not necessary to know, but it is good to know that it is not a template.</p>
+<p><strong>AR:</strong> But what does it change?</p>
+<p><strong>AL:</strong> Anyway, does not matter. Your 3<sup>rd</sup> option is the best. But I was also fine with the 1<sup>st</sup> one.</p>
+<p><strong>AR:</strong> Not for STL.</p>
+<p><strong>AL:</strong> Why?</p>
+<p><strong>AR:</strong> Type of <code>size()</code> is not <code>size_t</code>, but <code>typename decltype(x)::size_type</code>.</p>
+<p><strong>AL:</strong> That&rsquo;s what I&rsquo;m saying, if type of <code>x</code> is known then it should not matter.</p>
+<p><strong>AR:</strong> But it does not mean that <code>size()</code> returns <code>size_t</code>. In standard library it returns <code>size_type</code> even if a container is known.
+<code>size_type</code> is implementation defined. Anyway, these are details.</p>
+<p><strong>AL:</strong> If it&rsquo;s known that <code>x</code> is <code>vector&lt;int&gt;</code> then <code>vector&lt;int&gt;::size_type</code> is equivalent to <code>size_t</code>.</p>
+<p><strong>AR:</strong> Nope. <code>size_type</code> is implementation defined.</p>
+<p><strong>AL:</strong> Are you saying that <code>vector&lt;int&gt;::size_type</code> does not always resolve to <code>size_t</code>? The elements of a vector are stored contiguously.
+And it is guaranteed that <code>size_t</code> can address anything in memory.</p>
+<p><strong>AR:</strong> <a href="http://en.cppreference.com/w/cpp/header/vector">Ha!!!111</a>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#66d9ef">template</span> <span style="color:#f92672">&lt;</span>.....<span style="color:#f92672">&gt;</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">vector</span> {
+  <span style="color:#66d9ef">typedef</span> <span style="color:#75715e">/*implementation defined*/</span> size_type;
+  size_type <span style="color:#a6e22e">size</span>() <span style="color:#66d9ef">const</span>;
+  <span style="color:#75715e">//...
+</span></code></pre></div><p><strong>AL:</strong> Can it be smaller than <code>size_t</code>? It cannot be wider. It must be equivalent to <code>size_t</code>. But technically you are right.</p>
+<p><strong>AR:</strong> We have to deal with what standard says. It&rsquo;s a law!</p>
+<p><strong>AL:</strong> I can prove that <code>vector&lt;int&gt;::size_type</code> is equivalent to <code>size_t</code>. Otherwise it cannot be. But in general it is not known, indeed.
+Can you provide a single example where <code>vector&lt;int&gt;::size_type</code> is not equivalent to <code>size_t</code>.</p>
+<p><strong>AR:</strong> You can probably find a platform where <code>sizeof(size_type) != sizeof(size_t)</code>.</p>
+<p><strong>AL:</strong> Can you provide an example of such platform? I think I could show that it is impossible. It&rsquo;s guaranteed that
+<code>vector&lt;X&gt;::size_type</code> cannot be smaller than a pointer. And I think it could not be larger than a pointer. Let me think&hellip;</p>
+<p><strong>AR:</strong> Standard explicitly states that it is implementation defined. Why would I break it anyway? Just because I cannot find an example?</p>
+<p><strong>AL:</strong> I think I found a mistake in my &ldquo;proof&rdquo;. <code>&amp;x[n]</code> does not have to be a pointer. It&rsquo;s just <code>vector&lt;T&gt;::reference_type</code>.</p>
+<p><strong>AR:</strong> It&rsquo;s more safer just to listen to what the standard says to avoid potential UB.</p>
+<p><strong>AL:</strong> But if you prove that <code>size_type</code> is equivalent to <code>size_t</code> then you could just start using it.</p>
+<p><strong>AR:</strong> Until the next standard.</p>
+<p><strong>M:</strong> Google says that it&rsquo;s quite easy to make an allocator with <code>sizeof(size_type) &gt; sizeof(size_t)</code>. It will map container&rsquo;s memory to bigger than system&rsquo;s memory storage.</p>
+<p><strong>AR:</strong> Yes, you could make such allocator. But what would be <code>vector&lt;T, A&gt;::reference_type</code> then?</p>
+<p><strong>AL:</strong> Any type with <code>operator.</code>? Which we could not overload yet. Anyway, we all agree that <strong>AR</strong>&rsquo;s option <code>auto i = n + 1</code> was the best.</p>
+<p><strong>M:</strong> What if <code>0</code> is used instead of <code>n + 1</code>? Should it be like this <code>auto i = decltype(x.size())0;</code> then?</p>
+<p><strong>AR:</strong> Better would be <code>auto i = decltype(x.size())();</code>.</p>
+<p><strong>AL:</strong> <code>auto i = (n - n);</code></p>
+<p>That&rsquo;s C++, you cannot just write <code>auto i = 0</code>. Instead you should do either <code>auto i = decltype(x.size())();</code> or <code>auto i = x.size() - x.size();</code>.
+Although the latter looks funny, it is identical to the former (based on optimized assembly from gcc-4.9).</p>
+        </div>
+
+        
+        
+        <div class="article-toc" >
+            <h3></h3>
+            <nav id="TableOfContents"></nav>
+        </div>
+        
+        
+
+        
+
+
+        
+    </div>
+</article>
+
+        
+            
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    var disqus_shortname = 'ifnull';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com/" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+        
+    </section>
+    <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            &copy; 2022 Marat Sharifullin&nbsp;
+            Powered by <a href="https://gohugo.io" target="_blank">Hugo</a> with theme <a href="https://github.com/carsonip/hugo-theme-minos">Minos</a>
+        </div>
+    </div>
+    
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/styles/tomorrow-night.min.css" integrity="sha256-2wL88NKUqvJi/ExflDzkzUumjUM73mcK2gBvBBeLvTk=" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/highlight.min.js" integrity="sha256-KbfTjB0WZ8vvXngdpJGY3Yp3xKk+tttbqClO11anCIU=" crossorigin="anonymous"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+
+    
+    <script>
+        document.getElementById('main-nav-toggle').addEventListener('click', function () {
+            var header = document.getElementById('header');
+            if (header.classList.contains('mobile-on')) {
+                header.classList.remove('mobile-on');
+            } else {
+                header.classList.add('mobile-on');
+            }
+        });
+    </script>
+</footer>
+</div>
+</body>
+</html>

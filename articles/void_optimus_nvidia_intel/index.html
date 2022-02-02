@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dual Intel and Nvidia graphics on Void Linux // Marat Sharifullin</title>
+
+        <meta charset="utf-8">
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="author" content="">
+        <meta property="og:title" content="Dual Intel and Nvidia graphics on Void Linux" />
+    <meta property="og:description" content="" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:url" content="https://ifnull.org/articles/void_optimus_nvidia_intel/" />
+    
+
+    <link href="" rel="alternate" type="application/rss+xml" title="Marat Sharifullin" />
+    <link rel="shortcut icon" href="/favicon.ico">
+
+    <link href="https://ifnull.org/webfonts/ptserif/main.css" rel='stylesheet' type='text/css'>
+    <link href="https://ifnull.org/webfonts/source-code-pro/main.css" rel="stylesheet" type="text/css">
+    
+    <link rel="stylesheet" href="https://ifnull.org/css/style.css">
+
+    <link href="http://gmpg.org/xfn/11" rel="profile">
+
+    
+
+    <meta name="generator" content="Hugo 0.91.0" />
+</head>
+
+
+<body>
+<div id="container">
+    
+<div class="banner" style="padding:15px; text-align:center; background-color:#bb3434">
+    <div class="banner-content">
+        This is a copy or a backup of <a href="https://ifnull.org" class="btn btn-primary">ifnull.org</a>.
+    </div>
+</div>
+
+
+<header id="header">
+    <div id="header-outer" class="outer">
+        <div id="header-inner" class="inner">
+            <a id="main-nav-toggle" class="nav-icon" href="javascript:;"></a>
+            <a id="logo" class="logo-text" href="https://ifnull.org/">Marat Sharifullin</a>
+            <nav id="main-nav">
+                
+                <a class="main-nav-link" href="/">Blog</a>
+                
+                <a class="main-nav-link" href="/projects/all/">Projects</a>
+                
+                <a class="main-nav-link" href="/archive/">Archive</a>
+                
+                <a class="main-nav-link" href="/mabsurdation/">Mabsurdation</a>
+                
+                <a class="main-nav-link" href="/gallery/public/">Gallery</a>
+                
+                <a class="main-nav-link" href="/contact/">Contact</a>
+                
+            </nav>
+            <nav id="sub-nav">
+                <div id="search-form-wrap">
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+
+    <section id="main" class="outer">
+        <article class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        <header class="article-header">
+            <h1 class="article-title" itemprop="name">Dual Intel and Nvidia graphics on Void Linux</h1>
+        </header>
+        
+        <div class="article-meta">
+	    
+                <a href="/articles/void_optimus_nvidia_intel/" class="article-date">
+                    <time datetime='2019-01-11T00:00:00.000&#43;00:00' itemprop="datePublished">2019-01-11</time>
+                </a>
+	    
+            
+            
+	    
+            <div class="article-comment-link-wrap">
+                <a href="/articles/void_optimus_nvidia_intel/#disqus_thread" class="article-comment-link">Comments</a>
+            </div>
+            
+        </div>
+        <div class="article-entry" itemprop="articleBody">
+            <p>Nvidia Optimus technology allows seamlessly switch between two graphics cards on a laptop.
+An Intel integrated card is used to safe battery life when performance is not needed.
+A discrete Nvidia card is turned on for certain applications, like games, mining.
+It was a big tricky to setup dual graphics on Void Linux. A few hints below could help you to take advantage
+of this technology on Linux.</p>
+<p>It is well describe on <a href="https://wiki.voidlinux.eu/">wiki.voidlinux.eu</a> how to setup either Nvidia or Intel graphics card on Void Linux.
+The issue comes when you try to install OpenGL libraries for both Nvidia and Intel graphics. It does not work, because
+these libraries conflict with each other. It is possible to upgrade from mesa <code>libGL</code> to <code>libGL</code> from Nvidia,
+but not in another direction.  If you already installed OpenGL libraries for Nvidia, you have to remove them first (including
+all dependencies) before installing mesa OpenGL libraries for Intel graphics.</p>
+<p>I ended up re-installing Nvidia and mesa OpenGL libraries for at least 5 times when trying to setup Nvidia Optimus on my laptop,
+HP Envy 13. That&rsquo;s why I describe hints below which could help you to achieve the same. I say hints, because
+I don&rsquo;t remember exact steps and I don&rsquo;t want to remove everything again :)</p>
+<p>1.Start with mesa OpenGL libraries for integrated Intel graphics card. Make sure that you install it correctly and it works. I mainly
+used <code>glmark2</code> to verify my video drivers. With integrated Intel graphics output should look something like that:</p>
+<pre tabindex="0"><code>$ glmark2
+=======================================================
+    glmark2 2017.07
+=======================================================
+    OpenGL Information
+    GL_VENDOR:     Intel Open Source Technology Center
+    GL_RENDERER:   Mesa DRI Intel(R) UHD Graphics 620 (Kabylake GT2) 
+    GL_VERSION:    3.0 Mesa 18.3.1
+=======================================================
+[build] use-vbo=false: FPS: 758 FrameTime: 1.319 ms
+[build] use-vbo=true: FPS: 780 FrameTime: 1.282 ms
+=======================================================
+                                  glmark2 Score: 769 
+=======================================================
+</code></pre><p>2.Per Jan 12 2019: do not install Nvidia drivers from default Void Linux repository.
+If you try to install <code>Bumblebee</code> (for Optimus) with Nvidia drivers and libraries, it would remove mesa libraries and Nvidia becomes your
+default graphics without an option to switch back to Intel integrated graphics.</p>
+<p>3.Install Nvidia kernel module only (without Nvidia libraries). Download Nvidia libraries manually.
+You could do it either from official website <a href="https://www.nvidia.com/Download/index.aspx?lang=en-us">Nvidia libraries</a> or from Void Linux repository.</p>
+<p>4.Extract Nvidia libraries into a separate folder.
+I have used the blob from Nvidia website with the following parameters:</p>
+<pre tabindex="0"><code>$ ./nvidia-installer --x-prefix=/opt  --x-module-path=/opt/lib/xorg/modules \
+      --x-library-path=/opt/lib --x-sysconfig-path=/opt/share/X11 --opengl-prefix=/opt \
+      --compat32-prefix=/opt --compat32-libdir=lib32 --utility-prefix=/opt --documentation-prefix=/opt \
+      --application-profile-path=/opt/share/nvidia
+</code></pre><p>It installs Nvidia libraries into <code>/opt</code> directory for x86_64 and x64 architectures.
+I had to play with <code>--no-opengl-files</code> parameters in order not to overwrite system (mesa) OpenGL libraries.</p>
+<p>5.By that step you should have working mesa OpenGL, Nvidia kernel module and Nvidia libraries in <code>/opt</code> directory.</p>
+<p>6.Install <code>bbswitch</code> kernel module to enable/disable discrete graphics.</p>
+<p>7.Clone <a href="https://github.com/Witko/nvidia-xrun">nvidia-xrun</a> script. It starts a separate X session with Nvidia graphics enabled.</p>
+<p>8.Create file <code>/etc/X11/nvidia-xorg.conf</code></p>
+<pre tabindex="0"><code>Section &quot;Files&quot;
+  ModulePath &quot;/opt/lib32&quot;
+  ModulePath &quot;/opt/lib&quot;
+  ModulePath &quot;/opt/lib32/vdpau&quot;
+  ModulePath &quot;/opt/lib/vdpau&quot;
+  ModulePath &quot;/opt/lib/xorg/modules&quot;
+  ModulePath &quot;/opt/lib/xorg/modules/drivers&quot;
+  ModulePath &quot;/opt/lib/xorg/modules/extensions&quot;
+  ModulePath &quot;/opt/lib/tls&quot;
+  ModulePath &quot;/usr/lib/xorg/modules&quot;
+EndSection
+
+Section &quot;Module&quot;
+    Load &quot;modesetting&quot;
+EndSection
+
+Section &quot;Device&quot;
+    Identifier     &quot;nvidia&quot;
+    Driver         &quot;nvidia&quot;
+    # Use lspci to find proper BusID
+    BusID          &quot;PCI:1:0:0&quot;
+    Option &quot;AllowEmptyInitialConfiguration&quot;
+EndSection
+</code></pre><p>9.Copy <code>nvidia-xrun/nvidia-xinitrc</code> to <code>/etc/X11/xinit/nvidia-xinitrc</code>.</p>
+<p>10.Specify which window manager or a program to start with Nvidia enabled. For that create file <code>~/.nvidia-xinitrc</code></p>
+<pre tabindex="0"><code>if [ $# -gt 0 ]; then
+  $*
+else
+  xrandr --setprovideroutputsource modesetting NVIDIA-0
+  xrandr --auto
+  xrandr --dpi 96
+  # use your own window manager
+  exec mate-session
+fi
+</code></pre><p>11.Modify <code>nvidia-xrun</code> (probably can be done in <code>/etc/X11/xinit/nvidia-xinitrc</code> as well) to add <code>/opt/lib</code> (or <code>/opt/lib32</code> for x86)
+to dynamic loader when starting new Nvidia X session:</p>
+<pre tabindex="0"><code>diff --git a/nvidia-xrun b/nvidia-xrun
+old mode 100644
+new mode 100755
+index 39b1b94..6153811
+--- a/nvidia-xrun
++++ b/nvidia-xrun
+@@ -69,6 +69,9 @@ EXECL=&quot;/etc/X11/xinit/nvidia-xinitrc $EXECL&quot;
+ 
+ COMMAND=&quot;xinit $EXECL -- $NEWDISP vt$LVT -nolisten tcp -br -config nvidia-xorg.conf -configdir nvidia-xorg.conf.d&quot;
+ 
++echo &quot;adding /opt/lib to ldconfig&quot;
++execute &quot;sudo ldconfig /opt/lib&quot;
++
+ # --------- TURNING ON GPU -----------
+ echo 'Waking up nvidia GPU'
+ if ! [ -f /proc/acpi/bbswitch ] 
+@@ -117,3 +120,6 @@ then
+ else
+   echo &quot;Bbswitch kernel module not loaded.&quot;
+ fi
++
++echo &quot;removing /opt/lib to ldconfig&quot;
++execute &quot;sudo ldconfig&quot;
+</code></pre><p>12.Switch to <code>tty1</code> (with Ctrl+Alt+F1) and run <code>nvidia-xrun</code>. Verify with <code>glmark2</code> that Nvidia graphics is used:</p>
+<pre tabindex="0"><code>$ glmark2
+=======================================================
+    glmark2 2017.07
+=======================================================
+    OpenGL Information
+    GL_VENDOR:     NVIDIA Corporation
+    GL_RENDERER:   GeForce MX150/PCIe/SSE2
+    GL_VERSION:    4.6.0 NVIDIA 410.78
+=======================================================
+[build] use-vbo=false: FPS: 1668 FrameTime: 0.600 ms
+=======================================================
+                                  glmark2 Score: 1668 
+=======================================================
+</code></pre><p>13.To see whether Nvidia graphics cards is turned on or turned off you could run <code>cat /proc/acpi/bbswitch</code>.
+In daily life when Nvidia is not used you should see something similar to</p>
+<pre tabindex="0"><code>0000:01:00.0 OFF
+</code></pre><p>You might need to blacklist nouveau module to avoid conflicts with Nvidia module.
+For that create a file <code>/etc/modprobe.d/blacklist-nouveau.conf</code></p>
+<pre tabindex="0"><code>install nouveau /bin/false
+</code></pre><p>You could also blacklist Nvidia kernel modules by default.</p>
+<p>As far as I remember I had to manually remove <code>/opt/lib/xorg/modules/libwfb.so</code> library.</p>
+        </div>
+
+        
+        
+        <div class="article-toc" >
+            <h3></h3>
+            <nav id="TableOfContents"></nav>
+        </div>
+        
+        
+
+        
+
+
+        
+    </div>
+</article>
+
+        
+            
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    var disqus_shortname = 'ifnull';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com/" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+        
+    </section>
+    <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            &copy; 2022 Marat Sharifullin&nbsp;
+            Powered by <a href="https://gohugo.io" target="_blank">Hugo</a> with theme <a href="https://github.com/carsonip/hugo-theme-minos">Minos</a>
+        </div>
+    </div>
+    
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/styles/tomorrow-night.min.css" integrity="sha256-2wL88NKUqvJi/ExflDzkzUumjUM73mcK2gBvBBeLvTk=" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/highlight.min.js" integrity="sha256-KbfTjB0WZ8vvXngdpJGY3Yp3xKk+tttbqClO11anCIU=" crossorigin="anonymous"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+
+    
+    <script>
+        document.getElementById('main-nav-toggle').addEventListener('click', function () {
+            var header = document.getElementById('header');
+            if (header.classList.contains('mobile-on')) {
+                header.classList.remove('mobile-on');
+            } else {
+                header.classList.add('mobile-on');
+            }
+        });
+    </script>
+</footer>
+</div>
+</body>
+</html>

@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Gravity UART CO2 sensor with Raspberry Pi // Marat Sharifullin</title>
+
+        <meta charset="utf-8">
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="author" content="">
+        <meta property="og:title" content="Gravity UART CO2 sensor with Raspberry Pi" />
+    <meta property="og:description" content="" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:url" content="https://ifnull.org/articles/co2_gravity_uart_raspberry_pi/" />
+    
+
+    <link href="" rel="alternate" type="application/rss+xml" title="Marat Sharifullin" />
+    <link rel="shortcut icon" href="/favicon.ico">
+
+    <link href="https://ifnull.org/webfonts/ptserif/main.css" rel='stylesheet' type='text/css'>
+    <link href="https://ifnull.org/webfonts/source-code-pro/main.css" rel="stylesheet" type="text/css">
+    
+    <link rel="stylesheet" href="https://ifnull.org/css/style.css">
+
+    <link href="http://gmpg.org/xfn/11" rel="profile">
+
+    
+
+    <meta name="generator" content="Hugo 0.91.0" />
+</head>
+
+
+<body>
+<div id="container">
+    
+<div class="banner" style="padding:15px; text-align:center; background-color:#bb3434">
+    <div class="banner-content">
+        This is a copy or a backup of <a href="https://ifnull.org" class="btn btn-primary">ifnull.org</a>.
+    </div>
+</div>
+
+
+<header id="header">
+    <div id="header-outer" class="outer">
+        <div id="header-inner" class="inner">
+            <a id="main-nav-toggle" class="nav-icon" href="javascript:;"></a>
+            <a id="logo" class="logo-text" href="https://ifnull.org/">Marat Sharifullin</a>
+            <nav id="main-nav">
+                
+                <a class="main-nav-link" href="/">Blog</a>
+                
+                <a class="main-nav-link" href="/projects/all/">Projects</a>
+                
+                <a class="main-nav-link" href="/archive/">Archive</a>
+                
+                <a class="main-nav-link" href="/mabsurdation/">Mabsurdation</a>
+                
+                <a class="main-nav-link" href="/gallery/public/">Gallery</a>
+                
+                <a class="main-nav-link" href="/contact/">Contact</a>
+                
+            </nav>
+            <nav id="sub-nav">
+                <div id="search-form-wrap">
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+
+    <section id="main" class="outer">
+        <article class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        <header class="article-header">
+            <h1 class="article-title" itemprop="name">Gravity UART CO2 sensor with Raspberry Pi</h1>
+        </header>
+        
+        <div class="article-meta">
+	    
+                <a href="/articles/co2_gravity_uart_raspberry_pi/" class="article-date">
+                    <time datetime='2018-12-30T00:00:00.000&#43;00:00' itemprop="datePublished">2018-12-30</time>
+                </a>
+	    
+            
+            
+	    
+            <div class="article-comment-link-wrap">
+                <a href="/articles/co2_gravity_uart_raspberry_pi/#disqus_thread" class="article-comment-link">Comments</a>
+            </div>
+            
+        </div>
+        <div class="article-entry" itemprop="articleBody">
+            <p>This tutorial explains how to connect Gravity UART MH-Z16 CO<sub>2</sub> sensor from DFRobot to Raspberry Pi
+and get CO<sub>2</sub> readings.
+This is a nice NDIR-sensor with a wide range, up to 50000 ppm.</p>
+<p>I have used Raspberry Pi 3 B+ for the tutorial below, but it can be applied for other models as well.</p>
+<h3 id="restore-uart0">Restore UART0</h3>
+<p>There are two UARTs on Raspberry Pis: UART0 (PL011) and miniUART. miniUART is not suitable for this sensor. It could be used,
+but baud rate and communications would not be stable.</p>
+<p>UART0 is connected to GPIO 14 and 15. The interface level is 3.3V which corresponds to interface level of MH-Z16 CO<sub>2</sub> sensor.</p>
+<p>Raspberry Pi uses UART0 for Bluetooth module by default. Adding <code>dtoverlay=pi3-disable-bt</code> to <code>/boot/config.txt</code> disables
+the Bluetooth device and restores UART0 to GPIO 14 and 15 (<code>ttyAMA0</code>).  Apparently the modem has to be disabled as well:
+<code>sudo systemctl disable hciuart</code>.</p>
+<p>Note that you might need to update your Raspberry Pi if the kernel does not support device overlay (<code>dtoverlay</code>):</p>
+<pre tabindex="0"><code>$ sudo apt-get update &amp;&amp; sudo apt-get upgrade
+</code></pre><p>If commands above did not bring required firmware, you can get the very latest firmware running <code>sudo rpi-update</code>.</p>
+<p>See <a href="https://www.raspberrypi.org/documentation/configuration/uart.md">The Raspberry Pi UARTs</a> for more information.</p>
+<h3 id="testing-uart0">Testing UART0</h3>
+<p>After reboot, connect GPIO 14 and 15 pins together.
+Install <code>minicom</code> to test serial communications:</p>
+<pre tabindex="0"><code>sudo apt-get install minicom
+</code></pre><p>Run <code>minicom -D /dev/ttyAMA0</code> and start typing to verify whether serial communictions work on UART0.</p>
+<h3 id="connecting-gravity-uart-cosub2sub-sensor">Connecting Gravity UART CO<sub>2</sub> sensor</h3>
+<p>Gravity UART has 4 pins: <code>5V</code>, <code>GND</code>, <code>TX</code>, <code>RX</code>. Note that interface level of <code>TX/RX</code> is <code>3.3V</code>, but power is <code>5V</code>.</p>
+<p>Connections:</p>
+<table>
+<thead>
+<tr>
+<th>Raspberry Pi 3 B+ pin</th>
+<th>Gravity UART pin</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>5V</td>
+<td>5V</td>
+</tr>
+<tr>
+<td>GND</td>
+<td>GND</td>
+</tr>
+<tr>
+<td>GPIO 14 pin</td>
+<td>TX</td>
+</tr>
+<tr>
+<td>GPIO 15 pin</td>
+<td>RX</td>
+</tr>
+</tbody>
+</table>
+<h3 id="getting-cosub2sub-measurements">Getting CO<sub>2</sub> measurements</h3>
+<p>Communication protocol is described in
+<a href="https://github.com/Arduinolibrary/DFRobot_Gravity_UART_Infrared_CO2_Sensor/raw/master/MH-Z16%20CO2%20Datasheet.pdf">Datasheet MH-Z16</a>.</p>
+<p>I have used <code>python3</code> script to get CO<sub>2</sub> measurements from Gravity UART MH-Z16 sensor.
+<code>python-serial</code> is required as a dependency.</p>
+<pre tabindex="0"><code>#!/usr/bin/python3
+
+import serial
+import binascii
+import sys
+
+def verify_checksum(bytes):
+  if len(bytes) != 9:
+    return False
+  sum = 0
+  for i in range(1, 8):
+    sum += bytes[i]
+  sum = sum % 256
+  checksum = 255 - sum + 1
+
+  return bytes[8] == checksum
+
+def get_co2(con):
+  con.write(bytearray(b'\xff\x01\x86\x00\x00\x00\x00\x00\x79'))
+  rcv = con.read(9)
+  if not verify_checksum(rcv):
+    print(&quot;Checksum error from received: `{}'&quot;.format(binascii.hexlify(rcv)), file=sys.stderr)
+    return -1
+  return rcv[2] * 256 + rcv[3]
+
+def calibrate_span(con):
+  con.write(bytearray(b'\xff\x01\x88\x07\xd0\x00\x00\x00\xa0'))
+
+def calibrate_zero(con):
+  con.write(bytearray(b'\xff\x01\x87\x00\x00\x00\x00\x00\x78'))
+
+con = serial.Serial(&quot;/dev/ttyAMA0&quot;, 9600, timeout=5)
+co2 = get_co2(con)
+con.close()
+
+if co2 &lt; 100 or co2 &gt; 6000:
+  print(&quot;CO2 concentration {} is out of range&quot;.format(co2), file=sys.stderr)
+  exit(1)
+
+print(co2)
+</code></pre><p>You can get very nice historical CO<sub>2</sub> measurements inside or outside:</p>
+<p><img src="co2.png" alt="what&rsquo;s wrong with pictures?" title="CO2 measurements"></p>
+        </div>
+
+        
+        
+        <div class="article-toc" >
+            <h3></h3>
+            <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#restore-uart0">Restore UART0</a></li>
+        <li><a href="#testing-uart0">Testing UART0</a></li>
+        <li><a href="#connecting-gravity-uart-cosub2sub-sensor">Connecting Gravity UART CO<sub>2</sub> sensor</a></li>
+        <li><a href="#getting-cosub2sub-measurements">Getting CO<sub>2</sub> measurements</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+        </div>
+        
+        
+
+        
+
+
+        
+    </div>
+</article>
+
+        
+            
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    var disqus_shortname = 'ifnull';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com/" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+        
+    </section>
+    <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            &copy; 2022 Marat Sharifullin&nbsp;
+            Powered by <a href="https://gohugo.io" target="_blank">Hugo</a> with theme <a href="https://github.com/carsonip/hugo-theme-minos">Minos</a>
+        </div>
+    </div>
+    
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/styles/tomorrow-night.min.css" integrity="sha256-2wL88NKUqvJi/ExflDzkzUumjUM73mcK2gBvBBeLvTk=" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/highlight.min.js" integrity="sha256-KbfTjB0WZ8vvXngdpJGY3Yp3xKk+tttbqClO11anCIU=" crossorigin="anonymous"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+
+    
+    <script>
+        document.getElementById('main-nav-toggle').addEventListener('click', function () {
+            var header = document.getElementById('header');
+            if (header.classList.contains('mobile-on')) {
+                header.classList.remove('mobile-on');
+            } else {
+                header.classList.add('mobile-on');
+            }
+        });
+    </script>
+</footer>
+</div>
+</body>
+</html>

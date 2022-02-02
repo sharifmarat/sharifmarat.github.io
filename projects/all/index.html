@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Projects // Marat Sharifullin</title>
+
+        <meta charset="utf-8">
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="author" content="">
+        <meta property="og:title" content="Projects" />
+    <meta property="og:description" content="" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:url" content="https://ifnull.org/projects/all/" />
+    
+
+    <link href="" rel="alternate" type="application/rss+xml" title="Marat Sharifullin" />
+    <link rel="shortcut icon" href="/favicon.ico">
+
+    <link href="https://ifnull.org/webfonts/ptserif/main.css" rel='stylesheet' type='text/css'>
+    <link href="https://ifnull.org/webfonts/source-code-pro/main.css" rel="stylesheet" type="text/css">
+    
+    <link rel="stylesheet" href="https://ifnull.org/css/style.css">
+
+    <link href="http://gmpg.org/xfn/11" rel="profile">
+
+    
+
+    <meta name="generator" content="Hugo 0.91.0" />
+</head>
+
+
+<body>
+<div id="container">
+    
+<div class="banner" style="padding:15px; text-align:center; background-color:#bb3434">
+    <div class="banner-content">
+        This is a copy or a backup of <a href="https://ifnull.org" class="btn btn-primary">ifnull.org</a>.
+    </div>
+</div>
+
+
+<header id="header">
+    <div id="header-outer" class="outer">
+        <div id="header-inner" class="inner">
+            <a id="main-nav-toggle" class="nav-icon" href="javascript:;"></a>
+            <a id="logo" class="logo-text" href="https://ifnull.org/">Marat Sharifullin</a>
+            <nav id="main-nav">
+                
+                <a class="main-nav-link" href="/">Blog</a>
+                
+                <a class="main-nav-link" href="/projects/all/">Projects</a>
+                
+                <a class="main-nav-link" href="/archive/">Archive</a>
+                
+                <a class="main-nav-link" href="/mabsurdation/">Mabsurdation</a>
+                
+                <a class="main-nav-link" href="/gallery/public/">Gallery</a>
+                
+                <a class="main-nav-link" href="/contact/">Contact</a>
+                
+            </nav>
+            <nav id="sub-nav">
+                <div id="search-form-wrap">
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+
+    <section id="main" class="outer">
+        <article class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        <header class="article-header">
+            <h1 class="article-title" itemprop="name">Projects</h1>
+        </header>
+        
+        <div class="article-meta">
+	    
+            
+            
+	    
+        </div>
+        <div class="article-entry" itemprop="articleBody">
+            <h1 id="dockerized-email">Dockerized email</h1>
+<p><strong>TODO</strong></p>
+<h1 id="longwarn">LongWarn</h1>
+<p>A tiny shell script to fail a job and trigger a notification if a cronjob takes longer than desired.</p>
+<p>If a job takes longer than expected, for example a backup job usually takes a few seconds,
+For example a backup job usually runs under 1 minute.
+If you want to get notified when this job runs longer, just add it to crontab:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">MAILTO<span style="color:#f92672">=</span>monitoring@example.com
+<span style="color:#ae81ff">11</span> <span style="color:#ae81ff">11</span> * * * longwarn <span style="color:#ae81ff">60</span> backup.sh
+</code></pre></div><p>How to install:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wget https://raw.githubusercontent.com/sharifmarat/longwarn/master/longwarn -O /usr/local/bin/longwarn
+</code></pre></div><p><a href="https://github.com/sharifmarat/longwarn">Github for more details</a>.</p>
+<hr>
+<h1 id="flickr-roulette">Flickr roulette</h1>
+<p>See a random (not completely random) photo on the <a href="/projects/flickr_roulette/">Flickr roulette</a>.</p>
+<p><a href="/articles/flickr_roulette/">For more details</a>.</p>
+<hr>
+<h1 id="site-percolation">Site percolation</h1>
+<p><a href="/projects/percolation/">Simulation of percolation theory</a> to find if there is a path
+connecting left side of the grid to the right side via open pixels and to estimate
+percolation threshold (site percolation).</p>
+<img src="/projects/percolation_example.png" alt="Drawing" style="width: 300px; display: block; margin: 0 auto;" />
+<p><a href="/articles/percolation/">For more details</a>.</p>
+<hr>
+<h1 id="animated-svg-viewer">Animated svg viewer</h1>
+<p>Simple <a href="/projects/svgviewer/">svg viewer</a> which can load multiple svgs and animate them one after another</p>
+<hr>
+<h1 id="c-bindings-generator-from-fortran">C-bindings generator from Fortran</h1>
+<p>It was written to automate generation of C bindings for Fortran,
+source code can be found <a href="https://github.com/sharifmarat/fortran_to_c_headers">here</a>.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Fortran" data-lang="Fortran"><span style="color:#75715e">! Example of input Fortran90 code:
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">module </span>SomeModule
+  <span style="color:#66d9ef">use </span>iso_c_binding
+  <span style="color:#66d9ef">implicit none
+</span><span style="color:#66d9ef">  </span><span style="color:#66d9ef">real</span><span style="color:#f92672">*</span><span style="color:#ae81ff">8</span>, <span style="color:#66d9ef">bind</span>(c), <span style="color:#66d9ef">parameter</span>  <span style="color:#66d9ef">::</span> dbl1 <span style="color:#f92672">=</span> <span style="color:#ae81ff">1.0d0</span>
+  <span style="color:#66d9ef">type</span>(<span style="color:#66d9ef">c_ptr</span>), <span style="color:#66d9ef">bind</span>(c, name<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;ptr1&#34;</span>) <span style="color:#66d9ef">::</span> ptr1
+<span style="color:#66d9ef">contains
+</span><span style="color:#66d9ef">  </span><span style="color:#66d9ef">integer </span><span style="color:#66d9ef">function </span>SimpleFunction1() <span style="color:#66d9ef">bind</span>(c, name<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;SimpleFunction1&#34;</span>)
+    <span style="color:#66d9ef">integer</span> <span style="color:#66d9ef">::</span> a
+    <span style="color:#66d9ef">integer </span>b
+    <span style="color:#66d9ef">integer</span> <span style="color:#66d9ef">::</span> c
+    <span style="color:#75715e">!...
+</span><span style="color:#75715e"></span>  <span style="color:#66d9ef">end function </span>SimpleFunction1
+<span style="color:#66d9ef">end module </span>SomeModule
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-C++" data-lang="C++"><span style="color:#75715e">// Generated C-bindings:
+</span><span style="color:#75715e"></span><span style="color:#75715e">#ifdef __cplusplus
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">extern</span> <span style="color:#e6db74">&#34;C&#34;</span> {
+<span style="color:#75715e">#endif
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">void</span><span style="color:#f92672">*</span> some_ptr_t;
+<span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">double</span> val_t;
+<span style="color:#66d9ef">double</span> dbl1;
+<span style="color:#66d9ef">void</span><span style="color:#f92672">*</span> ptr1;
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">SimpleFunction1</span>();
+<span style="color:#75715e">#ifdef __cplusplus
+</span><span style="color:#75715e"></span>}
+<span style="color:#75715e">#endif
+</span></code></pre></div>
+        </div>
+
+        
+        
+        <div class="article-toc" >
+            <h3></h3>
+            <nav id="TableOfContents"></nav>
+        </div>
+        
+        
+
+        
+
+
+        
+    </div>
+</article>
+
+        
+    </section>
+    <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            &copy; 2022 Marat Sharifullin&nbsp;
+            Powered by <a href="https://gohugo.io" target="_blank">Hugo</a> with theme <a href="https://github.com/carsonip/hugo-theme-minos">Minos</a>
+        </div>
+    </div>
+    
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/styles/tomorrow-night.min.css" integrity="sha256-2wL88NKUqvJi/ExflDzkzUumjUM73mcK2gBvBBeLvTk=" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/highlight.min.js" integrity="sha256-KbfTjB0WZ8vvXngdpJGY3Yp3xKk+tttbqClO11anCIU=" crossorigin="anonymous"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+
+    
+    <script>
+        document.getElementById('main-nav-toggle').addEventListener('click', function () {
+            var header = document.getElementById('header');
+            if (header.classList.contains('mobile-on')) {
+                header.classList.remove('mobile-on');
+            } else {
+                header.classList.add('mobile-on');
+            }
+        });
+    </script>
+</footer>
+</div>
+</body>
+</html>

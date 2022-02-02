@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Transmission status from Raspberry Pi 3 // Marat Sharifullin</title>
+
+        <meta charset="utf-8">
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="author" content="">
+        <meta property="og:title" content="Transmission status from Raspberry Pi 3" />
+    <meta property="og:description" content="" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:url" content="https://ifnull.org/articles/transmission_status_raspberry_pi/" />
+    
+
+    <link href="" rel="alternate" type="application/rss+xml" title="Marat Sharifullin" />
+    <link rel="shortcut icon" href="/favicon.ico">
+
+    <link href="https://ifnull.org/webfonts/ptserif/main.css" rel='stylesheet' type='text/css'>
+    <link href="https://ifnull.org/webfonts/source-code-pro/main.css" rel="stylesheet" type="text/css">
+    
+    <link rel="stylesheet" href="https://ifnull.org/css/style.css">
+
+    <link href="http://gmpg.org/xfn/11" rel="profile">
+
+    
+
+    <meta name="generator" content="Hugo 0.91.0" />
+</head>
+
+
+<body>
+<div id="container">
+    
+<div class="banner" style="padding:15px; text-align:center; background-color:#bb3434">
+    <div class="banner-content">
+        This is a copy or a backup of <a href="https://ifnull.org" class="btn btn-primary">ifnull.org</a>.
+    </div>
+</div>
+
+
+<header id="header">
+    <div id="header-outer" class="outer">
+        <div id="header-inner" class="inner">
+            <a id="main-nav-toggle" class="nav-icon" href="javascript:;"></a>
+            <a id="logo" class="logo-text" href="https://ifnull.org/">Marat Sharifullin</a>
+            <nav id="main-nav">
+                
+                <a class="main-nav-link" href="/">Blog</a>
+                
+                <a class="main-nav-link" href="/projects/all/">Projects</a>
+                
+                <a class="main-nav-link" href="/archive/">Archive</a>
+                
+                <a class="main-nav-link" href="/mabsurdation/">Mabsurdation</a>
+                
+                <a class="main-nav-link" href="/gallery/public/">Gallery</a>
+                
+                <a class="main-nav-link" href="/contact/">Contact</a>
+                
+            </nav>
+            <nav id="sub-nav">
+                <div id="search-form-wrap">
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+
+    <section id="main" class="outer">
+        <article class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        <header class="article-header">
+            <h1 class="article-title" itemprop="name">Transmission status from Raspberry Pi 3</h1>
+        </header>
+        
+        <div class="article-meta">
+	    
+                <a href="/articles/transmission_status_raspberry_pi/" class="article-date">
+                    <time datetime='2016-12-04T00:00:00.000&#43;00:00' itemprop="datePublished">2016-12-04</time>
+                </a>
+	    
+            
+            
+	    
+            <div class="article-comment-link-wrap">
+                <a href="/articles/transmission_status_raspberry_pi/#disqus_thread" class="article-comment-link">Comments</a>
+            </div>
+            
+        </div>
+        <div class="article-entry" itemprop="articleBody">
+            <p>I have a transmission client running on Raspberry Pi 3. But what I also wanted is to have
+a simple way to check the status of this client with a simple glance.
+Raspberry Pi 3 has multiple LEDs on-board.
+Luckily, one of them can be easily controlled from a user space.</p>
+<h3 id="raspberry-pi-on-board-leds">Raspberry Pi on-board LEDs</h3>
+<p><strong>PWR</strong> - indicates power to device. Hardwired which makes it impossible to control.</p>
+<p><strong>FDX</strong>, <strong>LNK</strong>, <strong>10M</strong> - indicate LAN activity. In theory it is possible to control them.
+It might be necessary to recompile the kernel to get access to them.</p>
+<p><strong>OK</strong> - indicates SD card activity. It is wired to GPIO16 which makes it the easiest to control.</p>
+<h3 id="playing-with-ok-led">Playing with <strong>OK</strong> LED</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ cd /sys/class/leds/led0/
+$ ls
+brightness  device  max_brightness  subsystem  trigger    uevent
+</code></pre></div><p>There are different triggers which control this LED:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ cat trigger
+none <span style="color:#f92672">[</span>mmc0<span style="color:#f92672">]</span> mmc1 timer oneshot heartbeat backlight gpio cpu0 cpu1 cpu2 cpu3 default-on input rfkill0
+</code></pre></div><p>By default the trigger is set to mmc0 (mmc stands for MultiMediaCard) and it flashes based on
+SD card activity.</p>
+<p>To switch this LED into manual mode:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ echo none &gt;trigger
+</code></pre></div><p>And to turn it off/on:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ echo <span style="color:#ae81ff">0</span> &gt;brightness <span style="color:#75715e">#off</span>
+$ echo <span style="color:#ae81ff">1</span> &gt;brightness <span style="color:#75715e">#on</span>
+</code></pre></div><p>It is also possible to make this LED flash:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ modprobe ledtrig_timer   <span style="color:#75715e"># or use &#39;modprobe ledtrig_heartbeat&#39; for different pattern</span>
+$ echo timer &gt;trigger      <span style="color:#75715e"># or use &#39;echo heartbeat &gt;trigger&#39; for different pattern</span>
+</code></pre></div><h3 id="tranmsission-status">Tranmsission status</h3>
+<p>Transmission has a remote-control utility to control tranmission daemon.
+For example, to list all current entries:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ transmission-remote -n user:password -l
+</code></pre></div><p>Connected transmission status with LED status in a script:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e">#!/bin/bash
+</span><span style="color:#75715e"></span>
+<span style="color:#75715e"># check if everything is finished</span>
+transmission-remote -n user:password -l | grep <span style="color:#e6db74">&#39;%&#39;</span> grep -q -v 100%
+
+<span style="color:#66d9ef">if</span> <span style="color:#f92672">[[</span> $? !<span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">]]</span>; <span style="color:#66d9ef">then</span>
+  <span style="color:#75715e"># all finished, turning off LED</span>
+  echo none &gt;/sys/class/leds/led0/trigger
+  echo <span style="color:#ae81ff">0</span> &gt;/sys/class/leds/led0/brightness
+<span style="color:#66d9ef">else</span>
+  <span style="color:#75715e"># in process, keep flashing LED</span>
+  echo timer &gt;/sys/class/leds/led0/trigger
+<span style="color:#66d9ef">fi</span>
+</code></pre></div><p>And add it to cron to update status every minute:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">* * * * * /path/to/script.sh
+</code></pre></div>
+        </div>
+
+        
+        
+        <div class="article-toc" >
+            <h3></h3>
+            <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#raspberry-pi-on-board-leds">Raspberry Pi on-board LEDs</a></li>
+        <li><a href="#playing-with-ok-led">Playing with <strong>OK</strong> LED</a></li>
+        <li><a href="#tranmsission-status">Tranmsission status</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+        </div>
+        
+        
+
+        
+
+
+        
+    </div>
+</article>
+
+        
+            
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    var disqus_shortname = 'ifnull';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com/" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+        
+    </section>
+    <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            &copy; 2022 Marat Sharifullin&nbsp;
+            Powered by <a href="https://gohugo.io" target="_blank">Hugo</a> with theme <a href="https://github.com/carsonip/hugo-theme-minos">Minos</a>
+        </div>
+    </div>
+    
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/styles/tomorrow-night.min.css" integrity="sha256-2wL88NKUqvJi/ExflDzkzUumjUM73mcK2gBvBBeLvTk=" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/highlight.min.js" integrity="sha256-KbfTjB0WZ8vvXngdpJGY3Yp3xKk+tttbqClO11anCIU=" crossorigin="anonymous"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+
+    
+    <script>
+        document.getElementById('main-nav-toggle').addEventListener('click', function () {
+            var header = document.getElementById('header');
+            if (header.classList.contains('mobile-on')) {
+                header.classList.remove('mobile-on');
+            } else {
+                header.classList.add('mobile-on');
+            }
+        });
+    </script>
+</footer>
+</div>
+</body>
+</html>

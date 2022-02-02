@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Infinite redirect in Firefox // Marat Sharifullin</title>
+
+        <meta charset="utf-8">
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="author" content="">
+        <meta property="og:title" content="Infinite redirect in Firefox" />
+    <meta property="og:description" content="" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:url" content="https://ifnull.org/articles/firefox_redirect/" />
+    
+
+    <link href="" rel="alternate" type="application/rss+xml" title="Marat Sharifullin" />
+    <link rel="shortcut icon" href="/favicon.ico">
+
+    <link href="https://ifnull.org/webfonts/ptserif/main.css" rel='stylesheet' type='text/css'>
+    <link href="https://ifnull.org/webfonts/source-code-pro/main.css" rel="stylesheet" type="text/css">
+    
+    <link rel="stylesheet" href="https://ifnull.org/css/style.css">
+
+    <link href="http://gmpg.org/xfn/11" rel="profile">
+
+    
+
+    <meta name="generator" content="Hugo 0.91.0" />
+</head>
+
+
+<body>
+<div id="container">
+    
+<div class="banner" style="padding:15px; text-align:center; background-color:#bb3434">
+    <div class="banner-content">
+        This is a copy or a backup of <a href="https://ifnull.org" class="btn btn-primary">ifnull.org</a>.
+    </div>
+</div>
+
+
+<header id="header">
+    <div id="header-outer" class="outer">
+        <div id="header-inner" class="inner">
+            <a id="main-nav-toggle" class="nav-icon" href="javascript:;"></a>
+            <a id="logo" class="logo-text" href="https://ifnull.org/">Marat Sharifullin</a>
+            <nav id="main-nav">
+                
+                <a class="main-nav-link" href="/">Blog</a>
+                
+                <a class="main-nav-link" href="/projects/all/">Projects</a>
+                
+                <a class="main-nav-link" href="/archive/">Archive</a>
+                
+                <a class="main-nav-link" href="/mabsurdation/">Mabsurdation</a>
+                
+                <a class="main-nav-link" href="/gallery/public/">Gallery</a>
+                
+                <a class="main-nav-link" href="/contact/">Contact</a>
+                
+            </nav>
+            <nav id="sub-nav">
+                <div id="search-form-wrap">
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+
+    <section id="main" class="outer">
+        <article class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        <header class="article-header">
+            <h1 class="article-title" itemprop="name">Infinite redirect in Firefox</h1>
+        </header>
+        
+        <div class="article-meta">
+	    
+                <a href="/articles/firefox_redirect/" class="article-date">
+                    <time datetime='2019-01-23T00:00:00.000&#43;00:00' itemprop="datePublished">2019-01-23</time>
+                </a>
+	    
+            
+            
+	    
+            <div class="article-comment-link-wrap">
+                <a href="/articles/firefox_redirect/#disqus_thread" class="article-comment-link">Comments</a>
+            </div>
+            
+        </div>
+        <div class="article-entry" itemprop="articleBody">
+            <p>Recently Firefox started to throw an error on some sites that a page was not redirecting properly.
+On the internet, people gave recommendations to clear the browser cache and cookies, but it didn&rsquo;t help me.
+It turned out that the issue was quite different, but simple.</p>
+<p>Our company uses Microsoft services for emails, calendars, sharepoints, doing the work, fixing bugs and so on.
+At some point I lost the ability to check work emails from one laptop. This laptop was in no way special.
+Office 365 actually worked from Chromium, but not from Firefox. I tried to debug this issue a little. I found multiple
+reports that Microsoft Office 365 login got stuck in a loop. Almost all recommendations were limited to re-installing the browswer,
+clearing cookies and cached data. Didn&rsquo;t work for me. Office 365 relocated to Chromium, no big deal.
+And Microsoft was to be blamed again.</p>
+<p>Some time passed and I found another website which didn&rsquo;t work on Firefox: <a href="https://digid.nl/inloggen">https://digid.nl/inloggen</a>.
+Firefox didn&rsquo;t enter the infinite loop, but gave an error: &ldquo;The page isn’t redirecting properly&rdquo;. It reminded me of the issue
+with Office 365.</p>
+<p>I tried to clear everything from Firefox, tried different versions. Nothing seem to help and the infinite redirect was consistent.
+With network debugging I found that digid.nl provided two cookies in the first response:</p>
+<pre tabindex="0"><code>Set-Cookie: _session_id=xxx;Secure; domain=.digid.nl; path=/; expires=Wed, 23 Jan 2019 21:47:39 -0000; HttpOnly
+Set-Cookie: _persist=yyy;domain=.digid.nl; HttpOnly;secure; path=/
+</code></pre><p>But I saw a single coookie in following requests to the server:</p>
+<pre tabindex="0"><code>Cookie: _persist=yyy
+</code></pre><p>After that the server went to the previous step and sent 2 cookies to Firefox. Firefox consistently requested to proceed further
+with a single request cookie. That continued for a while and stopped with Firefox giving up:
+&ldquo;The page isn’t redirecting properly&rdquo;.</p>
+<p>It was easy to find that the expiration time of <code>session_id</code> cookie was past my current system time. Time difference explained why Firefox immediately removed
+this cookie (but did not explain Chromium behavior). My time was 1 hour off and <code>session_id</code> expiration time was set for 15 minutes.
+I had mess with system time and timezones on my machine. Fixing the time fixed login to Office 365 and digid.nl websites.</p>
+<p>Check your system time if clearing cookies in Firefox does not help you with infinite redirect loops.</p>
+        </div>
+
+        
+        
+        <div class="article-toc" >
+            <h3></h3>
+            <nav id="TableOfContents"></nav>
+        </div>
+        
+        
+
+        
+
+
+        
+    </div>
+</article>
+
+        
+            
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    var disqus_shortname = 'ifnull';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com/" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+        
+    </section>
+    <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            &copy; 2022 Marat Sharifullin&nbsp;
+            Powered by <a href="https://gohugo.io" target="_blank">Hugo</a> with theme <a href="https://github.com/carsonip/hugo-theme-minos">Minos</a>
+        </div>
+    </div>
+    
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/styles/tomorrow-night.min.css" integrity="sha256-2wL88NKUqvJi/ExflDzkzUumjUM73mcK2gBvBBeLvTk=" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/highlight.min.js" integrity="sha256-KbfTjB0WZ8vvXngdpJGY3Yp3xKk+tttbqClO11anCIU=" crossorigin="anonymous"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+
+    
+    <script>
+        document.getElementById('main-nav-toggle').addEventListener('click', function () {
+            var header = document.getElementById('header');
+            if (header.classList.contains('mobile-on')) {
+                header.classList.remove('mobile-on');
+            } else {
+                header.classList.add('mobile-on');
+            }
+        });
+    </script>
+</footer>
+</div>
+</body>
+</html>

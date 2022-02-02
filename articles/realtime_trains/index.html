@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Real-time Dutch train traffic // Marat Sharifullin</title>
+
+        <meta charset="utf-8">
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="author" content="">
+        <meta property="og:title" content="Real-time Dutch train traffic" />
+    <meta property="og:description" content="" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:url" content="https://ifnull.org/articles/realtime_trains/" />
+    
+
+    <link href="" rel="alternate" type="application/rss+xml" title="Marat Sharifullin" />
+    <link rel="shortcut icon" href="/favicon.ico">
+
+    <link href="https://ifnull.org/webfonts/ptserif/main.css" rel='stylesheet' type='text/css'>
+    <link href="https://ifnull.org/webfonts/source-code-pro/main.css" rel="stylesheet" type="text/css">
+    
+    <link rel="stylesheet" href="https://ifnull.org/css/style.css">
+
+    <link href="http://gmpg.org/xfn/11" rel="profile">
+
+    
+
+    <meta name="generator" content="Hugo 0.91.0" />
+</head>
+
+
+<body>
+<div id="container">
+    
+<div class="banner" style="padding:15px; text-align:center; background-color:#bb3434">
+    <div class="banner-content">
+        This is a copy or a backup of <a href="https://ifnull.org" class="btn btn-primary">ifnull.org</a>.
+    </div>
+</div>
+
+
+<header id="header">
+    <div id="header-outer" class="outer">
+        <div id="header-inner" class="inner">
+            <a id="main-nav-toggle" class="nav-icon" href="javascript:;"></a>
+            <a id="logo" class="logo-text" href="https://ifnull.org/">Marat Sharifullin</a>
+            <nav id="main-nav">
+                
+                <a class="main-nav-link" href="/">Blog</a>
+                
+                <a class="main-nav-link" href="/projects/all/">Projects</a>
+                
+                <a class="main-nav-link" href="/archive/">Archive</a>
+                
+                <a class="main-nav-link" href="/mabsurdation/">Mabsurdation</a>
+                
+                <a class="main-nav-link" href="/gallery/public/">Gallery</a>
+                
+                <a class="main-nav-link" href="/contact/">Contact</a>
+                
+            </nav>
+            <nav id="sub-nav">
+                <div id="search-form-wrap">
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+
+    <section id="main" class="outer">
+        <article class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        <header class="article-header">
+            <h1 class="article-title" itemprop="name">Real-time Dutch train traffic</h1>
+        </header>
+        
+        <div class="article-meta">
+	    
+                <a href="/articles/realtime_trains/" class="article-date">
+                    <time datetime='2017-05-23T00:00:00.000&#43;00:00' itemprop="datePublished">2017-05-23</time>
+                </a>
+	    
+            
+            
+	    
+            <div class="article-comment-link-wrap">
+                <a href="/articles/realtime_trains/#disqus_thread" class="article-comment-link">Comments</a>
+            </div>
+            
+        </div>
+        <div class="article-entry" itemprop="articleBody">
+            <p>Following the previous article I reconstructed a &ldquo;real-time&rdquo; train traffic through a single day.</p>
+<p>Here it is (~20MB):
+<video width="503" height="644" controls></p>
+  <source src="trains.mp4" type="video/mp4">
+Your browser does not support the video tag.
+</video>
+<h1 id="issues">Issues:</h1>
+<ol>
+<li>Not all trains follow tracks (it has to do with linear interpolation, see below)</li>
+<li>A train never reaches its final stop (not enough data, see below)</li>
+<li>These are not true train positions, interpolated between stations</li>
+<li>It&rsquo;s getting quite repetitve after some time :)</li>
+</ol>
+<h1 id="how-is-was-done">How is was done?</h1>
+<p>1.Got access to NS API</p>
+<p>2.Mapped all train stations which includes stations both within the Netherlands and outside.
+Example of response containing information with traion stations:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;Station&gt;</span>
+ <span style="color:#f92672">&lt;Code&gt;</span>HLM<span style="color:#f92672">&lt;/Code&gt;</span>
+ <span style="color:#f92672">&lt;Type&gt;</span>knooppuntIntercitystation<span style="color:#f92672">&lt;/Type&gt;</span>
+ <span style="color:#f92672">&lt;Namen&gt;</span>
+  <span style="color:#f92672">&lt;Kort&gt;</span>Haarlem<span style="color:#f92672">&lt;/Kort&gt;&lt;Middel&gt;</span>Haarlem<span style="color:#f92672">&lt;/Middel&gt;&lt;Lang&gt;</span>Haarlem<span style="color:#f92672">&lt;/Lang&gt;</span>
+ <span style="color:#f92672">&lt;/Namen&gt;</span>
+ <span style="color:#f92672">&lt;Land&gt;</span>NL<span style="color:#f92672">&lt;/Land&gt;</span>
+ <span style="color:#f92672">&lt;UICCode&gt;</span>8400285<span style="color:#f92672">&lt;/UICCode&gt;</span>
+ <span style="color:#f92672">&lt;Lat&gt;</span>52.3877792358398<span style="color:#f92672">&lt;/Lat&gt;</span>
+ <span style="color:#f92672">&lt;Lon&gt;</span>4.63833332061768<span style="color:#f92672">&lt;/Lon&gt;</span>
+<span style="color:#f92672">&lt;/Station&gt;</span>
+</code></pre></div><p>3.Filter out non-Dutch train stations.
+There are approximately 400 train stations in the Netherlands (according to NS API).</p>
+<p>4.Run a crontab script to collect departure times at every station hourly:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#66d9ef">for</span> station in <span style="color:#e6db74">`</span>cat stations_codes_nl.txt<span style="color:#e6db74">`</span>; <span style="color:#66d9ef">do</span>
+  timestamp<span style="color:#f92672">=</span><span style="color:#e6db74">`</span>date +<span style="color:#e6db74">&#34;%Y_%m_%d_%H_%M&#34;</span><span style="color:#e6db74">`</span>
+  filename<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;results/</span>$station<span style="color:#e6db74">/timetable-</span>$station<span style="color:#e6db74">-</span>$timestamp<span style="color:#e6db74">.xml&#34;</span>
+  curl --user LOGIN:PSWD https://webservices.ns.nl/ns-api-avt?station<span style="color:#f92672">=</span>$station &gt; $filename
+<span style="color:#66d9ef">done</span>
+</code></pre></div><p>5.It produces lots of files with departure information, e.g.:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;RitNummer&gt;</span>2233<span style="color:#f92672">&lt;/RitNummer&gt;</span> <span style="color:#75715e">&lt;!-- train number, unique within the same day --&gt;</span>
+<span style="color:#f92672">&lt;VertrekTijd&gt;</span>2017-05-16T10:10:00+0200<span style="color:#f92672">&lt;/VertrekTijd&gt;</span>  <span style="color:#75715e">&lt;!-- departure time from this station --&gt;</span>
+<span style="color:#f92672">&lt;EindBestemming&gt;</span>Amsterdam Centraal<span style="color:#f92672">&lt;/EindBestemming&gt;</span> <span style="color:#75715e">&lt;!-- the final destination --&gt;</span>
+<span style="color:#f92672">&lt;TreinSoort&gt;</span>Intercity<span style="color:#f92672">&lt;/TreinSoort&gt;</span> <span style="color:#75715e">&lt;!-- train type --&gt;</span>
+</code></pre></div><p>6.Find all trains on that day (grepping RitNummer)</p>
+<p>7.Reconstruct a route (array with pairs of station/departure time) for every train.</p>
+<p>8.Interpolate train movements between stations</p>
+<p>9.Place them on the map and make lots of pngs (thanks to python + basemap)</p>
+<p>10.pngs -&gt; ffmpeg -&gt; video :)</p>
+<p><a href="https://github.com/sharifmarat/trains">Source code can be found here</a></p>
+<h1 id="whats-next">What&rsquo;s next?</h1>
+<p>It&rsquo;s quickly getting repetitive. The simplest way to make it more entertaining is to get data
+from 3am or 4am. It would be more fun to see build up of train traffic.</p>
+<p>With such limited data it is quite hard to make all trains follow the track.
+The data does not contain all stations a single train moves through. One way to fix it would be to map
+all train tracks, find a shortest (?) route from station A to station B and make the train to follow it.</p>
+<p>The final stop is also hard to fix properly. The data does not contain time when a train arrives to its
+final destination. Can be fixed with extrapolation on the last segment.</p>
+        </div>
+
+        
+        
+        <div class="article-toc" >
+            <h3></h3>
+            <nav id="TableOfContents"></nav>
+        </div>
+        
+        
+
+        
+
+
+        
+    </div>
+</article>
+
+        
+            
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    var disqus_shortname = 'ifnull';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com/" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+        
+    </section>
+    <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            &copy; 2022 Marat Sharifullin&nbsp;
+            Powered by <a href="https://gohugo.io" target="_blank">Hugo</a> with theme <a href="https://github.com/carsonip/hugo-theme-minos">Minos</a>
+        </div>
+    </div>
+    
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/styles/tomorrow-night.min.css" integrity="sha256-2wL88NKUqvJi/ExflDzkzUumjUM73mcK2gBvBBeLvTk=" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/highlight.min.js" integrity="sha256-KbfTjB0WZ8vvXngdpJGY3Yp3xKk+tttbqClO11anCIU=" crossorigin="anonymous"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+
+    
+    <script>
+        document.getElementById('main-nav-toggle').addEventListener('click', function () {
+            var header = document.getElementById('header');
+            if (header.classList.contains('mobile-on')) {
+                header.classList.remove('mobile-on');
+            } else {
+                header.classList.add('mobile-on');
+            }
+        });
+    </script>
+</footer>
+</div>
+</body>
+</html>

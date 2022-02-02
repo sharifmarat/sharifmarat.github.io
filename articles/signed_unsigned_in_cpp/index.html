@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Why you should avoid unsigned types in C&#43;&#43; // Marat Sharifullin</title>
+
+        <meta charset="utf-8">
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="author" content="">
+        <meta property="og:title" content="Why you should avoid unsigned types in C&#43;&#43;" />
+    <meta property="og:description" content="" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:url" content="https://ifnull.org/articles/signed_unsigned_in_cpp/" />
+    
+
+    <link href="" rel="alternate" type="application/rss+xml" title="Marat Sharifullin" />
+    <link rel="shortcut icon" href="/favicon.ico">
+
+    <link href="https://ifnull.org/webfonts/ptserif/main.css" rel='stylesheet' type='text/css'>
+    <link href="https://ifnull.org/webfonts/source-code-pro/main.css" rel="stylesheet" type="text/css">
+    
+    <link rel="stylesheet" href="https://ifnull.org/css/style.css">
+
+    <link href="http://gmpg.org/xfn/11" rel="profile">
+
+    
+
+    <meta name="generator" content="Hugo 0.91.0" />
+</head>
+
+
+<body>
+<div id="container">
+    
+<div class="banner" style="padding:15px; text-align:center; background-color:#bb3434">
+    <div class="banner-content">
+        This is a copy or a backup of <a href="https://ifnull.org" class="btn btn-primary">ifnull.org</a>.
+    </div>
+</div>
+
+
+<header id="header">
+    <div id="header-outer" class="outer">
+        <div id="header-inner" class="inner">
+            <a id="main-nav-toggle" class="nav-icon" href="javascript:;"></a>
+            <a id="logo" class="logo-text" href="https://ifnull.org/">Marat Sharifullin</a>
+            <nav id="main-nav">
+                
+                <a class="main-nav-link" href="/">Blog</a>
+                
+                <a class="main-nav-link" href="/projects/all/">Projects</a>
+                
+                <a class="main-nav-link" href="/archive/">Archive</a>
+                
+                <a class="main-nav-link" href="/mabsurdation/">Mabsurdation</a>
+                
+                <a class="main-nav-link" href="/gallery/public/">Gallery</a>
+                
+                <a class="main-nav-link" href="/contact/">Contact</a>
+                
+            </nav>
+            <nav id="sub-nav">
+                <div id="search-form-wrap">
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+
+    <section id="main" class="outer">
+        <article class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        <header class="article-header">
+            <h1 class="article-title" itemprop="name">Why you should avoid unsigned types in C&#43;&#43;</h1>
+        </header>
+        
+        <div class="article-meta">
+	    
+                <a href="/articles/signed_unsigned_in_cpp/" class="article-date">
+                    <time datetime='2016-03-15T00:00:00.000&#43;00:00' itemprop="datePublished">2016-03-15</time>
+                </a>
+	    
+            
+            
+	    
+            <div class="article-comment-link-wrap">
+                <a href="/articles/signed_unsigned_in_cpp/#disqus_thread" class="article-comment-link">Comments</a>
+            </div>
+            
+        </div>
+        <div class="article-entry" itemprop="articleBody">
+            <p>C++ offers signed and unsigned integer types.
+This article explains why you should avoid using unsigned types in C++.</p>
+<h3 id="introduction">Introduction</h3>
+<p>Arithmetic operations on integer types cause implicit type conversions if operands have different types.
+From C++ standard:</p>
+<blockquote>
+<p>If the operand that has unsigned integer type has rank greater than or equal to the rank of the type of the other operand,
+the operand with signed integer type shall be converted to the type of the operand with unsigned integer type.</p>
+</blockquote>
+<blockquote>
+<p>If the type of the operand with signed integer type can represent all of the values of the type of the operand
+with unsigned integer type, the operand with unsigned integer type shall be converted
+to the type of the operand with signed integer type.</p>
+</blockquote>
+<blockquote>
+<p>Otherwise, both operands shall be converted to the unsigned integer type corresponding
+to the type of the operand with signed integer type.</p>
+</blockquote>
+<h3 id="example">Example</h3>
+<p>If you do not understand it fully it could cause big issues in the code.
+Imagine the following function:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-C++" data-lang="C++"><span style="color:#75715e">//! \return mean of some variable which is always positive.
+</span><span style="color:#75715e">//! The result is always positive.
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">int32_t</span> <span style="color:#a6e22e">GetMean</span>();
+</code></pre></div><p>Then a new developer comes and thinks: &ldquo;Why does this function return signed integer if comments says that it cannot be negative?&rdquo;
+And he changes this function to return unsigned integer:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-C++" data-lang="C++"><span style="color:#66d9ef">uint32_t</span> <span style="color:#a6e22e">GetMean</span>();
+</code></pre></div><p>Looks like it is not a big deal. But then the program starts producing wrong results under certain circumstances.
+It even crashes sometimes.</p>
+<p>Why did it stop working properly? To answer this question, imagine the code which uses <code>GetMean</code> function:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-C++" data-lang="C++"><span style="color:#66d9ef">double</span> weightedDeviationFromMean <span style="color:#f92672">=</span> (GetMean() <span style="color:#f92672">-</span> <span style="color:#ae81ff">4</span>) <span style="color:#f92672">/</span> <span style="color:#ae81ff">6.0</span>;
+</code></pre></div><p>Let&rsquo;s say that <code>GetMean()</code> returns 1. Then we can evaluate how would the result of <code>weightedDeviationFromMean</code> change</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-C++" data-lang="C++"><span style="color:#66d9ef">int32_t</span> <span style="color:#a6e22e">GetMean</span>() { <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">1</span>; }
+<span style="color:#66d9ef">double</span> weightedDeviationFromMean <span style="color:#f92672">=</span> (GetMean() <span style="color:#f92672">-</span> <span style="color:#ae81ff">4</span>) <span style="color:#f92672">/</span> <span style="color:#ae81ff">6.0</span>;
+<span style="color:#75715e">// weightedDeviationFromMean = -0.5
+</span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-C++" data-lang="C++"><span style="color:#66d9ef">uint32_t</span> <span style="color:#a6e22e">GetMean</span>() { <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">1</span>; }
+<span style="color:#66d9ef">double</span> weightedDeviationFromMean <span style="color:#f92672">=</span> (GetMean() <span style="color:#f92672">-</span> <span style="color:#ae81ff">4</span>) <span style="color:#f92672">/</span> <span style="color:#ae81ff">6.0</span>;
+<span style="color:#75715e">// weightedDeviationFromMean = 7.15828e+08
+</span></code></pre></div><p>As you can see the result is significantly different (and wrong)
+after changing the return type of <code>GetMean</code> function to unsigned integer.
+The reason is that the compiler implicitly converts 4 to unsigned integer because of <code>GetMean</code> return type.
+And it expands expression inside parenthesis to <code>1u - 4u</code> which is equal to <code>4294967293u</code> due to integer underflow.</p>
+<p>Such small change caused lots of problems in different part of the code.
+And if you have many developers submitting changes to the code base it would not be easy to track this bug.</p>
+<p>Better not to use unsigned integers in C++ to avoid such troubles.
+Or at least try to think of possible consequences of unsigned types.</p>
+        </div>
+
+        
+        
+        <div class="article-toc" >
+            <h3></h3>
+            <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#introduction">Introduction</a></li>
+        <li><a href="#example">Example</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+        </div>
+        
+        
+
+        
+
+
+        
+    </div>
+</article>
+
+        
+            
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    var disqus_shortname = 'ifnull';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com/" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+        
+    </section>
+    <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            &copy; 2022 Marat Sharifullin&nbsp;
+            Powered by <a href="https://gohugo.io" target="_blank">Hugo</a> with theme <a href="https://github.com/carsonip/hugo-theme-minos">Minos</a>
+        </div>
+    </div>
+    
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/styles/tomorrow-night.min.css" integrity="sha256-2wL88NKUqvJi/ExflDzkzUumjUM73mcK2gBvBBeLvTk=" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/highlight.min.js" integrity="sha256-KbfTjB0WZ8vvXngdpJGY3Yp3xKk+tttbqClO11anCIU=" crossorigin="anonymous"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+
+    
+    <script>
+        document.getElementById('main-nav-toggle').addEventListener('click', function () {
+            var header = document.getElementById('header');
+            if (header.classList.contains('mobile-on')) {
+                header.classList.remove('mobile-on');
+            } else {
+                header.classList.add('mobile-on');
+            }
+        });
+    </script>
+</footer>
+</div>
+</body>
+</html>
