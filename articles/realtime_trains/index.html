@@ -99,14 +99,14 @@
   <source src="trains.mp4" type="video/mp4">
 Your browser does not support the video tag.
 </video>
-<h1 id="issues">Issues:</h1>
+<h2 id="issues">Issues:</h2>
 <ol>
 <li>Not all trains follow tracks (it has to do with linear interpolation, see below)</li>
 <li>A train never reaches its final stop (not enough data, see below)</li>
 <li>These are not true train positions, interpolated between stations</li>
 <li>It&rsquo;s getting quite repetitve after some time :)</li>
 </ol>
-<h1 id="how-is-was-done">How is was done?</h1>
+<h2 id="how-is-was-done">How is was done?</h2>
 <p>1.Got access to NS API</p>
 <p>2.Mapped all train stations which includes stations both within the Netherlands and outside.
 Example of response containing information with traion stations:</p>
@@ -140,7 +140,7 @@ There are approximately 400 train stations in the Netherlands (according to NS A
 <p>9.Place them on the map and make lots of pngs (thanks to python + basemap)</p>
 <p>10.pngs -&gt; ffmpeg -&gt; video :)</p>
 <p><a href="https://github.com/sharifmarat/trains">Source code can be found here</a></p>
-<h1 id="whats-next">What&rsquo;s next?</h1>
+<h2 id="whats-next">What&rsquo;s next?</h2>
 <p>It&rsquo;s quickly getting repetitive. The simplest way to make it more entertaining is to get data
 from 3am or 4am. It would be more fun to see build up of train traffic.</p>
 <p>With such limited data it is quite hard to make all trains follow the track.
@@ -154,7 +154,13 @@ final destination. Can be fixed with extrapolation on the last segment.</p>
         
         <div class="article-toc" >
             <h3></h3>
-            <nav id="TableOfContents"></nav>
+            <nav id="TableOfContents">
+  <ul>
+    <li><a href="#issues">Issues:</a></li>
+    <li><a href="#how-is-was-done">How is was done?</a></li>
+    <li><a href="#whats-next">What&rsquo;s next?</a></li>
+  </ul>
+</nav>
         </div>
         
         
