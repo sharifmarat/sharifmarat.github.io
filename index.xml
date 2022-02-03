@@ -2,27 +2,27 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Marat Sharifullin</title>
-    <link>http://sharifmarat.github.io/</link>
+    <link>//sharifmarat.github.io/</link>
     <description>Recent content on Marat Sharifullin</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 30 Dec 2021 00:00:00 +0000</lastBuildDate><atom:link href="http://sharifmarat.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 30 Dec 2021 00:00:00 +0000</lastBuildDate><atom:link href="//sharifmarat.github.io/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Improved way to run cron</title>
-      <link>http://sharifmarat.github.io/articles/longwarn/</link>
+      <link>//sharifmarat.github.io/articles/longwarn/</link>
       <pubDate>Thu, 30 Dec 2021 00:00:00 +0000</pubDate>
       
-      <guid>http://sharifmarat.github.io/articles/longwarn/</guid>
+      <guid>//sharifmarat.github.io/articles/longwarn/</guid>
       <description>&lt;p&gt;Systemd timers is an interesting alternative, but I still prefer &lt;code&gt;crontab&lt;/code&gt; over it to run periodic jobs on my servers.
 To make it a bit more reliable I just chain a few commands like &lt;code&gt;cronic&lt;/code&gt;, &lt;code&gt;longwarn&lt;/code&gt; and &lt;code&gt;flock&lt;/code&gt;.&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Generate gallery from Nextcloud tagged images</title>
-      <link>http://sharifmarat.github.io/articles/gallery_generator_nextcloud_tags/</link>
+      <link>//sharifmarat.github.io/articles/gallery_generator_nextcloud_tags/</link>
       <pubDate>Sat, 03 Jul 2021 00:00:00 +0000</pubDate>
       
-      <guid>http://sharifmarat.github.io/articles/gallery_generator_nextcloud_tags/</guid>
+      <guid>//sharifmarat.github.io/articles/gallery_generator_nextcloud_tags/</guid>
       <description>&lt;p&gt;I could not find a way to share or publish tagged Nextcloud images. This seems like a useful feature
 in which you can share all images of a person with them. There are a few feature requests on Nextcloud GitHub,
 but Nextcloud 21 still does not implement it. I wrote a small shell script to make it possible.&lt;/p&gt;</description>
@@ -30,10 +30,10 @@ but Nextcloud 21 still does not implement it. I wrote a small shell script to ma
     
     <item>
       <title>Alternative to Remote Console</title>
-      <link>http://sharifmarat.github.io/articles/remote_console_alternative/</link>
+      <link>//sharifmarat.github.io/articles/remote_console_alternative/</link>
       <pubDate>Thu, 23 Jul 2020 00:00:00 +0000</pubDate>
       
-      <guid>http://sharifmarat.github.io/articles/remote_console_alternative/</guid>
+      <guid>//sharifmarat.github.io/articles/remote_console_alternative/</guid>
       <description>&lt;p&gt;Not all hosting providers offer a free remote console. It makes it difficult to debug certain issues with grub,
 especially when LUKS and/or LVM is used. Rescue mode, on the other hand, is offered. That
 removes the need for a remote console in most of the cases.&lt;/p&gt;</description>
@@ -41,30 +41,30 @@ removes the need for a remote console in most of the cases.&lt;/p&gt;</descripti
     
     <item>
       <title>Using borgbackup with rsync.net</title>
-      <link>http://sharifmarat.github.io/articles/borgbackup_rsyncnet/</link>
+      <link>//sharifmarat.github.io/articles/borgbackup_rsyncnet/</link>
       <pubDate>Thu, 23 Jul 2020 00:00:00 +0000</pubDate>
       
-      <guid>http://sharifmarat.github.io/articles/borgbackup_rsyncnet/</guid>
+      <guid>//sharifmarat.github.io/articles/borgbackup_rsyncnet/</guid>
       <description>&lt;p&gt;&lt;a href=&#34;https://rsync.net&#34; title=&#34;visit rsync.net&#34;&gt;rsync.net&lt;/a&gt; offers cloud backups with ZFS snapshots.
 It has very special pricing for borg accounts, as borg takes care of versioning automatically.&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Catch of Microsoft Azure Certification</title>
-      <link>http://sharifmarat.github.io/articles/microsoft_certification/</link>
+      <link>//sharifmarat.github.io/articles/microsoft_certification/</link>
       <pubDate>Wed, 17 Jun 2020 00:00:00 +0000</pubDate>
       
-      <guid>http://sharifmarat.github.io/articles/microsoft_certification/</guid>
+      <guid>//sharifmarat.github.io/articles/microsoft_certification/</guid>
       <description>&lt;p&gt;Free vouchers for Azure Certification were offered in our company.
 Surprisingly for myself I signed up for the exam. But there is a catch.&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Стихи Jan de Bas</title>
-      <link>http://sharifmarat.github.io/mabsurdation/jan-de-bas/</link>
+      <link>//sharifmarat.github.io/mabsurdation/jan-de-bas/</link>
       <pubDate>Thu, 25 Jul 2019 00:00:00 +0000</pubDate>
       
-      <guid>http://sharifmarat.github.io/mabsurdation/jan-de-bas/</guid>
+      <guid>//sharifmarat.github.io/mabsurdation/jan-de-bas/</guid>
       <description>Перевод стихов Jan de Bas c голландского Checkpoint Charlie На боку лежала она
 и в кровати вдруг стену
 сооружила.
@@ -85,19 +85,19 @@ Surprisingly for myself I signed up for the exam. But there is a catch.&lt;/p&gt
     
     <item>
       <title>Хватит писать</title>
-      <link>http://sharifmarat.github.io/mabsurdation/enough-writing/</link>
+      <link>//sharifmarat.github.io/mabsurdation/enough-writing/</link>
       <pubDate>Wed, 08 May 2019 00:00:00 +0000</pubDate>
       
-      <guid>http://sharifmarat.github.io/mabsurdation/enough-writing/</guid>
+      <guid>//sharifmarat.github.io/mabsurdation/enough-writing/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Infinite redirect in Firefox</title>
-      <link>http://sharifmarat.github.io/articles/firefox_redirect/</link>
+      <link>//sharifmarat.github.io/articles/firefox_redirect/</link>
       <pubDate>Wed, 23 Jan 2019 00:00:00 +0000</pubDate>
       
-      <guid>http://sharifmarat.github.io/articles/firefox_redirect/</guid>
+      <guid>//sharifmarat.github.io/articles/firefox_redirect/</guid>
       <description>&lt;p&gt;Recently Firefox started to throw an error on some sites that a page was not redirecting properly.
 On the internet, people gave recommendations to clear the browser cache and cookies, but it didn&amp;rsquo;t help me.
 It turned out that the issue was quite different, but simple.&lt;/p&gt;</description>
@@ -105,19 +105,19 @@ It turned out that the issue was quite different, but simple.&lt;/p&gt;</descrip
     
     <item>
       <title>Большой глаз и Маленький глаз</title>
-      <link>http://sharifmarat.github.io/mabsurdation/grootoog_en_kleinoog/</link>
+      <link>//sharifmarat.github.io/mabsurdation/grootoog_en_kleinoog/</link>
       <pubDate>Wed, 23 Jan 2019 00:00:00 +0000</pubDate>
       
-      <guid>http://sharifmarat.github.io/mabsurdation/grootoog_en_kleinoog/</guid>
+      <guid>//sharifmarat.github.io/mabsurdation/grootoog_en_kleinoog/</guid>
       <description>Перевод голландской сказки &#34;Grootoog en Kleinoog&#34; Жили-были два не родных брата. Одного звали Большой глаз, а другого - Маленький глаз. Оба были фермерами. Большой глаз был богат и цедил 12 коров, Маленький глаз был беден и доил только одну корову. Однажды, корова Маленького глаза сорвалась и убежала пастись на участок Большого глаза. Большой глаз пришел к своему брату и сказал: &amp;ldquo;Если твоя корова еще раз придет - я ее зарежу. Можешь в этом не сомневаться&amp;rdquo;.</description>
     </item>
     
     <item>
       <title>Dual Intel and Nvidia graphics on Void Linux</title>
-      <link>http://sharifmarat.github.io/articles/void_optimus_nvidia_intel/</link>
+      <link>//sharifmarat.github.io/articles/void_optimus_nvidia_intel/</link>
       <pubDate>Fri, 11 Jan 2019 00:00:00 +0000</pubDate>
       
-      <guid>http://sharifmarat.github.io/articles/void_optimus_nvidia_intel/</guid>
+      <guid>//sharifmarat.github.io/articles/void_optimus_nvidia_intel/</guid>
       <description>&lt;p&gt;Nvidia Optimus technology allows seamlessly switch between two graphics cards on a laptop.
 An Intel integrated card is used to safe battery life when performance is not needed.
 A discrete Nvidia card is turned on for certain applications, like games, mining.
@@ -127,20 +127,20 @@ of this technology on Linux.&lt;/p&gt;</description>
     
     <item>
       <title>Нет сну!</title>
-      <link>http://sharifmarat.github.io/mabsurdation/no-to-sleep/</link>
+      <link>//sharifmarat.github.io/mabsurdation/no-to-sleep/</link>
       <pubDate>Mon, 31 Dec 2018 00:00:00 +0000</pubDate>
       
-      <guid>http://sharifmarat.github.io/mabsurdation/no-to-sleep/</guid>
+      <guid>//sharifmarat.github.io/mabsurdation/no-to-sleep/</guid>
       <description>Недавно узнал, что необходимое количество сна для каждого человека определено генами. Есть &amp;ldquo;везунчики&amp;rdquo;, которым можно спать 6 часов вместо 8 (да, обычным людям надо спать по 8 часов). Таких всего где-то 3%.
 Если у вас есть raw genetic data, то можно посмотреть на маркер rs121912617. Если у вас (G, G) в положительном направлении, то тогда вы один из 97% людей, которым надо спать по 8 часов. Если есть C, или даже две C, то вам повезло, можете спать меньше и делать больше!</description>
     </item>
     
     <item>
       <title>Gravity UART CO2 sensor with Raspberry Pi</title>
-      <link>http://sharifmarat.github.io/articles/co2_gravity_uart_raspberry_pi/</link>
+      <link>//sharifmarat.github.io/articles/co2_gravity_uart_raspberry_pi/</link>
       <pubDate>Sun, 30 Dec 2018 00:00:00 +0000</pubDate>
       
-      <guid>http://sharifmarat.github.io/articles/co2_gravity_uart_raspberry_pi/</guid>
+      <guid>//sharifmarat.github.io/articles/co2_gravity_uart_raspberry_pi/</guid>
       <description>&lt;p&gt;This tutorial explains how to connect Gravity UART MH-Z16 CO&lt;sub&gt;2&lt;/sub&gt; sensor from DFRobot to Raspberry Pi
 and get CO&lt;sub&gt;2&lt;/sub&gt; readings.
 This is a nice NDIR-sensor with a wide range, up to 50000 ppm.&lt;/p&gt;</description>
@@ -148,59 +148,59 @@ This is a nice NDIR-sensor with a wide range, up to 50000 ppm.&lt;/p&gt;</descri
     
     <item>
       <title>Мусорщикам</title>
-      <link>http://sharifmarat.github.io/mabsurdation/garbage/</link>
+      <link>//sharifmarat.github.io/mabsurdation/garbage/</link>
       <pubDate>Sat, 22 Dec 2018 00:00:00 +0000</pubDate>
       
-      <guid>http://sharifmarat.github.io/mabsurdation/garbage/</guid>
+      <guid>//sharifmarat.github.io/mabsurdation/garbage/</guid>
       <description>Хватит обливать людей говном. Договорились на телефонное интервью. Сегодня перед работой. Во время обеда. Забронировал комнату заранее, на другом этаже, подальше от коллег. Перед, осознал, что не успеваю дойти к назначенному времени, как раз буду в лифте. Решил дожидаться звонка на улице. Выбрал место подальше от людей, чтобы не шокировать их своим денежным запросом - не так уж и нужна мне эта новая работа.
 В выбранном месте было ветрено, решил поискать место получше.</description>
     </item>
     
     <item>
       <title>Incorrect user in ACPI script in Void Linux</title>
-      <link>http://sharifmarat.github.io/articles/void_acpi_user/</link>
+      <link>//sharifmarat.github.io/articles/void_acpi_user/</link>
       <pubDate>Thu, 20 Dec 2018 00:00:00 +0000</pubDate>
       
-      <guid>http://sharifmarat.github.io/articles/void_acpi_user/</guid>
-      <description>&lt;p&gt;In previous article &lt;a href=&#34;http://sharifmarat.github.io/articles/void_lock_screen_on_suspend/&#34;&gt;Closing laptop lid does not lock screen on Void Linux&lt;/a&gt; I
+      <guid>//sharifmarat.github.io/articles/void_acpi_user/</guid>
+      <description>&lt;p&gt;In previous article &lt;a href=&#34;//sharifmarat.github.io/articles/void_lock_screen_on_suspend/&#34;&gt;Closing laptop lid does not lock screen on Void Linux&lt;/a&gt; I
 showed how to lock the screen when closing a laptop lid on Void Linux. It required to know a user under which the
 &lt;code&gt;mate-session&lt;/code&gt; was started. Default ACPI script in Void Linux does not detect correct user.&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Fix for touchpad in Void Linux on MacBook Air</title>
-      <link>http://sharifmarat.github.io/articles/void_mouse_on_mac/</link>
+      <link>//sharifmarat.github.io/articles/void_mouse_on_mac/</link>
       <pubDate>Wed, 12 Dec 2018 00:00:00 +0000</pubDate>
       
-      <guid>http://sharifmarat.github.io/articles/void_mouse_on_mac/</guid>
+      <guid>//sharifmarat.github.io/articles/void_mouse_on_mac/</guid>
       <description>&lt;p&gt;Fixing MacBook Air&amp;rsquo;s touchpad (versions 2011-2012) in Void Linux.&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>История о днях</title>
-      <link>http://sharifmarat.github.io/mabsurdation/days/</link>
+      <link>//sharifmarat.github.io/mabsurdation/days/</link>
       <pubDate>Thu, 25 Oct 2018 00:00:00 +0000</pubDate>
       
-      <guid>http://sharifmarat.github.io/mabsurdation/days/</guid>
+      <guid>//sharifmarat.github.io/mabsurdation/days/</guid>
       <description>По Берлиновским похождениям. Три земных человека прилетели по небу в город, разделенный камнем на две части. С ними было небольшое животное. Это животное постоянно нуждалось в еде. За ним приходилось следить.
 В первый день животное умудрилось просочиться в не совсем обычную комнату. Комната эта была под охраной. На входе стоял мелкий Баунс. Несмотря на его размер, не хотелось иметь с ним дело. Три человека позвали 6 других на подмогу. Но похоже, что со входом это не помогло.</description>
     </item>
     
     <item>
       <title>Опционализация</title>
-      <link>http://sharifmarat.github.io/mabsurdation/scifi/</link>
+      <link>//sharifmarat.github.io/mabsurdation/scifi/</link>
       <pubDate>Sat, 01 Sep 2018 00:00:00 +0000</pubDate>
       
-      <guid>http://sharifmarat.github.io/mabsurdation/scifi/</guid>
+      <guid>//sharifmarat.github.io/mabsurdation/scifi/</guid>
       <description>Ответ Алексею на фантастичный вызов I Верхом на велосипеде, быстро кручу педали. Если сбавить темп, то начиню падать с высоты третьего этажа. Люди из домов тянут свои руки ко мне, пытаются схватить. Некоторым не везет и они выпадают из окон. Постоянно слышны хлопки мешков с водой. У меня не получается отлететь от них подальше, дома окружают со всех сторон. Я начинаю уставать, оконные руки все ближе и ближе к моим ногам.</description>
     </item>
     
     <item>
       <title>Пляжный день</title>
-      <link>http://sharifmarat.github.io/mabsurdation/day-at-the-beach/</link>
+      <link>//sharifmarat.github.io/mabsurdation/day-at-the-beach/</link>
       <pubDate>Sat, 18 Aug 2018 00:00:00 +0000</pubDate>
       
-      <guid>http://sharifmarat.github.io/mabsurdation/day-at-the-beach/</guid>
+      <guid>//sharifmarat.github.io/mabsurdation/day-at-the-beach/</guid>
       <description>Один глубокий человек пошел на пляж. Это был замечательный пляж с белоснежным песком, удобными креслами в тени зонтов и изумрудной водой.
 Человек пошел вдоль берега рассматривая людей, которые наслаждались кто солнцем, а кто морем. На пути ему встретился песочный замок. Человек, не очень долго думая, пнул по замку. &amp;ldquo;Как можно сидеть и играть в песочек, когда проблемы метафизики не решены?!&amp;rdquo; - подумал он.
 Пройдя глубже ему встретилась группа детей, играющих с мячом.</description>
@@ -208,10 +208,10 @@ showed how to lock the screen when closing a laptop lid on Void Linux. It requir
     
     <item>
       <title>Откладыватель</title>
-      <link>http://sharifmarat.github.io/mabsurdation/delay/</link>
+      <link>//sharifmarat.github.io/mabsurdation/delay/</link>
       <pubDate>Wed, 18 Jul 2018 00:00:00 +0000</pubDate>
       
-      <guid>http://sharifmarat.github.io/mabsurdation/delay/</guid>
+      <guid>//sharifmarat.github.io/mabsurdation/delay/</guid>
       <description>Один не очень старый житель города был профессионалом по откладыванию дел, особенно таких, от которых не зависел завтрашний день.
 - Почитать скучную книгу? Можно отложить. - Заплатить за газ летом? Отложить. - Приготовить белую еду? Перейти на разноцветную.
 Когда этот человек отложил вдох воздуха, то от него остался только гештальт размером с ближлежащий пятиэтажный дом, в котором жил хирург, отложивший операцию этого человека.</description>
@@ -219,10 +219,10 @@ showed how to lock the screen when closing a laptop lid on Void Linux. It requir
     
     <item>
       <title>Чужая станция</title>
-      <link>http://sharifmarat.github.io/mabsurdation/foreign-station/</link>
+      <link>//sharifmarat.github.io/mabsurdation/foreign-station/</link>
       <pubDate>Fri, 29 Jun 2018 00:00:00 +0000</pubDate>
       
-      <guid>http://sharifmarat.github.io/mabsurdation/foreign-station/</guid>
+      <guid>//sharifmarat.github.io/mabsurdation/foreign-station/</guid>
       <description>Один человек во время поездок в соседний город всегда садился с одной и той же стороны вагона. На промежуточной станции жила его знакомая мышь. Человек регулярно покупал с собой бутерброд в дорогу. Даже не из-за голода, а чтобы бросить крошки своей знакомой.
 В один из дней мышки не оказалось на привычном месте. Это так шокировало человека, что он отправился на ее поиски.
 Побродив по станции он нашёл хвостик, ушко, лапки, а потом и целую кошку.</description>
@@ -230,10 +230,10 @@ showed how to lock the screen when closing a laptop lid on Void Linux. It requir
     
     <item>
       <title>Утро</title>
-      <link>http://sharifmarat.github.io/mabsurdation/morning/</link>
+      <link>//sharifmarat.github.io/mabsurdation/morning/</link>
       <pubDate>Thu, 21 Jun 2018 00:00:00 +0000</pubDate>
       
-      <guid>http://sharifmarat.github.io/mabsurdation/morning/</guid>
+      <guid>//sharifmarat.github.io/mabsurdation/morning/</guid>
       <description>Один современный человек каждый будний день ходил на работу. Там ему приходилось работать головой.
 Сегодня был особый день, когда работы было на две головы, и он решил прийти пораньше. Проснулся как обычно, но не остался со своими мыслями в кровати - встал сразу же. Покушал, оделся и вышел на улицу.
 &amp;ldquo;Начинается дождь, а я без куртки - замерзну. Зайду быстро домой и переоденусь&amp;rdquo;, подумал он. Так и сделал.
@@ -242,30 +242,30 @@ showed how to lock the screen when closing a laptop lid on Void Linux. It requir
     
     <item>
       <title>Ген</title>
-      <link>http://sharifmarat.github.io/mabsurdation/genes/</link>
+      <link>//sharifmarat.github.io/mabsurdation/genes/</link>
       <pubDate>Mon, 18 Jun 2018 00:00:00 +0000</pubDate>
       
-      <guid>http://sharifmarat.github.io/mabsurdation/genes/</guid>
+      <guid>//sharifmarat.github.io/mabsurdation/genes/</guid>
       <description>Была у меня давняя мечта - поплевать в пробирку и узнать о своих генах. Ровно месяц назад я получил такую пробирку на день рождения. Все больше и больше сервисов, которые предлагают такие услуги. Я воспользовался одним из самых известных - 23andme. На дня получил сообщение, что расшифровка и анализ закончены. Можно погружаться в отчеты.
 Один из отчетов рассказывает о неандертальской наследственности. Как раз недавно, был закончен проект расшифровки генома неандертальца. 23andme проверяют насколько гены, каждого из нас, наследуются от неандертальцев.</description>
     </item>
     
     <item>
       <title>Власть</title>
-      <link>http://sharifmarat.github.io/mabsurdation/power/</link>
+      <link>//sharifmarat.github.io/mabsurdation/power/</link>
       <pubDate>Fri, 01 Jun 2018 00:00:00 +0000</pubDate>
       
-      <guid>http://sharifmarat.github.io/mabsurdation/power/</guid>
+      <guid>//sharifmarat.github.io/mabsurdation/power/</guid>
       <description>Ленина любили все и продолжают полюбовать Сталина очень любили, а потом сильно перестали Маленкова не успели полюбить
 Хрущева тепло полюбили, а потом немного забыли К Брежневу любовь застоялась Горбачева почти сразу невзлюбили Ельцина полюбили сразу, а потом с ним танцевали Путина любили все, а потом Трамп.</description>
     </item>
     
     <item>
       <title>Хватит белой еды</title>
-      <link>http://sharifmarat.github.io/mabsurdation/no-white-food/</link>
+      <link>//sharifmarat.github.io/mabsurdation/no-white-food/</link>
       <pubDate>Thu, 31 May 2018 00:00:00 +0000</pubDate>
       
-      <guid>http://sharifmarat.github.io/mabsurdation/no-white-food/</guid>
+      <guid>//sharifmarat.github.io/mabsurdation/no-white-food/</guid>
       <description>В честь Сати устроили диету белую Белую капусту ели неспелую Творог утром На обед треску Вечером грудку куриную Редис очищенный Козьего сыра долю львиную Соль Сахар И бурату моцарелой закусывали
 Эксперимент показал, что стул белым не стал Да и по всем пунктам невыгоден Желтки выкидывать надо Времени и пакетов расход сильный Да и несладка жизнь без кожуры нектарина
 Надоел мне этот спор, пошёл ты Сати к черту со своей однопальцевой игрой.</description>
@@ -273,20 +273,20 @@ showed how to lock the screen when closing a laptop lid on Void Linux. It requir
     
     <item>
       <title>Белая диета</title>
-      <link>http://sharifmarat.github.io/mabsurdation/white-food/</link>
+      <link>//sharifmarat.github.io/mabsurdation/white-food/</link>
       <pubDate>Wed, 30 May 2018 00:00:00 +0000</pubDate>
       
-      <guid>http://sharifmarat.github.io/mabsurdation/white-food/</guid>
+      <guid>//sharifmarat.github.io/mabsurdation/white-food/</guid>
       <description>Посвящено Сати Свою жизнь Сати описывал так: &amp;ldquo;Жизнь артиста (в широком смысле этого слова) должна быть упорядоченной.
 Мои ежедневные действия: Просыпаюсь в 7:18. Вдохновляюсь с 10:23 до 11:47. Обедаю в 12:11 и выхожу из-за стола в 12:14. Живительная прогулка верхом с 13:19 до 14:53. Следующий приступ вдохновения с 15:12 до 16:07. С 17 до 18:47 все остальное (фехтование, созерцание, неподвижность, посещения, разработка рук, плавание,&amp;hellip;). Ужин накрывают в 19:16 и кончают в 19:20.</description>
     </item>
     
     <item>
       <title>Closing laptop lid does not lock screen on Void Linux</title>
-      <link>http://sharifmarat.github.io/articles/void_lock_screen_on_suspend/</link>
+      <link>//sharifmarat.github.io/articles/void_lock_screen_on_suspend/</link>
       <pubDate>Sat, 10 Feb 2018 00:00:00 +0000</pubDate>
       
-      <guid>http://sharifmarat.github.io/articles/void_lock_screen_on_suspend/</guid>
+      <guid>//sharifmarat.github.io/articles/void_lock_screen_on_suspend/</guid>
       <description>&lt;p&gt;Void Linux is an amazing operating system which reminded me FreeBSD in Linux world. Many parts were built from scratch,
 like runit for init scripts, xbps for package management. And they are minimalistic which makes it
 even better. Void uses rolling release to delivers fresh packages on regular basis.&lt;/p&gt;</description>
@@ -294,10 +294,10 @@ even better. Void uses rolling release to delivers fresh packages on regular bas
     
     <item>
       <title>Homework</title>
-      <link>http://sharifmarat.github.io/articles/homework/</link>
+      <link>//sharifmarat.github.io/articles/homework/</link>
       <pubDate>Sat, 03 Feb 2018 00:00:00 +0000</pubDate>
       
-      <guid>http://sharifmarat.github.io/articles/homework/</guid>
+      <guid>//sharifmarat.github.io/articles/homework/</guid>
       <description>&lt;p&gt;A good friend of mine (let&amp;rsquo;s call him D.) asked if I could help his nephew V. with English essay. He studies in middle school in Russia.
 It&amp;rsquo;s not the first time V. did not do his homework. I recommended to copy some examples from google.
 It would be at least more useful for him rather than doing nothing. But he said that schoold checks homework for plagiarism. What?!&lt;/p&gt;</description>
@@ -305,10 +305,10 @@ It would be at least more useful for him rather than doing nothing. But he said 
     
     <item>
       <title>Map matching 101 - part 1</title>
-      <link>http://sharifmarat.github.io/articles/mapmatching_101_part_1/</link>
+      <link>//sharifmarat.github.io/articles/mapmatching_101_part_1/</link>
       <pubDate>Thu, 31 Aug 2017 00:00:00 +0000</pubDate>
       
-      <guid>http://sharifmarat.github.io/articles/mapmatching_101_part_1/</guid>
+      <guid>//sharifmarat.github.io/articles/mapmatching_101_part_1/</guid>
       <description>&lt;p&gt;Map matching is an interesting problem which is used in car navigation,
 self-driving cars, traffic analysis, map correction and more.
 Let&amp;rsquo;s write a simple map matching algorithm in Julia.&lt;/p&gt;</description>
@@ -316,20 +316,20 @@ Let&amp;rsquo;s write a simple map matching algorithm in Julia.&lt;/p&gt;</descr
     
     <item>
       <title>Dialogues on size_type vs size_t</title>
-      <link>http://sharifmarat.github.io/articles/dialogue_on_size_type/</link>
+      <link>//sharifmarat.github.io/articles/dialogue_on_size_type/</link>
       <pubDate>Thu, 24 Aug 2017 00:00:00 +0000</pubDate>
       
-      <guid>http://sharifmarat.github.io/articles/dialogue_on_size_type/</guid>
+      <guid>//sharifmarat.github.io/articles/dialogue_on_size_type/</guid>
       <description>&lt;p&gt;It all began, as usual, with a simple yes or no question on how to loop in C++.
 Which led to &lt;code&gt;size_type&lt;/code&gt; vs &lt;code&gt;size_t&lt;/code&gt; discussion and ended with a joke and a bit of assembly.&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Eneco or an example of terrible service</title>
-      <link>http://sharifmarat.github.io/articles/eneco/</link>
+      <link>//sharifmarat.github.io/articles/eneco/</link>
       <pubDate>Thu, 03 Aug 2017 00:00:00 +0000</pubDate>
       
-      <guid>http://sharifmarat.github.io/articles/eneco/</guid>
+      <guid>//sharifmarat.github.io/articles/eneco/</guid>
       <description>&lt;p&gt;Eneco is one of the biggest energy company in the Netherlands. I&amp;rsquo;ve been using their services
 for quite some time. It was alright except phone calls from private numbers with offers to
 renew a contract (I bet there is a better way to do it). But recently they sent me a bill
@@ -338,10 +338,10 @@ which questions competency of their workers and the company in general.&lt;/p&gt
     
     <item>
       <title>What will probably kill you</title>
-      <link>http://sharifmarat.github.io/articles/what_will_probably_kill_you/</link>
+      <link>//sharifmarat.github.io/articles/what_will_probably_kill_you/</link>
       <pubDate>Mon, 31 Jul 2017 00:00:00 +0000</pubDate>
       
-      <guid>http://sharifmarat.github.io/articles/what_will_probably_kill_you/</guid>
+      <guid>//sharifmarat.github.io/articles/what_will_probably_kill_you/</guid>
       <description>&lt;p&gt;Have you ever wondered what is probably going to kill you if you die at certiange age?
 Based on data from Statistics Netherlands (or Centraal Bureau voor de Statistiek)
 we could try to figure out main cause of death for different age groups.&lt;/p&gt;</description>
@@ -349,20 +349,20 @@ we could try to figure out main cause of death for different age groups.&lt;/p&g
     
     <item>
       <title>Flickr Roulette</title>
-      <link>http://sharifmarat.github.io/articles/flickr_roulette/</link>
+      <link>//sharifmarat.github.io/articles/flickr_roulette/</link>
       <pubDate>Mon, 24 Jul 2017 00:00:00 +0000</pubDate>
       
-      <guid>http://sharifmarat.github.io/articles/flickr_roulette/</guid>
-      <description>&lt;p&gt;If you like to browse through random Flickr photos then &lt;a href=&#34;http://sharifmarat.github.io/projects/flickr_roulette/&#34;&gt;Flickr Roulette&lt;/a&gt; is
+      <guid>//sharifmarat.github.io/articles/flickr_roulette/</guid>
+      <description>&lt;p&gt;If you like to browse through random Flickr photos then &lt;a href=&#34;//sharifmarat.github.io/projects/flickr_roulette/&#34;&gt;Flickr Roulette&lt;/a&gt; is
 the thing you are looking for.&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Percolation</title>
-      <link>http://sharifmarat.github.io/articles/percolation/</link>
+      <link>//sharifmarat.github.io/articles/percolation/</link>
       <pubDate>Mon, 17 Jul 2017 00:00:00 +0000</pubDate>
       
-      <guid>http://sharifmarat.github.io/articles/percolation/</guid>
+      <guid>//sharifmarat.github.io/articles/percolation/</guid>
       <description>&lt;p&gt;&lt;a href=&#34;https://en.wikipedia.org/wiki/Percolation&#34;&gt;From wikipedia&lt;/a&gt;: In physics, chemistry and materials science, percolation
 refers to the movement and filtering of fluids through porous materials.
 Original problem was described by Broadbent and Hammersley in 1957:
@@ -371,10 +371,10 @@ Will the water reach the center of the porous rock when it is submerged under wa
     
     <item>
       <title>Blocked by Hotmail/Outlook</title>
-      <link>http://sharifmarat.github.io/articles/blocked_by_hotmail/</link>
+      <link>//sharifmarat.github.io/articles/blocked_by_hotmail/</link>
       <pubDate>Thu, 22 Jun 2017 00:00:00 +0000</pubDate>
       
-      <guid>http://sharifmarat.github.io/articles/blocked_by_hotmail/</guid>
+      <guid>//sharifmarat.github.io/articles/blocked_by_hotmail/</guid>
       <description>&lt;p&gt;Today I discovered that Hotmail/Outlook (live.com) does not want to receive my emails.
 Outgoing email bounced with error:
 &lt;em&gt;host mx1.hotmail.com[65.55.92.168] said: 550 SC-001 (SNT004-MC3F4) Unfortunately, messages from 163.172.218.53 weren&amp;rsquo;t sent&lt;/em&gt;.&lt;/p&gt;</description>
@@ -382,19 +382,19 @@ Outgoing email bounced with error:
     
     <item>
       <title>Real-time Dutch train traffic</title>
-      <link>http://sharifmarat.github.io/articles/realtime_trains/</link>
+      <link>//sharifmarat.github.io/articles/realtime_trains/</link>
       <pubDate>Tue, 23 May 2017 00:00:00 +0000</pubDate>
       
-      <guid>http://sharifmarat.github.io/articles/realtime_trains/</guid>
+      <guid>//sharifmarat.github.io/articles/realtime_trains/</guid>
       <description>&lt;p&gt;Following the previous article I reconstructed a &amp;ldquo;real-time&amp;rdquo; train traffic through a single day.&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Train data in the Netherlands</title>
-      <link>http://sharifmarat.github.io/articles/netherlands_trainstations/</link>
+      <link>//sharifmarat.github.io/articles/netherlands_trainstations/</link>
       <pubDate>Mon, 22 May 2017 00:00:00 +0000</pubDate>
       
-      <guid>http://sharifmarat.github.io/articles/netherlands_trainstations/</guid>
+      <guid>//sharifmarat.github.io/articles/netherlands_trainstations/</guid>
       <description>&lt;p&gt;&lt;strong&gt;NS (Nederlandse Spoorwege)&lt;/strong&gt; is the biggest railway operator in the Netherlands.
 Recently I&amp;rsquo;ve found out that that they provide API to share data on trains and
 prices. API is very simple but quite limited.&lt;/p&gt;</description>
@@ -402,20 +402,20 @@ prices. API is very simple but quite limited.&lt;/p&gt;</description>
     
     <item>
       <title>TMUX config</title>
-      <link>http://sharifmarat.github.io/articles/tmux_config/</link>
+      <link>//sharifmarat.github.io/articles/tmux_config/</link>
       <pubDate>Sun, 21 May 2017 00:00:00 +0000</pubDate>
       
-      <guid>http://sharifmarat.github.io/articles/tmux_config/</guid>
+      <guid>//sharifmarat.github.io/articles/tmux_config/</guid>
       <description>&lt;p&gt;Config of tmux (&amp;ldquo;terminal multiplexer&amp;rdquo; if it makes it easier for you&amp;hellip;) to allow
 switching between windows using Alt+number:&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>MX backup with a friend</title>
-      <link>http://sharifmarat.github.io/articles/mx_backup_with_friend/</link>
+      <link>//sharifmarat.github.io/articles/mx_backup_with_friend/</link>
       <pubDate>Fri, 23 Dec 2016 00:00:00 +0000</pubDate>
       
-      <guid>http://sharifmarat.github.io/articles/mx_backup_with_friend/</guid>
+      <guid>//sharifmarat.github.io/articles/mx_backup_with_friend/</guid>
       <description>&lt;p&gt;You just finished setting up your MX server and everything works fine.
 And now you are wondering whether you need a secondary MX server for backups.
 Some would say that these days you actually don&amp;rsquo;t need a secondary MX server,
@@ -428,10 +428,10 @@ to configure as your backup server.&lt;/p&gt;</description>
     
     <item>
       <title>Transmission status from Raspberry Pi 3</title>
-      <link>http://sharifmarat.github.io/articles/transmission_status_raspberry_pi/</link>
+      <link>//sharifmarat.github.io/articles/transmission_status_raspberry_pi/</link>
       <pubDate>Sun, 04 Dec 2016 00:00:00 +0000</pubDate>
       
-      <guid>http://sharifmarat.github.io/articles/transmission_status_raspberry_pi/</guid>
+      <guid>//sharifmarat.github.io/articles/transmission_status_raspberry_pi/</guid>
       <description>&lt;p&gt;I have a transmission client running on Raspberry Pi 3. But what I also wanted is to have
 a simple way to check the status of this client with a simple glance.
 Raspberry Pi 3 has multiple LEDs on-board.
@@ -440,10 +440,10 @@ Luckily, one of them can be easily controlled from a user space.&lt;/p&gt;</desc
     
     <item>
       <title>Dutch with ease</title>
-      <link>http://sharifmarat.github.io/articles/dutch_with_ease/</link>
+      <link>//sharifmarat.github.io/articles/dutch_with_ease/</link>
       <pubDate>Sun, 18 Sep 2016 00:00:00 +0000</pubDate>
       
-      <guid>http://sharifmarat.github.io/articles/dutch_with_ease/</guid>
+      <guid>//sharifmarat.github.io/articles/dutch_with_ease/</guid>
       <description>&lt;p&gt;I&amp;rsquo;ve just started Dutch With Ease self-study course made by Assimil.
 It is a language course designed in France that uses a language known to you to teach you a target language.
 Creators claim that you can acquire an average vocabulary of a few thousands words,
@@ -453,10 +453,10 @@ I am going to try it.&lt;/p&gt;</description>
     
     <item>
       <title>Dutch challenge</title>
-      <link>http://sharifmarat.github.io/articles/dutch_challenge/</link>
+      <link>//sharifmarat.github.io/articles/dutch_challenge/</link>
       <pubDate>Sun, 11 Sep 2016 00:00:00 +0000</pubDate>
       
-      <guid>http://sharifmarat.github.io/articles/dutch_challenge/</guid>
+      <guid>//sharifmarat.github.io/articles/dutch_challenge/</guid>
       <description>&lt;p&gt;Tomorrow I am starting another challenge with a friend to study Dutch.
 Actually it is happening exactly after I invited friends and paid for their luch today,
 because I had lost my previous challenge which was to exercise French every day.&lt;/p&gt;</description>
@@ -464,10 +464,10 @@ because I had lost my previous challenge which was to exercise French every day.
     
     <item>
       <title>Proxemics</title>
-      <link>http://sharifmarat.github.io/articles/proxemics/</link>
+      <link>//sharifmarat.github.io/articles/proxemics/</link>
       <pubDate>Sun, 04 Sep 2016 00:00:00 +0000</pubDate>
       
-      <guid>http://sharifmarat.github.io/articles/proxemics/</guid>
+      <guid>//sharifmarat.github.io/articles/proxemics/</guid>
       <description>&lt;p&gt;It is interesting how personal, intimate, social and public spaces vary depending
 on cultural differences. If you experienced living with people from different backgrounds
 (for example living in another country) then you probably noticed how different in size these spaces can be.&lt;/p&gt;</description>
@@ -475,10 +475,10 @@ on cultural differences. If you experienced living with people from different ba
     
     <item>
       <title>Italy or NOT whatever works</title>
-      <link>http://sharifmarat.github.io/articles/italy_or_not_whatever_works/</link>
+      <link>//sharifmarat.github.io/articles/italy_or_not_whatever_works/</link>
       <pubDate>Sun, 28 Aug 2016 00:00:00 +0000</pubDate>
       
-      <guid>http://sharifmarat.github.io/articles/italy_or_not_whatever_works/</guid>
+      <guid>//sharifmarat.github.io/articles/italy_or_not_whatever_works/</guid>
       <description>&lt;p&gt;Italy is an excellent country to visit.
 This time it was a short trip in the Northen Italy including Venice, Bologna, Imola and San-Marino.
 Everything is great about this country, except a few things.&lt;/p&gt;</description>
@@ -486,59 +486,59 @@ Everything is great about this country, except a few things.&lt;/p&gt;</descript
     
     <item>
       <title>Trip to Russia or Uber VS Yandex Taxi</title>
-      <link>http://sharifmarat.github.io/articles/trip_to_russia/</link>
+      <link>//sharifmarat.github.io/articles/trip_to_russia/</link>
       <pubDate>Sun, 21 Aug 2016 00:00:00 +0000</pubDate>
       
-      <guid>http://sharifmarat.github.io/articles/trip_to_russia/</guid>
+      <guid>//sharifmarat.github.io/articles/trip_to_russia/</guid>
       <description>&lt;p&gt;Currently I am traveling in Italy, but I have to post something, because of the yet another challenge where I have to make a post every week.
 So I am writing 200 meaningless words from a car.&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Duolingo challenge</title>
-      <link>http://sharifmarat.github.io/articles/duolingo_challenge/</link>
+      <link>//sharifmarat.github.io/articles/duolingo_challenge/</link>
       <pubDate>Sun, 07 Aug 2016 00:00:00 +0000</pubDate>
       
-      <guid>http://sharifmarat.github.io/articles/duolingo_challenge/</guid>
+      <guid>//sharifmarat.github.io/articles/duolingo_challenge/</guid>
       <description>&lt;p&gt;Duolingo is a fun way to learn a langugage. To insipre learning even further we introduced a challenge with friends. The idea is simple. A person who loses a streak on a language fails the challenge. But Duolingo keeps track of global streak only.&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Why you should avoid unsigned types in C&#43;&#43;</title>
-      <link>http://sharifmarat.github.io/articles/signed_unsigned_in_cpp/</link>
+      <link>//sharifmarat.github.io/articles/signed_unsigned_in_cpp/</link>
       <pubDate>Tue, 15 Mar 2016 00:00:00 +0000</pubDate>
       
-      <guid>http://sharifmarat.github.io/articles/signed_unsigned_in_cpp/</guid>
+      <guid>//sharifmarat.github.io/articles/signed_unsigned_in_cpp/</guid>
       <description>&lt;p&gt;C++ offers signed and unsigned integer types.
 This article explains why you should avoid using unsigned types in C++.&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Switching from Drupal and Wordpress to Wintersmith</title>
-      <link>http://sharifmarat.github.io/articles/drupal_wordpress_to_wintersmith/</link>
+      <link>//sharifmarat.github.io/articles/drupal_wordpress_to_wintersmith/</link>
       <pubDate>Sun, 13 Mar 2016 00:00:00 +0000</pubDate>
       
-      <guid>http://sharifmarat.github.io/articles/drupal_wordpress_to_wintersmith/</guid>
+      <guid>//sharifmarat.github.io/articles/drupal_wordpress_to_wintersmith/</guid>
       <description>&lt;p&gt;I have been using WordPress and Drupal for a while. It worked well, but recently I have decided to switch to
 Wintersmith, static site generator.&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Setting up Raspberry Pi 3</title>
-      <link>http://sharifmarat.github.io/articles/setting_up_raspberry_pi/</link>
+      <link>//sharifmarat.github.io/articles/setting_up_raspberry_pi/</link>
       <pubDate>Mon, 07 Mar 2016 00:00:00 +0000</pubDate>
       
-      <guid>http://sharifmarat.github.io/articles/setting_up_raspberry_pi/</guid>
+      <guid>//sharifmarat.github.io/articles/setting_up_raspberry_pi/</guid>
       <description>&lt;p&gt;Recently Raspberry Pi Foundation released new version of thier product: Raspberry Pi 3.
 It has 64-bit quad-core ARM CPU and integerated wireless LAN. It is great thing to play with and I got it for myself.&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Getting admin access for Comtrend VI-3223u router</title>
-      <link>http://sharifmarat.github.io/articles/router_full_access/</link>
+      <link>//sharifmarat.github.io/articles/router_full_access/</link>
       <pubDate>Wed, 02 Mar 2016 00:00:00 +0000</pubDate>
       
-      <guid>http://sharifmarat.github.io/articles/router_full_access/</guid>
+      <guid>//sharifmarat.github.io/articles/router_full_access/</guid>
       <description>&lt;p&gt;I have got &lt;strong&gt;Comtrend VI-3223u&lt;/strong&gt; router from my ISP. Unfortunaly they do not give you full access to this router.
 Recently I have discovered that with limited access you cannot do even simple things like configuring static IP address
 in DHCP or setting up parental control. If you are interested how to get full access for this router then this article is for you.&lt;/p&gt;</description>
@@ -546,28 +546,28 @@ in DHCP or setting up parental control. If you are interested how to get full ac
     
     <item>
       <title>Contact</title>
-      <link>http://sharifmarat.github.io/contact/</link>
+      <link>//sharifmarat.github.io/contact/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://sharifmarat.github.io/contact/</guid>
+      <guid>//sharifmarat.github.io/contact/</guid>
       <description>var lower_bound = 32; //including var upper_bound = 126; //excluding var count = upper_bound - lower_bound; function scramble(str, key, scramble = true) { if (key.length == 0) return str; var scrambled = []; for (var i = 0; i = upper_bound) &amp;&amp; it = upper_bound) { c = Math.abs(c) % count + lower_bound; } scrambled.push(String.fromCharCode(c)); } } return scrambled.join(&#34;&#34;); } function unscramble(str, key) { return scramble(str, key, false); } var origValues = []; function updateInfo(event) { var key = document.</description>
     </item>
     
     <item>
       <title>Flickr Roulette</title>
-      <link>http://sharifmarat.github.io/projects/flickr_roulette/</link>
+      <link>//sharifmarat.github.io/projects/flickr_roulette/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://sharifmarat.github.io/projects/flickr_roulette/</guid>
+      <guid>//sharifmarat.github.io/projects/flickr_roulette/</guid>
       <description>function jsonFlickrApi(obj) { var p = obj.photos.photo[Math.floor(Math.random() * obj.photos.total)]; var raw_url = &#34;https://farm&#34; + p.farm + &#34;.static.flickr.com/&#34; + p.server + &#34;/&#34;+ p.id + &#34;_&#34; + p.secret + &#34;_b.jpg&#34;; var flickr_url = &#34;https://www.flickr.com/photos/&#34; + p.owner + &#34;/&#34; + p.id; document.getElementById(&#34;pic&#34;).src = raw_url; document.getElementById(&#34;source&#34;).innerText = &#34;Check the license &#34; + flickr_url + &#34; before using this photo&#34;; } function reload() { var head = document.getElementsByTagName(&#39;head&#39;)[0]; var script = document.</description>
     </item>
     
     <item>
       <title>Percolation</title>
-      <link>http://sharifmarat.github.io/projects/percolation/</link>
+      <link>//sharifmarat.github.io/projects/percolation/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://sharifmarat.github.io/projects/percolation/</guid>
+      <guid>//sharifmarat.github.io/projects/percolation/</guid>
       <description>Imagine the grid where every pixel is open with some probability p. What is the probability to get from left side of the grid to right via open pixels (site percolation)?
 
 **Result**:  Probability to enable a pixel (0 to 100):  Pixel size: 1 2 4 8 10 20 40  Note: If you want to get an idea of critical percolation threshold (high probability that long-range connectivity occurs), it is possible to run multiple iterations for all probabilities (0 to 100) and calculate how many times long-range connectivity occured.</description>
@@ -575,10 +575,10 @@ in DHCP or setting up parental control. If you are interested how to get full ac
     
     <item>
       <title>Projects</title>
-      <link>http://sharifmarat.github.io/projects/all/</link>
+      <link>//sharifmarat.github.io/projects/all/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://sharifmarat.github.io/projects/all/</guid>
+      <guid>//sharifmarat.github.io/projects/all/</guid>
       <description>LongWarn A tiny shell script to fail a job and trigger a notification if a cronjob takes longer than desired.
 If a job takes longer than expected, for example a backup job usually takes a few seconds, For example a backup job usually runs under 1 minute. If you want to get notified when this job runs longer, just add it to crontab:
 MAILTO=monitoring@example.com 11 11 * * * longwarn 60 backup.</description>
