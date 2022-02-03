@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dockerized email // Marat Sharifullin</title>
+
+        <meta charset="utf-8">
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="author" content="">
+        <meta property="og:title" content="Dockerized email" />
+    <meta property="og:description" content="" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:url" content="//sharifmarat.github.io/articles/dockerized_email/" />
+    
+
+    <link href="" rel="alternate" type="application/rss+xml" title="Marat Sharifullin" />
+    <link rel="shortcut icon" href="/favicon.ico">
+
+    <link href="//sharifmarat.github.io/webfonts/ptserif/main.css" rel='stylesheet' type='text/css'>
+    <link href="//sharifmarat.github.io/webfonts/source-code-pro/main.css" rel="stylesheet" type="text/css">
+    
+    <link rel="stylesheet" href="//sharifmarat.github.io/css/style.css">
+
+    <link href="http://gmpg.org/xfn/11" rel="profile">
+
+    
+
+    <meta name="generator" content="Hugo 0.92.1" />
+</head>
+
+
+<body>
+<div id="container">
+    
+<div class="banner" style="padding:15px; text-align:center; background-color:#bb3434">
+    <div class="banner-content">
+        This is a copy or a backup of <a href="https://ifnull.org" class="btn btn-primary">ifnull.org</a>.
+    </div>
+</div>
+
+
+<header id="header">
+    <div id="header-outer" class="outer">
+        <div id="header-inner" class="inner">
+            <a id="main-nav-toggle" class="nav-icon" href="javascript:;"></a>
+            <a id="logo" class="logo-text" href="//sharifmarat.github.io">Marat Sharifullin</a>
+            <nav id="main-nav">
+                
+                <a class="main-nav-link" href="/">Blog</a>
+                
+                <a class="main-nav-link" href="/projects/all/">Projects</a>
+                
+                <a class="main-nav-link" href="/archive/">Archive</a>
+                
+                <a class="main-nav-link" href="/mabsurdation/">Mabsurdation</a>
+                
+                <a class="main-nav-link" href="/gallery/public/">Gallery</a>
+                
+                <a class="main-nav-link" href="/contact/">Contact</a>
+                
+            </nav>
+            <nav id="sub-nav">
+                <div id="search-form-wrap">
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+
+    <section id="main" class="outer">
+        <article class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        <header class="article-header">
+            <h1 class="article-title" itemprop="name">Dockerized email</h1>
+        </header>
+        
+        <div class="article-meta">
+	    
+                <a href="/articles/dockerized_email/" class="article-date">
+                    <time datetime='2022-02-03T00:00:00.000&#43;00:00' itemprop="datePublished">2022-02-03</time>
+                </a>
+	    
+            
+            
+	    
+            <div class="article-comment-link-wrap">
+                <a href="/articles/dockerized_email/#disqus_thread" class="article-comment-link">Comments</a>
+            </div>
+            
+        </div>
+        <div class="article-entry" itemprop="articleBody">
+            <p>I&rsquo;ve been running my personal email server for almost 6 years.
+The initial setup was on &ldquo;bare metal&rdquo;. Afterwards only little maintenance time was needed.
+Recently I decided to reduce number of servers and moved to another provider.
+To avoid migrating &ldquo;bare metal&rdquo; setup, I dockerized it. It is still not very easy to use compared to existing solutions, but works for my scale.</p>
+<p>The dockerized image source is on <a href="https://github.com/sharifmarat/docker-email">GitHub</a> and supports:</p>
+<ul>
+<li><code>postfix</code> with virtual users based on file setup</li>
+<li><code>dovecot</code> for imap, auth and <code>sieve</code> for filtering</li>
+<li>encrypted mail directories by default for all users with <code>mail-crypt-plugin</code></li>
+<li><code>spamassassin</code> for spam filtering</li>
+<li>DKIM optionally</li>
+</ul>
+<h2 id="runit-to-supervise-multiple-docker-processes">Runit to supervise multiple docker processes</h2>
+<p>When I was dockerizing all email related service, I was not aware of the best docker practices to make a single image with multiple services,
+but run them in separate containers. At that time I decided to make a single container to supervise multiple processes in a single docker container.
+<code>runit</code> init system was used. Most of the services was easy to add, but postfix required a special attention due to isolation. The final list of services:</p>
+<pre tabindex="0"><code># cat /service/postfix/run 
+#!/bin/bash
+/usr/lib/postfix/configure-instance.sh postfix
+exec /usr/lib/postfix/sbin/master
+
+# cat /service/cron/run
+#!/bin/bash
+exec cron -f
+
+# cat /service/dovecot/run
+#!/bin/bash
+exec dovecot -F
+
+# cat /service/opendkim/run
+#!/bin/bash
+exec opendkim -x /etc/opendkim.conf -f
+
+# cat /service/rsyslog/run
+#!/bin/bash
+exec rsyslogd -n
+
+# cat /service/spamassassin/run
+#!/bin/bash
+exec spamd --max-children 5
+</code></pre><p>In the future I am planning to split these service into multiple containers according to the best docker practices.</p>
+<h2 id="virtual-users-domains-and-aliases">Virtual users, domains and aliases</h2>
+<p>A few files have to be mounted for proper setup:</p>
+<ul>
+<li><code>virtual_domains</code> which contains list of domains for virtual transport</li>
+<li><code>virtual_boxes</code> describes accounts for the virtual transport</li>
+<li><code>virtual_aliases</code> adds additional aliases</li>
+</ul>
+<h3 id="encrypted-mailboxes">Encrypted mailboxes</h3>
+<p>All mailboxes are encrypted by default with dovecot <code>mail-crypt</code> plugin. <code>/etc/dovecot/users</code> is used to configure user passwords.
+To generate a new password you can use</p>
+<pre tabindex="0"><code>doveadm pw -s SHA512-CRYPT -p &quot;&lt;PASSWORD&gt;&quot;
+</code></pre><p><strong>NOTE:</strong> If user&rsquo;s password is lost, mailbox cannot be decrypted anymore</p>
+<p>To change user&rsquo;s password it is not enough to change it in <code>/etc/dovecot/users</code>. Prevoius email won&rsquo;t be possible to decrypt anymore.
+To set new password for the private key run:</p>
+<pre tabindex="0"><code>doveadm mailbox cryptokey password -u &quot;$user&quot; -n &quot;$password_new1&quot; -o &quot;$password_old&quot;
+</code></pre><h2 id="certificates">Certificates</h2>
+<p>To support renewable certificates it is better to mount the whole folder and provide <code>CERT_LOCATION</code> and <code>CERT_KEY_LOCATION</code>.
+If you mount files directly, inode might change during certificate renewal and postfix/dovecot won&rsquo;t be able to use new cert until container is restarted.</p>
+<h2 id="dkim">DKIM</h2>
+<p>DKIM setup is not trivial and requires manual setup of private and public keys for all your virtual domains.
+Later I plan to simplify it.</p>
+<h2 id="with-docker">With docker</h2>
+<p>To run this container with docker:</p>
+<pre tabindex="0"><code>docker run -d \
+    -e MAILNAME=example.com \
+    -e DKIM_ENABLED=true \
+    -e CERT_LOCATION=/etc/letsencrypt/live/mx.example.com/fullchain.pem \
+    -e CERT_KEY_LOCATION=/etc/letsencrypt/live/mx.example.com/privkey.pem \
+    -p 25:25 \
+    -p 143:143 \
+    -p 587:587 \
+    -v /etc/letsencrypt/live/example.com:/etc/letsencrypt/live/mx.example.com:ro \
+    -v /etc/letsencrypt/live/example.com:/etc/letsencrypt/archive/mx.example.com:ro \
+    -v /path/to/dkim:/etc/opendkim \
+    -v /path/to/mail:/mail \
+    -v /path/to/users:/etc/dovecot/users \
+    -v /path/to/virtual_domains:/etc/postfix/virtual_domains \
+    -v /path/to/virtual_accounts:/etc/postfix/virtual_boxes \
+    -v /path/to/virtual_aliases:/etc/postfix/virtual_aliases \
+    postfix-dovecot
+</code></pre><h2 id="with-docker-compose">With docker-compose</h2>
+<p>To run this container with docker-compose:</p>
+<pre tabindex="0"><code>  myemail:
+    container_name: myemail
+    hostname: myemail
+    image: postfix-dovecot
+    volumes:
+      - /etc/letsencrypt/live/mx.example.com:/etc/letsencrypt/live/mx.example.com:ro
+      - /etc/letsencrypt/archive/mx.example.com:/etc/letsencrypt/archive/mx.example.com:ro
+      - /path/to/dkim:/etc/opendkim
+      - /path/to/mail:/mail
+      - /path/to/users:/etc/dovecot/users
+      - /path/to/virtual_domains:/etc/postfix/virtual_domains
+      - /path/to/virtual_accounts:/etc/postfix/virtual_boxes
+      - /path/to/virtual_aliases:/etc/postfix/virtual_aliases
+    environment:
+      - MAILNAME=example.com
+      - DKIM_ENABLED=true
+      - CERT_LOCATION=/etc/letsencrypt/live/mx.example.com/fullchain.pem
+      - CERT_KEY_LOCATION=/etc/letsencrypt/live/mx.example.com/privkey.pem
+    ports:
+      - 25:25
+      - 143:143
+      - 587:587
+    networks:
+      my_net:
+        aliases:
+          - mx.example.com
+    restart: unless-stopped
+</code></pre>
+        </div>
+
+        
+        
+        <div class="article-toc" >
+            <h3></h3>
+            <nav id="TableOfContents">
+  <ul>
+    <li><a href="#runit-to-supervise-multiple-docker-processes">Runit to supervise multiple docker processes</a></li>
+    <li><a href="#virtual-users-domains-and-aliases">Virtual users, domains and aliases</a>
+      <ul>
+        <li><a href="#encrypted-mailboxes">Encrypted mailboxes</a></li>
+      </ul>
+    </li>
+    <li><a href="#certificates">Certificates</a></li>
+    <li><a href="#dkim">DKIM</a></li>
+    <li><a href="#with-docker">With docker</a></li>
+    <li><a href="#with-docker-compose">With docker-compose</a></li>
+  </ul>
+</nav>
+        </div>
+        
+        
+
+        
+
+
+        
+    </div>
+</article>
+
+        
+            
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    var disqus_shortname = 'ifnull';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com/" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+        
+    </section>
+    <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            &copy; 2022 Marat Sharifullin&nbsp;
+            Powered by <a href="https://gohugo.io" target="_blank">Hugo</a> with theme <a href="https://github.com/carsonip/hugo-theme-minos">Minos</a>
+        </div>
+    </div>
+    
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/styles/tomorrow-night.min.css" integrity="sha256-2wL88NKUqvJi/ExflDzkzUumjUM73mcK2gBvBBeLvTk=" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/highlight.min.js" integrity="sha256-KbfTjB0WZ8vvXngdpJGY3Yp3xKk+tttbqClO11anCIU=" crossorigin="anonymous"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+
+    
+    <script>
+        document.getElementById('main-nav-toggle').addEventListener('click', function () {
+            var header = document.getElementById('header');
+            if (header.classList.contains('mobile-on')) {
+                header.classList.remove('mobile-on');
+            } else {
+                header.classList.add('mobile-on');
+            }
+        });
+    </script>
+</footer>
+</div>
+</body>
+</html>

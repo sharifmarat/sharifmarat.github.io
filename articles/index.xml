@@ -6,7 +6,19 @@
     <description>Recent content in Articles on Marat Sharifullin</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 30 Dec 2021 00:00:00 +0000</lastBuildDate><atom:link href="//sharifmarat.github.io/articles/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 03 Feb 2022 00:00:00 +0000</lastBuildDate><atom:link href="//sharifmarat.github.io/articles/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Dockerized email</title>
+      <link>//sharifmarat.github.io/articles/dockerized_email/</link>
+      <pubDate>Thu, 03 Feb 2022 00:00:00 +0000</pubDate>
+      
+      <guid>//sharifmarat.github.io/articles/dockerized_email/</guid>
+      <description>&lt;p&gt;I&amp;rsquo;ve been running my personal email server for almost 6 years.
+The initial setup was on &amp;ldquo;bare metal&amp;rdquo;. Afterwards only little maintenance time was needed.
+Recently I decided to reduce number of servers and moved to another provider.
+To avoid migrating &amp;ldquo;bare metal&amp;rdquo; setup, I dockerized it. It is still not very easy to use compared to existing solutions, but works for my scale.&lt;/p&gt;</description>
+    </item>
+    
     <item>
       <title>Improved way to run cron</title>
       <link>//sharifmarat.github.io/articles/longwarn/</link>

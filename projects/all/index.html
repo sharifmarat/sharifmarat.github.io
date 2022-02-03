@@ -85,7 +85,26 @@
 	    
         </div>
         <div class="article-entry" itemprop="articleBody">
-            <h1 id="longwarn">LongWarn</h1>
+            <h2 id="dockerized-email">Dockerized email</h2>
+<p>Managing my own email server with the following setup.
+<a href="/articles/dockerized_email/">Read here</a> for more details.</p>
+<p>Source of the docker image is on <a href="https://github.com/sharifmarat/docker-email">GitHub</a>.</p>
+<h2 id="web-10-version-of-wordlelingo">Web 1.0 version of Wordle/Lingo</h2>
+<p>Web 1.0 (no react and fancy stuff) clone of wordle/lingo supporting 4 languages:</p>
+<ul>
+<li>English</li>
+<li>Dutch</li>
+<li>Russian</li>
+<li>Tatar</li>
+</ul>
+<p><a href="https://ifnull.org/wordnl/?lang=en"><strong>Play here</strong></a> or <a href="https://sharifmarat.github.io/lingo/?lang=en"><strong>here</strong></a>.</p>
+<p>Sources are on <a href="https://github.com/sharifmarat/lingo">GitHub</a>.</p>
+<p>Auto solver is part of the game:</p>
+<ul>
+<li>When the field is empty, click 3 times on DEL, followed by 3 clicks on ENTER.</li>
+<li>Or execute solve() in browser console.</li>
+</ul>
+<h2 id="longwarn">LongWarn</h2>
 <p>A tiny shell script to fail a job and trigger a notification if a cronjob takes longer than desired.</p>
 <p>If a job takes longer than expected, for example a backup job usually takes a few seconds,
 For example a backup job usually runs under 1 minute.
@@ -94,23 +113,23 @@ If you want to get notified when this job runs longer, just add it to crontab:</
 <span style="color:#ae81ff">11</span> <span style="color:#ae81ff">11</span> * * * longwarn <span style="color:#ae81ff">60</span> backup.sh
 </code></pre></div><p>How to install:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wget https://raw.githubusercontent.com/sharifmarat/longwarn/master/longwarn -O /usr/local/bin/longwarn
-</code></pre></div><p><a href="https://github.com/sharifmarat/longwarn">Github for more details</a>.</p>
+</code></pre></div><p><a href="https://github.com/sharifmarat/longwarn">GitHub for more details</a>.</p>
 <hr>
-<h1 id="flickr-roulette">Flickr roulette</h1>
+<h2 id="flickr-roulette">Flickr roulette</h2>
 <p>See a random (not completely random) photo on the <a href="/projects/flickr_roulette/">Flickr roulette</a>.</p>
 <p><a href="/articles/flickr_roulette/">For more details</a>.</p>
 <hr>
-<h1 id="site-percolation">Site percolation</h1>
+<h2 id="site-percolation">Site percolation</h2>
 <p><a href="/projects/percolation/">Simulation of percolation theory</a> to find if there is a path
 connecting left side of the grid to the right side via open pixels and to estimate
 percolation threshold (site percolation).</p>
 <img src="/projects/percolation_example.png" alt="Drawing" style="width: 300px; display: block; margin: 0 auto;" />
 <p><a href="/articles/percolation/">For more details</a>.</p>
 <hr>
-<h1 id="animated-svg-viewer">Animated svg viewer</h1>
+<h2 id="animated-svg-viewer">Animated svg viewer</h2>
 <p>Simple <a href="/projects/svgviewer/">svg viewer</a> which can load multiple svgs and animate them one after another</p>
 <hr>
-<h1 id="c-bindings-generator-from-fortran">C-bindings generator from Fortran</h1>
+<h2 id="c-bindings-generator-from-fortran">C-bindings generator from Fortran</h2>
 <p>It was written to automate generation of C bindings for Fortran,
 source code can be found <a href="https://github.com/sharifmarat/fortran_to_c_headers">here</a>.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Fortran" data-lang="Fortran"><span style="color:#75715e">! Example of input Fortran90 code:
@@ -147,7 +166,17 @@ source code can be found <a href="https://github.com/sharifmarat/fortran_to_c_he
         
         <div class="article-toc" >
             <h3></h3>
-            <nav id="TableOfContents"></nav>
+            <nav id="TableOfContents">
+  <ul>
+    <li><a href="#dockerized-email">Dockerized email</a></li>
+    <li><a href="#web-10-version-of-wordlelingo">Web 1.0 version of Wordle/Lingo</a></li>
+    <li><a href="#longwarn">LongWarn</a></li>
+    <li><a href="#flickr-roulette">Flickr roulette</a></li>
+    <li><a href="#site-percolation">Site percolation</a></li>
+    <li><a href="#animated-svg-viewer">Animated svg viewer</a></li>
+    <li><a href="#c-bindings-generator-from-fortran">C-bindings generator from Fortran</a></li>
+  </ul>
+</nav>
         </div>
         
         

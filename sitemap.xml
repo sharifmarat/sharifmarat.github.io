@@ -3,12 +3,15 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>//sharifmarat.github.io/articles/</loc>
-    <lastmod>2021-12-30T00:00:00+00:00</lastmod>
+    <lastmod>2022-02-03T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>//sharifmarat.github.io/articles/longwarn/</loc>
-    <lastmod>2021-12-30T00:00:00+00:00</lastmod>
+    <loc>//sharifmarat.github.io/articles/dockerized_email/</loc>
+    <lastmod>2022-02-03T00:00:00+00:00</lastmod>
   </url><url>
     <loc>//sharifmarat.github.io/</loc>
+    <lastmod>2022-02-03T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>//sharifmarat.github.io/articles/longwarn/</loc>
     <lastmod>2021-12-30T00:00:00+00:00</lastmod>
   </url><url>
     <loc>//sharifmarat.github.io/articles/gallery_generator_nextcloud_tags/</loc>
