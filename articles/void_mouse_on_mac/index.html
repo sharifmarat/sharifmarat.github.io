@@ -16,7 +16,6 @@
     <meta property="og:url" content="//sharifmarat.github.io/articles/void_mouse_on_mac/" />
     
 
-    <link href="" rel="alternate" type="application/rss+xml" title="Marat Sharifullin" />
     <link rel="shortcut icon" href="/favicon.ico">
 
     <link href="//sharifmarat.github.io/webfonts/ptserif/main.css" rel='stylesheet' type='text/css'>
@@ -28,7 +27,7 @@
 
     
 
-    <meta name="generator" content="Hugo 0.92.1" />
+    <meta name="generator" content="Hugo 0.111.3">
 </head>
 
 
@@ -97,10 +96,10 @@
 <p>Add kernel module <code>bcm5974</code> to kernel&rsquo;s initramfs:</p>
 <pre tabindex="0"><code>sudo dracut --force --add-drivers bcm5974
 </code></pre><p>Update dracut configuration files to include this module when building initramfs:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sudo sh -c <span style="color:#e6db74">&#39;cat &lt;&lt;EOF &gt;/etc/dracut.conf.d/touchpad.conf
-</span><span style="color:#e6db74">add_drivers+=&#34;bcm5974&#34;
-</span><span style="color:#e6db74">EOF&#39;</span>
-</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ sudo sh -c <span style="color:#e6db74">&#39;cat &lt;&lt;EOF &gt;/etc/dracut.conf.d/touchpad.conf
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">add_drivers+=&#34;bcm5974&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">EOF&#39;</span>
+</span></span></code></pre></div>
         </div>
 
         
@@ -139,7 +138,7 @@
     <footer id="footer">
     <div class="outer">
         <div id="footer-info" class="inner">
-            &copy; 2022 Marat Sharifullin&nbsp;
+            &copy; 2023 Marat Sharifullin&nbsp;
             Powered by <a href="https://gohugo.io" target="_blank">Hugo</a> with theme <a href="https://github.com/carsonip/hugo-theme-minos">Minos</a>
         </div>
     </div>

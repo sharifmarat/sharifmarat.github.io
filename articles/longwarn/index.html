@@ -16,7 +16,6 @@
     <meta property="og:url" content="//sharifmarat.github.io/articles/longwarn/" />
     
 
-    <link href="" rel="alternate" type="application/rss+xml" title="Marat Sharifullin" />
     <link rel="shortcut icon" href="/favicon.ico">
 
     <link href="//sharifmarat.github.io/webfonts/ptserif/main.css" rel='stylesheet' type='text/css'>
@@ -28,7 +27,7 @@
 
     
 
-    <meta name="generator" content="Hugo 0.92.1" />
+    <meta name="generator" content="Hugo 0.111.3">
 </head>
 
 
@@ -96,10 +95,10 @@
             <p>Systemd timers is an interesting alternative, but I still prefer <code>crontab</code> over it to run periodic jobs on my servers.
 To make it a bit more reliable I just chain a few commands like <code>cronic</code>, <code>longwarn</code> and <code>flock</code>.</p>
 <p>My usual crontab looks something like this:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">MAILTO<span style="color:#f92672">=</span>scripts
-
-<span style="color:#ae81ff">14</span>  *  *  *  * cronic longwarn  <span style="color:#ae81ff">600</span> flock -n /run/lock/my-script.lock /run/some/script.sh
-</code></pre></div><p><code>MAILTO</code> is an address to which I receive an email if something fails on a scheduled job. I also have a hook to send a message via telegram bot in certain cases.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>MAILTO<span style="color:#f92672">=</span>scripts
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">14</span>  *  *  *  * cronic longwarn  <span style="color:#ae81ff">600</span> flock -n /run/lock/my-script.lock /run/some/script.sh
+</span></span></code></pre></div><p><code>MAILTO</code> is an address to which I receive an email if something fails on a scheduled job. I also have a hook to send a message via telegram bot in certain cases.</p>
 <p><code>cronic</code> helps to avoid unwanted emails from cron. It only sends a message if a script returned non-zero result code or had any error output.
 That allows to have scripts with standard output in <code>crontab</code>. If something goes wrong, you will see full output (and not something with a quiet option).</p>
 <p><code>longwarn</code> changes a return code from success to error if a script takes too long to run.
@@ -145,7 +144,7 @@ By default I do not allow two parallel executions on the same job.</p>
     <footer id="footer">
     <div class="outer">
         <div id="footer-info" class="inner">
-            &copy; 2022 Marat Sharifullin&nbsp;
+            &copy; 2023 Marat Sharifullin&nbsp;
             Powered by <a href="https://gohugo.io" target="_blank">Hugo</a> with theme <a href="https://github.com/carsonip/hugo-theme-minos">Minos</a>
         </div>
     </div>

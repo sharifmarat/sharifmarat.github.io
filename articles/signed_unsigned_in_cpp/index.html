@@ -16,7 +16,6 @@
     <meta property="og:url" content="//sharifmarat.github.io/articles/signed_unsigned_in_cpp/" />
     
 
-    <link href="" rel="alternate" type="application/rss+xml" title="Marat Sharifullin" />
     <link rel="shortcut icon" href="/favicon.ico">
 
     <link href="//sharifmarat.github.io/webfonts/ptserif/main.css" rel='stylesheet' type='text/css'>
@@ -28,7 +27,7 @@
 
     
 
-    <meta name="generator" content="Hugo 0.92.1" />
+    <meta name="generator" content="Hugo 0.111.3">
 </head>
 
 
@@ -114,24 +113,24 @@ to the type of the operand with signed integer type.</p>
 <h3 id="example">Example</h3>
 <p>If you do not understand it fully it could cause big issues in the code.
 Imagine the following function:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-C++" data-lang="C++"><span style="color:#75715e">//! \return mean of some variable which is always positive.
-</span><span style="color:#75715e">//! The result is always positive.
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">int32_t</span> <span style="color:#a6e22e">GetMean</span>();
-</code></pre></div><p>Then a new developer comes and thinks: &ldquo;Why does this function return signed integer if comments says that it cannot be negative?&rdquo;
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C++" data-lang="C++"><span style="display:flex;"><span><span style="color:#75715e">//! \return mean of some variable which is always positive.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">//! The result is always positive.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">int32_t</span> <span style="color:#a6e22e">GetMean</span>();
+</span></span></code></pre></div><p>Then a new developer comes and thinks: &ldquo;Why does this function return signed integer if comments says that it cannot be negative?&rdquo;
 And he changes this function to return unsigned integer:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-C++" data-lang="C++"><span style="color:#66d9ef">uint32_t</span> <span style="color:#a6e22e">GetMean</span>();
-</code></pre></div><p>Looks like it is not a big deal. But then the program starts producing wrong results under certain circumstances.
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C++" data-lang="C++"><span style="display:flex;"><span><span style="color:#66d9ef">uint32_t</span> <span style="color:#a6e22e">GetMean</span>();
+</span></span></code></pre></div><p>Looks like it is not a big deal. But then the program starts producing wrong results under certain circumstances.
 It even crashes sometimes.</p>
 <p>Why did it stop working properly? To answer this question, imagine the code which uses <code>GetMean</code> function:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-C++" data-lang="C++"><span style="color:#66d9ef">double</span> weightedDeviationFromMean <span style="color:#f92672">=</span> (GetMean() <span style="color:#f92672">-</span> <span style="color:#ae81ff">4</span>) <span style="color:#f92672">/</span> <span style="color:#ae81ff">6.0</span>;
-</code></pre></div><p>Let&rsquo;s say that <code>GetMean()</code> returns 1. Then we can evaluate how would the result of <code>weightedDeviationFromMean</code> change</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-C++" data-lang="C++"><span style="color:#66d9ef">int32_t</span> <span style="color:#a6e22e">GetMean</span>() { <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">1</span>; }
-<span style="color:#66d9ef">double</span> weightedDeviationFromMean <span style="color:#f92672">=</span> (GetMean() <span style="color:#f92672">-</span> <span style="color:#ae81ff">4</span>) <span style="color:#f92672">/</span> <span style="color:#ae81ff">6.0</span>;
-<span style="color:#75715e">// weightedDeviationFromMean = -0.5
-</span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-C++" data-lang="C++"><span style="color:#66d9ef">uint32_t</span> <span style="color:#a6e22e">GetMean</span>() { <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">1</span>; }
-<span style="color:#66d9ef">double</span> weightedDeviationFromMean <span style="color:#f92672">=</span> (GetMean() <span style="color:#f92672">-</span> <span style="color:#ae81ff">4</span>) <span style="color:#f92672">/</span> <span style="color:#ae81ff">6.0</span>;
-<span style="color:#75715e">// weightedDeviationFromMean = 7.15828e+08
-</span></code></pre></div><p>As you can see the result is significantly different (and wrong)
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C++" data-lang="C++"><span style="display:flex;"><span><span style="color:#66d9ef">double</span> weightedDeviationFromMean <span style="color:#f92672">=</span> (GetMean() <span style="color:#f92672">-</span> <span style="color:#ae81ff">4</span>) <span style="color:#f92672">/</span> <span style="color:#ae81ff">6.0</span>;
+</span></span></code></pre></div><p>Let&rsquo;s say that <code>GetMean()</code> returns 1. Then we can evaluate how would the result of <code>weightedDeviationFromMean</code> change</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C++" data-lang="C++"><span style="display:flex;"><span><span style="color:#66d9ef">int32_t</span> <span style="color:#a6e22e">GetMean</span>() { <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">1</span>; }
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">double</span> weightedDeviationFromMean <span style="color:#f92672">=</span> (GetMean() <span style="color:#f92672">-</span> <span style="color:#ae81ff">4</span>) <span style="color:#f92672">/</span> <span style="color:#ae81ff">6.0</span>;
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// weightedDeviationFromMean = -0.5
+</span></span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C++" data-lang="C++"><span style="display:flex;"><span><span style="color:#66d9ef">uint32_t</span> <span style="color:#a6e22e">GetMean</span>() { <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">1</span>; }
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">double</span> weightedDeviationFromMean <span style="color:#f92672">=</span> (GetMean() <span style="color:#f92672">-</span> <span style="color:#ae81ff">4</span>) <span style="color:#f92672">/</span> <span style="color:#ae81ff">6.0</span>;
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// weightedDeviationFromMean = 7.15828e+08
+</span></span></span></code></pre></div><p>As you can see the result is significantly different (and wrong)
 after changing the return type of <code>GetMean</code> function to unsigned integer.
 The reason is that the compiler implicitly converts 4 to unsigned integer because of <code>GetMean</code> return type.
 And it expands expression inside parenthesis to <code>1u - 4u</code> which is equal to <code>4294967293u</code> due to integer underflow.</p>
@@ -186,7 +185,7 @@ Or at least try to think of possible consequences of unsigned types.</p>
     <footer id="footer">
     <div class="outer">
         <div id="footer-info" class="inner">
-            &copy; 2022 Marat Sharifullin&nbsp;
+            &copy; 2023 Marat Sharifullin&nbsp;
             Powered by <a href="https://gohugo.io" target="_blank">Hugo</a> with theme <a href="https://github.com/carsonip/hugo-theme-minos">Minos</a>
         </div>
     </div>

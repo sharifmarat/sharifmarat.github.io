@@ -16,7 +16,6 @@
     <meta property="og:url" content="//sharifmarat.github.io/articles/realtime_trains/" />
     
 
-    <link href="" rel="alternate" type="application/rss+xml" title="Marat Sharifullin" />
     <link rel="shortcut icon" href="/favicon.ico">
 
     <link href="//sharifmarat.github.io/webfonts/ptserif/main.css" rel='stylesheet' type='text/css'>
@@ -28,7 +27,7 @@
 
     
 
-    <meta name="generator" content="Hugo 0.92.1" />
+    <meta name="generator" content="Hugo 0.111.3">
 </head>
 
 
@@ -110,31 +109,31 @@ Your browser does not support the video tag.
 <p>1.Got access to NS API</p>
 <p>2.Mapped all train stations which includes stations both within the Netherlands and outside.
 Example of response containing information with traion stations:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;Station&gt;</span>
- <span style="color:#f92672">&lt;Code&gt;</span>HLM<span style="color:#f92672">&lt;/Code&gt;</span>
- <span style="color:#f92672">&lt;Type&gt;</span>knooppuntIntercitystation<span style="color:#f92672">&lt;/Type&gt;</span>
- <span style="color:#f92672">&lt;Namen&gt;</span>
-  <span style="color:#f92672">&lt;Kort&gt;</span>Haarlem<span style="color:#f92672">&lt;/Kort&gt;&lt;Middel&gt;</span>Haarlem<span style="color:#f92672">&lt;/Middel&gt;&lt;Lang&gt;</span>Haarlem<span style="color:#f92672">&lt;/Lang&gt;</span>
- <span style="color:#f92672">&lt;/Namen&gt;</span>
- <span style="color:#f92672">&lt;Land&gt;</span>NL<span style="color:#f92672">&lt;/Land&gt;</span>
- <span style="color:#f92672">&lt;UICCode&gt;</span>8400285<span style="color:#f92672">&lt;/UICCode&gt;</span>
- <span style="color:#f92672">&lt;Lat&gt;</span>52.3877792358398<span style="color:#f92672">&lt;/Lat&gt;</span>
- <span style="color:#f92672">&lt;Lon&gt;</span>4.63833332061768<span style="color:#f92672">&lt;/Lon&gt;</span>
-<span style="color:#f92672">&lt;/Station&gt;</span>
-</code></pre></div><p>3.Filter out non-Dutch train stations.
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span><span style="color:#f92672">&lt;Station&gt;</span>
+</span></span><span style="display:flex;"><span> <span style="color:#f92672">&lt;Code&gt;</span>HLM<span style="color:#f92672">&lt;/Code&gt;</span>
+</span></span><span style="display:flex;"><span> <span style="color:#f92672">&lt;Type&gt;</span>knooppuntIntercitystation<span style="color:#f92672">&lt;/Type&gt;</span>
+</span></span><span style="display:flex;"><span> <span style="color:#f92672">&lt;Namen&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&lt;Kort&gt;</span>Haarlem<span style="color:#f92672">&lt;/Kort&gt;&lt;Middel&gt;</span>Haarlem<span style="color:#f92672">&lt;/Middel&gt;&lt;Lang&gt;</span>Haarlem<span style="color:#f92672">&lt;/Lang&gt;</span>
+</span></span><span style="display:flex;"><span> <span style="color:#f92672">&lt;/Namen&gt;</span>
+</span></span><span style="display:flex;"><span> <span style="color:#f92672">&lt;Land&gt;</span>NL<span style="color:#f92672">&lt;/Land&gt;</span>
+</span></span><span style="display:flex;"><span> <span style="color:#f92672">&lt;UICCode&gt;</span>8400285<span style="color:#f92672">&lt;/UICCode&gt;</span>
+</span></span><span style="display:flex;"><span> <span style="color:#f92672">&lt;Lat&gt;</span>52.3877792358398<span style="color:#f92672">&lt;/Lat&gt;</span>
+</span></span><span style="display:flex;"><span> <span style="color:#f92672">&lt;Lon&gt;</span>4.63833332061768<span style="color:#f92672">&lt;/Lon&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;/Station&gt;</span>
+</span></span></code></pre></div><p>3.Filter out non-Dutch train stations.
 There are approximately 400 train stations in the Netherlands (according to NS API).</p>
 <p>4.Run a crontab script to collect departure times at every station hourly:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#66d9ef">for</span> station in <span style="color:#e6db74">`</span>cat stations_codes_nl.txt<span style="color:#e6db74">`</span>; <span style="color:#66d9ef">do</span>
-  timestamp<span style="color:#f92672">=</span><span style="color:#e6db74">`</span>date +<span style="color:#e6db74">&#34;%Y_%m_%d_%H_%M&#34;</span><span style="color:#e6db74">`</span>
-  filename<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;results/</span>$station<span style="color:#e6db74">/timetable-</span>$station<span style="color:#e6db74">-</span>$timestamp<span style="color:#e6db74">.xml&#34;</span>
-  curl --user LOGIN:PSWD https://webservices.ns.nl/ns-api-avt?station<span style="color:#f92672">=</span>$station &gt; $filename
-<span style="color:#66d9ef">done</span>
-</code></pre></div><p>5.It produces lots of files with departure information, e.g.:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;RitNummer&gt;</span>2233<span style="color:#f92672">&lt;/RitNummer&gt;</span> <span style="color:#75715e">&lt;!-- train number, unique within the same day --&gt;</span>
-<span style="color:#f92672">&lt;VertrekTijd&gt;</span>2017-05-16T10:10:00+0200<span style="color:#f92672">&lt;/VertrekTijd&gt;</span>  <span style="color:#75715e">&lt;!-- departure time from this station --&gt;</span>
-<span style="color:#f92672">&lt;EindBestemming&gt;</span>Amsterdam Centraal<span style="color:#f92672">&lt;/EindBestemming&gt;</span> <span style="color:#75715e">&lt;!-- the final destination --&gt;</span>
-<span style="color:#f92672">&lt;TreinSoort&gt;</span>Intercity<span style="color:#f92672">&lt;/TreinSoort&gt;</span> <span style="color:#75715e">&lt;!-- train type --&gt;</span>
-</code></pre></div><p>6.Find all trains on that day (grepping RitNummer)</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#66d9ef">for</span> station in <span style="color:#e6db74">`</span>cat stations_codes_nl.txt<span style="color:#e6db74">`</span>; <span style="color:#66d9ef">do</span>
+</span></span><span style="display:flex;"><span>  timestamp<span style="color:#f92672">=</span><span style="color:#e6db74">`</span>date +<span style="color:#e6db74">&#34;%Y_%m_%d_%H_%M&#34;</span><span style="color:#e6db74">`</span>
+</span></span><span style="display:flex;"><span>  filename<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;results/</span>$station<span style="color:#e6db74">/timetable-</span>$station<span style="color:#e6db74">-</span>$timestamp<span style="color:#e6db74">.xml&#34;</span>
+</span></span><span style="display:flex;"><span>  curl --user LOGIN:PSWD https://webservices.ns.nl/ns-api-avt?station<span style="color:#f92672">=</span>$station &gt; $filename
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">done</span>
+</span></span></code></pre></div><p>5.It produces lots of files with departure information, e.g.:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span><span style="color:#f92672">&lt;RitNummer&gt;</span>2233<span style="color:#f92672">&lt;/RitNummer&gt;</span> <span style="color:#75715e">&lt;!-- train number, unique within the same day --&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;VertrekTijd&gt;</span>2017-05-16T10:10:00+0200<span style="color:#f92672">&lt;/VertrekTijd&gt;</span>  <span style="color:#75715e">&lt;!-- departure time from this station --&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;EindBestemming&gt;</span>Amsterdam Centraal<span style="color:#f92672">&lt;/EindBestemming&gt;</span> <span style="color:#75715e">&lt;!-- the final destination --&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;TreinSoort&gt;</span>Intercity<span style="color:#f92672">&lt;/TreinSoort&gt;</span> <span style="color:#75715e">&lt;!-- train type --&gt;</span>
+</span></span></code></pre></div><p>6.Find all trains on that day (grepping RitNummer)</p>
 <p>7.Reconstruct a route (array with pairs of station/departure time) for every train.</p>
 <p>8.Interpolate train movements between stations</p>
 <p>9.Place them on the map and make lots of pngs (thanks to python + basemap)</p>
@@ -192,7 +191,7 @@ final destination. Can be fixed with extrapolation on the last segment.</p>
     <footer id="footer">
     <div class="outer">
         <div id="footer-info" class="inner">
-            &copy; 2022 Marat Sharifullin&nbsp;
+            &copy; 2023 Marat Sharifullin&nbsp;
             Powered by <a href="https://gohugo.io" target="_blank">Hugo</a> with theme <a href="https://github.com/carsonip/hugo-theme-minos">Minos</a>
         </div>
     </div>

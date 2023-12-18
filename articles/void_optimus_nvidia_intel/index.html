@@ -16,7 +16,6 @@
     <meta property="og:url" content="//sharifmarat.github.io/articles/void_optimus_nvidia_intel/" />
     
 
-    <link href="" rel="alternate" type="application/rss+xml" title="Marat Sharifullin" />
     <link rel="shortcut icon" href="/favicon.ico">
 
     <link href="//sharifmarat.github.io/webfonts/ptserif/main.css" rel='stylesheet' type='text/css'>
@@ -28,7 +27,7 @@
 
     
 
-    <meta name="generator" content="Hugo 0.92.1" />
+    <meta name="generator" content="Hugo 0.111.3">
 </head>
 
 
@@ -139,28 +138,28 @@ I had to play with <code>--no-opengl-files</code> parameters in order not to ove
 <p>6.Install <code>bbswitch</code> kernel module to enable/disable discrete graphics.</p>
 <p>7.Clone <a href="https://github.com/Witko/nvidia-xrun">nvidia-xrun</a> script. It starts a separate X session with Nvidia graphics enabled.</p>
 <p>8.Create file <code>/etc/X11/nvidia-xorg.conf</code></p>
-<pre tabindex="0"><code>Section &quot;Files&quot;
-  ModulePath &quot;/opt/lib32&quot;
-  ModulePath &quot;/opt/lib&quot;
-  ModulePath &quot;/opt/lib32/vdpau&quot;
-  ModulePath &quot;/opt/lib/vdpau&quot;
-  ModulePath &quot;/opt/lib/xorg/modules&quot;
-  ModulePath &quot;/opt/lib/xorg/modules/drivers&quot;
-  ModulePath &quot;/opt/lib/xorg/modules/extensions&quot;
-  ModulePath &quot;/opt/lib/tls&quot;
-  ModulePath &quot;/usr/lib/xorg/modules&quot;
+<pre tabindex="0"><code>Section &#34;Files&#34;
+  ModulePath &#34;/opt/lib32&#34;
+  ModulePath &#34;/opt/lib&#34;
+  ModulePath &#34;/opt/lib32/vdpau&#34;
+  ModulePath &#34;/opt/lib/vdpau&#34;
+  ModulePath &#34;/opt/lib/xorg/modules&#34;
+  ModulePath &#34;/opt/lib/xorg/modules/drivers&#34;
+  ModulePath &#34;/opt/lib/xorg/modules/extensions&#34;
+  ModulePath &#34;/opt/lib/tls&#34;
+  ModulePath &#34;/usr/lib/xorg/modules&#34;
 EndSection
 
-Section &quot;Module&quot;
-    Load &quot;modesetting&quot;
+Section &#34;Module&#34;
+    Load &#34;modesetting&#34;
 EndSection
 
-Section &quot;Device&quot;
-    Identifier     &quot;nvidia&quot;
-    Driver         &quot;nvidia&quot;
+Section &#34;Device&#34;
+    Identifier     &#34;nvidia&#34;
+    Driver         &#34;nvidia&#34;
     # Use lspci to find proper BusID
-    BusID          &quot;PCI:1:0:0&quot;
-    Option &quot;AllowEmptyInitialConfiguration&quot;
+    BusID          &#34;PCI:1:0:0&#34;
+    Option &#34;AllowEmptyInitialConfiguration&#34;
 EndSection
 </code></pre><p>9.Copy <code>nvidia-xrun/nvidia-xinitrc</code> to <code>/etc/X11/xinit/nvidia-xinitrc</code>.</p>
 <p>10.Specify which window manager or a program to start with Nvidia enabled. For that create file <code>~/.nvidia-xinitrc</code></p>
@@ -181,23 +180,23 @@ new mode 100755
 index 39b1b94..6153811
 --- a/nvidia-xrun
 +++ b/nvidia-xrun
-@@ -69,6 +69,9 @@ EXECL=&quot;/etc/X11/xinit/nvidia-xinitrc $EXECL&quot;
+@@ -69,6 +69,9 @@ EXECL=&#34;/etc/X11/xinit/nvidia-xinitrc $EXECL&#34;
  
- COMMAND=&quot;xinit $EXECL -- $NEWDISP vt$LVT -nolisten tcp -br -config nvidia-xorg.conf -configdir nvidia-xorg.conf.d&quot;
+ COMMAND=&#34;xinit $EXECL -- $NEWDISP vt$LVT -nolisten tcp -br -config nvidia-xorg.conf -configdir nvidia-xorg.conf.d&#34;
  
-+echo &quot;adding /opt/lib to ldconfig&quot;
-+execute &quot;sudo ldconfig /opt/lib&quot;
++echo &#34;adding /opt/lib to ldconfig&#34;
++execute &#34;sudo ldconfig /opt/lib&#34;
 +
  # --------- TURNING ON GPU -----------
- echo 'Waking up nvidia GPU'
+ echo &#39;Waking up nvidia GPU&#39;
  if ! [ -f /proc/acpi/bbswitch ] 
 @@ -117,3 +120,6 @@ then
  else
-   echo &quot;Bbswitch kernel module not loaded.&quot;
+   echo &#34;Bbswitch kernel module not loaded.&#34;
  fi
 +
-+echo &quot;removing /opt/lib to ldconfig&quot;
-+execute &quot;sudo ldconfig&quot;
++echo &#34;removing /opt/lib to ldconfig&#34;
++execute &#34;sudo ldconfig&#34;
 </code></pre><p>12.Switch to <code>tty1</code> (with Ctrl+Alt+F1) and run <code>nvidia-xrun</code>. Verify with <code>glmark2</code> that Nvidia graphics is used:</p>
 <pre tabindex="0"><code>$ glmark2
 =======================================================
@@ -258,7 +257,7 @@ For that create a file <code>/etc/modprobe.d/blacklist-nouveau.conf</code></p>
     <footer id="footer">
     <div class="outer">
         <div id="footer-info" class="inner">
-            &copy; 2022 Marat Sharifullin&nbsp;
+            &copy; 2023 Marat Sharifullin&nbsp;
             Powered by <a href="https://gohugo.io" target="_blank">Hugo</a> with theme <a href="https://github.com/carsonip/hugo-theme-minos">Minos</a>
         </div>
     </div>

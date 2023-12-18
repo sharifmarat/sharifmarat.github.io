@@ -16,7 +16,6 @@
     <meta property="og:url" content="//sharifmarat.github.io/articles/borgbackup_rsyncnet/" />
     
 
-    <link href="" rel="alternate" type="application/rss+xml" title="Marat Sharifullin" />
     <link rel="shortcut icon" href="/favicon.ico">
 
     <link href="//sharifmarat.github.io/webfonts/ptserif/main.css" rel='stylesheet' type='text/css'>
@@ -28,7 +27,7 @@
 
     
 
-    <meta name="generator" content="Hugo 0.92.1" />
+    <meta name="generator" content="Hugo 0.111.3">
 </head>
 
 
@@ -98,96 +97,95 @@ It has very special pricing for borg accounts, as borg takes care of versioning 
 <p><a href="https://www.rsync.net/products/borg.html" title="special prices for borg">Special prices</a> start at 18 dollars per year for 100 GB.</p>
 <h3 id="initialize-borg-repo">Initialize borg repo</h3>
 <p>Once you sign up, set up the key:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">rsync -av ~/.ssh/id_rsa.pub account-name@sub.rsync.net:.ssh/authorized_keys 
-</code></pre></div><p>Initialize the repo:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">  borg init --remote-path<span style="color:#f92672">=</span>borg1 --encryption<span style="color:#f92672">=</span>keyfile ssh://account-name@sub.rsync.net/./path/to/backups
-</code></pre></div><p>Option <code>--encryption=keyfile</code> will create a private key on the host machine. Borg will be using this key for symmetric encryption.
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>rsync -av ~/.ssh/id_rsa.pub account-name@sub.rsync.net:.ssh/authorized_keys 
+</span></span></code></pre></div><p>Initialize the repo:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>  borg init --remote-path<span style="color:#f92672">=</span>borg1 --encryption<span style="color:#f92672">=</span>keyfile ssh://account-name@sub.rsync.net/./path/to/backups
+</span></span></code></pre></div><p>Option <code>--encryption=keyfile</code> will create a private key on the host machine. Borg will be using this key for symmetric encryption.
 Don&rsquo;t forget to backup this key to somewhere else, otherwise you won&rsquo;t be able to extract your backups.</p>
 <h3 id="schedule-backup-jobs">Schedule backup jobs</h3>
 <p>Once the repo is ready, you can use the following script to start backups:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e">#!/bin/bash -ue
-</span><span style="color:#75715e"></span>
-info<span style="color:#f92672">()</span> <span style="color:#f92672">{</span> printf <span style="color:#e6db74">&#34;\n%s %s\n\n&#34;</span> <span style="color:#e6db74">&#34;</span><span style="color:#66d9ef">$(</span> date <span style="color:#66d9ef">)</span><span style="color:#e6db74">&#34;</span> <span style="color:#e6db74">&#34;</span>$*<span style="color:#e6db74">&#34;</span> &gt;&amp;1; <span style="color:#f92672">}</span>
-
-backup<span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
-  : <span style="color:#e6db74">${</span>BORG:=borg<span style="color:#e6db74">}</span>
-  : <span style="color:#e6db74">${</span>PASS:=<span style="color:#e6db74">}</span>
-  local uri<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span>$1<span style="color:#e6db74">&#34;</span>
-
-  <span style="color:#66d9ef">if</span> <span style="color:#f92672">[</span> -n <span style="color:#e6db74">&#34;</span>$PASS<span style="color:#e6db74">&#34;</span> <span style="color:#f92672">]</span>; <span style="color:#66d9ef">then</span>
-    export BORG_PASSPHRASE<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span>$PASS<span style="color:#e6db74">&#34;</span>
-  <span style="color:#66d9ef">else</span>
-    unset BORG_PASSPHRASE
-  <span style="color:#66d9ef">fi</span>
-
-  local prunning<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;--keep-within 2d --keep-daily 7 --keep-weekly 4 --keep-monthly 3&#34;</span>
-  local name<span style="color:#f92672">=</span>myserver
-  local date<span style="color:#f92672">=</span><span style="color:#e6db74">`</span>date <span style="color:#e6db74">&#34;+%F-%T&#34;</span><span style="color:#e6db74">`</span>
-
-  info <span style="color:#e6db74">&#34;Starting backup with </span>$BORG<span style="color:#e6db74"> to </span>$uri<span style="color:#e6db74">&#34;</span>
-  $BORG create                               <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>    --verbose                                <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>    --filter AME                             <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>    --list                                   <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>    --stats                                  <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>    --show-rc                                <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>    --compression lz4                        <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>    --exclude-caches                         <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>    --exclude <span style="color:#e6db74">&#39;/dev/*&#39;</span>                       <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>    --exclude <span style="color:#e6db74">&#39;/home/*/.cache&#39;</span>               <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>    --exclude <span style="color:#e6db74">&#39;/lost+found/*&#39;</span>                <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>    --exclude <span style="color:#e6db74">&#39;/mnt/*&#39;</span>                       <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>    --exclude <span style="color:#e6db74">&#39;/media/*&#39;</span>                     <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>    --exclude <span style="color:#e6db74">&#39;/proc/*&#39;</span>                      <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>    --exclude <span style="color:#e6db74">&#39;/root/.cache&#39;</span>                 <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>    --exclude <span style="color:#e6db74">&#39;/run/*&#39;</span>                       <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>    --exclude <span style="color:#e6db74">&#39;/sys/*&#39;</span>                       <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>    --exclude <span style="color:#e6db74">&#39;/tmp/*&#39;</span>                       <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>    --exclude <span style="color:#e6db74">&#39;/var/cache&#39;</span>                   <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>    --exclude <span style="color:#e6db74">&#39;/var/lib/docker/devicemapper&#39;</span> <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>    --exclude <span style="color:#e6db74">&#39;/var/lock/*&#39;</span>                  <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>    --exclude <span style="color:#e6db74">&#39;/var/log/*&#39;</span>                   <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>    --exclude <span style="color:#e6db74">&#39;/var/run/*&#39;</span>                   <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>    --exclude <span style="color:#e6db74">&#39;/var/tmp/*&#39;</span>                   <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>    --exclude <span style="color:#e6db74">&#39;/var/backups/*&#39;</span>               <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>    --exclude <span style="color:#e6db74">&#39;/var/spool/*&#39;</span>                 <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>   <span style="color:#e6db74">&#34;</span>$uri<span style="color:#e6db74">&#34;</span>::<span style="color:#e6db74">&#34;</span>$name<span style="color:#e6db74">-</span>$date<span style="color:#e6db74">&#34;</span>                     <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>    /
-
-  info <span style="color:#e6db74">&#34;Pruning repository&#34;</span>
-  $BORG prune             <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>      --list              <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>      --prefix <span style="color:#e6db74">&#34;</span>$name<span style="color:#e6db74">-&#34;</span>   <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>      --show-rc           <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>      $prunning           <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>      <span style="color:#e6db74">&#34;</span>$uri<span style="color:#e6db74">&#34;</span>
-<span style="color:#f92672">}</span>
-
-
-<span style="color:#75715e"># backup to rsync.net</span>
-BORG<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;borg --remote-path=borg1&#34;</span> <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>  backup <span style="color:#e6db74">&#34;ssh://account-name@sub.rsync.net/./path/to/backups&#34;</span>
-
-<span style="color:#75715e"># backup to another server</span>
-<span style="color:#75715e"># on this server passphrase is used instead of private key</span>
-PASS<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;example-passphrase&#39;</span> <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>  backup <span style="color:#e6db74">&#34;ssh://account-name@example.com/./path/to/backups&#34;</span>
-</code></pre></div><p>Add to crontab to run it every 3 hours:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#ae81ff">0</span>  */3  *  *   * cronic flock -n /run/lock/backup.lock /path/to/backup-script.sh
-</code></pre></div><h3 id="adding-mysql-databases-to-backup">Adding mysql databases to backup</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e">#!/bin/bash -ue
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>info<span style="color:#f92672">()</span> <span style="color:#f92672">{</span> printf <span style="color:#e6db74">&#34;\n%s %s\n\n&#34;</span> <span style="color:#e6db74">&#34;</span><span style="color:#66d9ef">$(</span> date <span style="color:#66d9ef">)</span><span style="color:#e6db74">&#34;</span> <span style="color:#e6db74">&#34;</span>$*<span style="color:#e6db74">&#34;</span> &gt;&amp;1; <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>backup<span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>  : <span style="color:#e6db74">${</span>BORG:=borg<span style="color:#e6db74">}</span>
+</span></span><span style="display:flex;"><span>  : <span style="color:#e6db74">${</span>PASS:=<span style="color:#e6db74">}</span>
+</span></span><span style="display:flex;"><span>  local uri<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span>$1<span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> <span style="color:#f92672">[</span> -n <span style="color:#e6db74">&#34;</span>$PASS<span style="color:#e6db74">&#34;</span> <span style="color:#f92672">]</span>; <span style="color:#66d9ef">then</span>
+</span></span><span style="display:flex;"><span>    export BORG_PASSPHRASE<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span>$PASS<span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">else</span>
+</span></span><span style="display:flex;"><span>    unset BORG_PASSPHRASE
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">fi</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  local prunning<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;--keep-within 2d --keep-daily 7 --keep-weekly 4 --keep-monthly 3&#34;</span>
+</span></span><span style="display:flex;"><span>  local name<span style="color:#f92672">=</span>myserver
+</span></span><span style="display:flex;"><span>  local date<span style="color:#f92672">=</span><span style="color:#e6db74">`</span>date <span style="color:#e6db74">&#34;+%F-%T&#34;</span><span style="color:#e6db74">`</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  info <span style="color:#e6db74">&#34;Starting backup with </span>$BORG<span style="color:#e6db74"> to </span>$uri<span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>  $BORG create                               <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>    --verbose                                <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>    --filter AME                             <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>    --list                                   <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>    --stats                                  <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>    --show-rc                                <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>    --compression lz4                        <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>    --exclude-caches                         <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>    --exclude <span style="color:#e6db74">&#39;/dev/*&#39;</span>                       <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>    --exclude <span style="color:#e6db74">&#39;/home/*/.cache&#39;</span>               <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>    --exclude <span style="color:#e6db74">&#39;/lost+found/*&#39;</span>                <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>    --exclude <span style="color:#e6db74">&#39;/mnt/*&#39;</span>                       <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>    --exclude <span style="color:#e6db74">&#39;/media/*&#39;</span>                     <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>    --exclude <span style="color:#e6db74">&#39;/proc/*&#39;</span>                      <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>    --exclude <span style="color:#e6db74">&#39;/root/.cache&#39;</span>                 <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>    --exclude <span style="color:#e6db74">&#39;/run/*&#39;</span>                       <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>    --exclude <span style="color:#e6db74">&#39;/sys/*&#39;</span>                       <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>    --exclude <span style="color:#e6db74">&#39;/tmp/*&#39;</span>                       <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>    --exclude <span style="color:#e6db74">&#39;/var/cache&#39;</span>                   <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>    --exclude <span style="color:#e6db74">&#39;/var/lib/docker/devicemapper&#39;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>    --exclude <span style="color:#e6db74">&#39;/var/lock/*&#39;</span>                  <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>    --exclude <span style="color:#e6db74">&#39;/var/log/*&#39;</span>                   <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>    --exclude <span style="color:#e6db74">&#39;/var/run/*&#39;</span>                   <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>    --exclude <span style="color:#e6db74">&#39;/var/tmp/*&#39;</span>                   <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>    --exclude <span style="color:#e6db74">&#39;/var/backups/*&#39;</span>               <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>    --exclude <span style="color:#e6db74">&#39;/var/spool/*&#39;</span>                 <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>   <span style="color:#e6db74">&#34;</span>$uri<span style="color:#e6db74">&#34;</span>::<span style="color:#e6db74">&#34;</span>$name<span style="color:#e6db74">-</span>$date<span style="color:#e6db74">&#34;</span>                     <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>    /
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  info <span style="color:#e6db74">&#34;Pruning repository&#34;</span>
+</span></span><span style="display:flex;"><span>  $BORG prune             <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>      --list              <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>      --prefix <span style="color:#e6db74">&#34;</span>$name<span style="color:#e6db74">-&#34;</span>   <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>      --show-rc           <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>      $prunning           <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>      <span style="color:#e6db74">&#34;</span>$uri<span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># backup to rsync.net</span>
+</span></span><span style="display:flex;"><span>BORG<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;borg --remote-path=borg1&#34;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  backup <span style="color:#e6db74">&#34;ssh://account-name@sub.rsync.net/./path/to/backups&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># backup to another server</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># on this server passphrase is used instead of private key</span>
+</span></span><span style="display:flex;"><span>PASS<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;example-passphrase&#39;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  backup <span style="color:#e6db74">&#34;ssh://account-name@example.com/./path/to/backups&#34;</span>
+</span></span></code></pre></div><p>Add to crontab to run it every 3 hours:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#ae81ff">0</span>  */3  *  *   * cronic flock -n /run/lock/backup.lock /path/to/backup-script.sh
+</span></span></code></pre></div><h3 id="adding-mysql-databases-to-backup">Adding mysql databases to backup</h3>
 <p>To dump mysql databases you can add the following addition to the script:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">BACKUP_DIR<span style="color:#f92672">=</span>/path/to/mysql/backups
-
-export MYSQL_PWD<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;backup-user-password&#34;</span>
-mysqldump --all-databases --single-transaction --quick --lock-tables<span style="color:#f92672">=</span>false -u backup_user  &gt; <span style="color:#e6db74">&#34;</span>$BACKUP_DIR<span style="color:#e6db74">&#34;</span>/<span style="color:#66d9ef">$(</span>date +%F-%T<span style="color:#66d9ef">)</span>.bak
-
-<span style="color:#75715e"># Keep only 5 of latest dumps:</span>
-ls -t <span style="color:#e6db74">&#34;</span>$BACKUP_DIR<span style="color:#e6db74">&#34;</span>/*.bak | awk <span style="color:#e6db74">&#39;NR&gt;5&#39;</span> | xargs rm -f
-
-</code></pre></div><p>Don&rsquo;t forget to add <code>backup_user</code> and grant permissions to it:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">GRANT LOCK TABLES, SELECT ON *.* TO <span style="color:#e6db74">&#39;backup_user&#39;</span>@<span style="color:#e6db74">&#39;localhost IDENTIFIED BY &#39;</span>backup-user-password<span style="color:#960050;background-color:#1e0010">&#39;</span>;
-flush privileges;
-</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>BACKUP_DIR<span style="color:#f92672">=</span>/path/to/mysql/backups
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>export MYSQL_PWD<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;backup-user-password&#34;</span>
+</span></span><span style="display:flex;"><span>mysqldump --all-databases --single-transaction --quick --lock-tables<span style="color:#f92672">=</span>false -u backup_user  &gt; <span style="color:#e6db74">&#34;</span>$BACKUP_DIR<span style="color:#e6db74">&#34;</span>/<span style="color:#66d9ef">$(</span>date +%F-%T<span style="color:#66d9ef">)</span>.bak
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Keep only 5 of latest dumps:</span>
+</span></span><span style="display:flex;"><span>ls -t <span style="color:#e6db74">&#34;</span>$BACKUP_DIR<span style="color:#e6db74">&#34;</span>/*.bak | awk <span style="color:#e6db74">&#39;NR&gt;5&#39;</span> | xargs rm -f
+</span></span></code></pre></div><p>Don&rsquo;t forget to add <code>backup_user</code> and grant permissions to it:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>GRANT LOCK TABLES, SELECT ON *.* TO <span style="color:#e6db74">&#39;backup_user&#39;</span>@<span style="color:#e6db74">&#39;localhost IDENTIFIED BY &#39;</span>backup-user-password<span style="color:#960050;background-color:#1e0010">&#39;</span>;
+</span></span><span style="display:flex;"><span>flush privileges;
+</span></span></code></pre></div>
         </div>
 
         
@@ -236,7 +234,7 @@ flush privileges;
     <footer id="footer">
     <div class="outer">
         <div id="footer-info" class="inner">
-            &copy; 2022 Marat Sharifullin&nbsp;
+            &copy; 2023 Marat Sharifullin&nbsp;
             Powered by <a href="https://gohugo.io" target="_blank">Hugo</a> with theme <a href="https://github.com/carsonip/hugo-theme-minos">Minos</a>
         </div>
     </div>

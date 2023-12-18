@@ -16,7 +16,6 @@
     <meta property="og:url" content="//sharifmarat.github.io/articles/co2_gravity_uart_raspberry_pi/" />
     
 
-    <link href="" rel="alternate" type="application/rss+xml" title="Marat Sharifullin" />
     <link rel="shortcut icon" href="/favicon.ico">
 
     <link href="//sharifmarat.github.io/webfonts/ptserif/main.css" rel='stylesheet' type='text/css'>
@@ -28,7 +27,7 @@
 
     
 
-    <meta name="generator" content="Hugo 0.92.1" />
+    <meta name="generator" content="Hugo 0.111.3">
 </head>
 
 
@@ -165,30 +164,30 @@ def verify_checksum(bytes):
   return bytes[8] == checksum
 
 def get_co2(con):
-  con.write(bytearray(b'\xff\x01\x86\x00\x00\x00\x00\x00\x79'))
+  con.write(bytearray(b&#39;\xff\x01\x86\x00\x00\x00\x00\x00\x79&#39;))
   rcv = con.read(9)
   if not verify_checksum(rcv):
-    print(&quot;Checksum error from received: `{}'&quot;.format(binascii.hexlify(rcv)), file=sys.stderr)
+    print(&#34;Checksum error from received: `{}&#39;&#34;.format(binascii.hexlify(rcv)), file=sys.stderr)
     return -1
   return rcv[2] * 256 + rcv[3]
 
 def calibrate_span(con):
-  con.write(bytearray(b'\xff\x01\x88\x07\xd0\x00\x00\x00\xa0'))
+  con.write(bytearray(b&#39;\xff\x01\x88\x07\xd0\x00\x00\x00\xa0&#39;))
 
 def calibrate_zero(con):
-  con.write(bytearray(b'\xff\x01\x87\x00\x00\x00\x00\x00\x78'))
+  con.write(bytearray(b&#39;\xff\x01\x87\x00\x00\x00\x00\x00\x78&#39;))
 
-con = serial.Serial(&quot;/dev/ttyAMA0&quot;, 9600, timeout=5)
+con = serial.Serial(&#34;/dev/ttyAMA0&#34;, 9600, timeout=5)
 co2 = get_co2(con)
 con.close()
 
 if co2 &lt; 100 or co2 &gt; 6000:
-  print(&quot;CO2 concentration {} is out of range&quot;.format(co2), file=sys.stderr)
+  print(&#34;CO2 concentration {} is out of range&#34;.format(co2), file=sys.stderr)
   exit(1)
 
 print(co2)
 </code></pre><p>You can get very nice historical CO<sub>2</sub> measurements inside or outside:</p>
-<p><img src="co2.png" alt="what&rsquo;s wrong with pictures?" title="CO2 measurements"></p>
+<p><img src="co2.png" alt="what&amp;rsquo;s wrong with pictures?" title="CO2 measurements"></p>
         </div>
 
         
@@ -238,7 +237,7 @@ print(co2)
     <footer id="footer">
     <div class="outer">
         <div id="footer-info" class="inner">
-            &copy; 2022 Marat Sharifullin&nbsp;
+            &copy; 2023 Marat Sharifullin&nbsp;
             Powered by <a href="https://gohugo.io" target="_blank">Hugo</a> with theme <a href="https://github.com/carsonip/hugo-theme-minos">Minos</a>
         </div>
     </div>

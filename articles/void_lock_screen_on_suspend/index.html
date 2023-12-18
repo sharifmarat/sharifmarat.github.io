@@ -16,7 +16,6 @@
     <meta property="og:url" content="//sharifmarat.github.io/articles/void_lock_screen_on_suspend/" />
     
 
-    <link href="" rel="alternate" type="application/rss+xml" title="Marat Sharifullin" />
     <link rel="shortcut icon" href="/favicon.ico">
 
     <link href="//sharifmarat.github.io/webfonts/ptserif/main.css" rel='stylesheet' type='text/css'>
@@ -28,7 +27,7 @@
 
     
 
-    <meta name="generator" content="Hugo 0.92.1" />
+    <meta name="generator" content="Hugo 0.111.3">
 </head>
 
 
@@ -105,47 +104,47 @@ closing the lid. Not ideal, but it was usable.</p>
 <code>power button pressed</code> are handled by <code>acpid</code> daemon. It stands for Advanced Configuration and Power Interface even daemon.
 Check <code>man 8 acpid</code> for more details.</p>
 <p>In Linux, including Void, it is usually hooked to <code>/etc/acpi/events/*</code>. The default distribution catches all events:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ cat /etc/acpi/events/anything 
-<span style="color:#75715e"># Pass all events to our one handler script</span>
-event<span style="color:#f92672">=</span>.*
-action<span style="color:#f92672">=</span>/etc/acpi/handler.sh %e
-</code></pre></div><p>These events are handled by <code>/etc/acpi/handler.sh</code> in Void Linux. The part to handle laptop&rsquo;s lid:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#66d9ef">case</span> <span style="color:#e6db74">&#34;</span>$1<span style="color:#e6db74">&#34;</span> in
-<span style="color:#75715e">#...</span>
-    button/lid<span style="color:#f92672">)</span>
-        <span style="color:#66d9ef">case</span> <span style="color:#e6db74">&#34;</span>$3<span style="color:#e6db74">&#34;</span> in
-                close<span style="color:#f92672">)</span>
-                        <span style="color:#75715e"># suspend-to-ram</span>
-                        logger <span style="color:#e6db74">&#34;LID closed, suspending...&#34;</span>
-                        zzz
-                        ;;
-                open<span style="color:#f92672">)</span> logger <span style="color:#e6db74">&#34;LID opened&#34;</span> ;;
-                *<span style="color:#f92672">)</span> logger <span style="color:#e6db74">&#34;ACPI action undefined (LID): </span>$2<span style="color:#e6db74">&#34;</span>;;
-        <span style="color:#66d9ef">esac</span>
-        ;;
-<span style="color:#66d9ef">esac</span>
-</code></pre></div><p>The close lid event is passed as <code>handler.sh button/lid LID0 close</code> to this script. Which triggers
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ cat /etc/acpi/events/anything 
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Pass all events to our one handler script</span>
+</span></span><span style="display:flex;"><span>event<span style="color:#f92672">=</span>.*
+</span></span><span style="display:flex;"><span>action<span style="color:#f92672">=</span>/etc/acpi/handler.sh %e
+</span></span></code></pre></div><p>These events are handled by <code>/etc/acpi/handler.sh</code> in Void Linux. The part to handle laptop&rsquo;s lid:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#66d9ef">case</span> <span style="color:#e6db74">&#34;</span>$1<span style="color:#e6db74">&#34;</span> in
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#...</span>
+</span></span><span style="display:flex;"><span>    button/lid<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">case</span> <span style="color:#e6db74">&#34;</span>$3<span style="color:#e6db74">&#34;</span> in
+</span></span><span style="display:flex;"><span>                close<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>                        <span style="color:#75715e"># suspend-to-ram</span>
+</span></span><span style="display:flex;"><span>                        logger <span style="color:#e6db74">&#34;LID closed, suspending...&#34;</span>
+</span></span><span style="display:flex;"><span>                        zzz
+</span></span><span style="display:flex;"><span>                        ;;
+</span></span><span style="display:flex;"><span>                open<span style="color:#f92672">)</span> logger <span style="color:#e6db74">&#34;LID opened&#34;</span> ;;
+</span></span><span style="display:flex;"><span>                *<span style="color:#f92672">)</span> logger <span style="color:#e6db74">&#34;ACPI action undefined (LID): </span>$2<span style="color:#e6db74">&#34;</span>;;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">esac</span>
+</span></span><span style="display:flex;"><span>        ;;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">esac</span>
+</span></span></code></pre></div><p>The close lid event is passed as <code>handler.sh button/lid LID0 close</code> to this script. Which triggers
 suspend command <code>zzz</code>. <code>zzz</code> does not give any details about locking the screen, and I guess it
 should not.</p>
 <p>I use Mate desktop. In Mate you could lock the screen with command <code>mate-screensaver-command -l</code>.</p>
 <p>It means that with a small modification to <code>/etc/acpi/handler.sh</code> I could probably force Mate to lock the screen.
 Just add <code>sudo -u $USER mate-screensaver-command  -l</code> to this file before <code>zzz</code>:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#66d9ef">case</span> <span style="color:#e6db74">&#34;</span>$1<span style="color:#e6db74">&#34;</span> in
-<span style="color:#75715e">#...</span>
-    button/lid<span style="color:#f92672">)</span>
-        <span style="color:#66d9ef">case</span> <span style="color:#e6db74">&#34;</span>$3<span style="color:#e6db74">&#34;</span> in
-                close<span style="color:#f92672">)</span>
-                        <span style="color:#75715e"># suspend-to-ram</span>
-                        logger <span style="color:#e6db74">&#34;LID closed, suspending...&#34;</span>
-+                       sudo -u $USER mate-screensaver-command  -l
-                        zzz
-                        ;;
-                open<span style="color:#f92672">)</span> logger <span style="color:#e6db74">&#34;LID opened&#34;</span> ;;
-                *<span style="color:#f92672">)</span> logger <span style="color:#e6db74">&#34;ACPI action undefined (LID): </span>$2<span style="color:#e6db74">&#34;</span>;;
-        <span style="color:#66d9ef">esac</span>
-        ;;
-<span style="color:#66d9ef">esac</span>
-</code></pre></div><p>Note that it is required to run this command as an actual user.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#66d9ef">case</span> <span style="color:#e6db74">&#34;</span>$1<span style="color:#e6db74">&#34;</span> in
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#...</span>
+</span></span><span style="display:flex;"><span>    button/lid<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">case</span> <span style="color:#e6db74">&#34;</span>$3<span style="color:#e6db74">&#34;</span> in
+</span></span><span style="display:flex;"><span>                close<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>                        <span style="color:#75715e"># suspend-to-ram</span>
+</span></span><span style="display:flex;"><span>                        logger <span style="color:#e6db74">&#34;LID closed, suspending...&#34;</span>
+</span></span><span style="display:flex;"><span>+                       sudo -u $USER mate-screensaver-command  -l
+</span></span><span style="display:flex;"><span>                        zzz
+</span></span><span style="display:flex;"><span>                        ;;
+</span></span><span style="display:flex;"><span>                open<span style="color:#f92672">)</span> logger <span style="color:#e6db74">&#34;LID opened&#34;</span> ;;
+</span></span><span style="display:flex;"><span>                *<span style="color:#f92672">)</span> logger <span style="color:#e6db74">&#34;ACPI action undefined (LID): </span>$2<span style="color:#e6db74">&#34;</span>;;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">esac</span>
+</span></span><span style="display:flex;"><span>        ;;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">esac</span>
+</span></span></code></pre></div><p>Note that it is required to run this command as an actual user.</p>
 <p>It is possible to improve it further by checking <code>$DESKTOP_SESSION</code> env variable to determine which
 desktop is used.</p>
         </div>
@@ -186,7 +185,7 @@ desktop is used.</p>
     <footer id="footer">
     <div class="outer">
         <div id="footer-info" class="inner">
-            &copy; 2022 Marat Sharifullin&nbsp;
+            &copy; 2023 Marat Sharifullin&nbsp;
             Powered by <a href="https://gohugo.io" target="_blank">Hugo</a> with theme <a href="https://github.com/carsonip/hugo-theme-minos">Minos</a>
         </div>
     </div>

@@ -16,7 +16,6 @@
     <meta property="og:url" content="//sharifmarat.github.io/projects/all/" />
     
 
-    <link href="" rel="alternate" type="application/rss+xml" title="Marat Sharifullin" />
     <link rel="shortcut icon" href="/favicon.ico">
 
     <link href="//sharifmarat.github.io/webfonts/ptserif/main.css" rel='stylesheet' type='text/css'>
@@ -28,7 +27,7 @@
 
     
 
-    <meta name="generator" content="Hugo 0.92.1" />
+    <meta name="generator" content="Hugo 0.111.3">
 </head>
 
 
@@ -109,11 +108,11 @@
 <p>If a job takes longer than expected, for example a backup job usually takes a few seconds,
 For example a backup job usually runs under 1 minute.
 If you want to get notified when this job runs longer, just add it to crontab:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">MAILTO<span style="color:#f92672">=</span>monitoring@example.com
-<span style="color:#ae81ff">11</span> <span style="color:#ae81ff">11</span> * * * longwarn <span style="color:#ae81ff">60</span> backup.sh
-</code></pre></div><p>How to install:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wget https://raw.githubusercontent.com/sharifmarat/longwarn/master/longwarn -O /usr/local/bin/longwarn
-</code></pre></div><p><a href="https://github.com/sharifmarat/longwarn">GitHub for more details</a>.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>MAILTO<span style="color:#f92672">=</span>monitoring@example.com
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">11</span> <span style="color:#ae81ff">11</span> * * * longwarn <span style="color:#ae81ff">60</span> backup.sh
+</span></span></code></pre></div><p>How to install:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>wget https://raw.githubusercontent.com/sharifmarat/longwarn/master/longwarn -O /usr/local/bin/longwarn
+</span></span></code></pre></div><p><a href="https://github.com/sharifmarat/longwarn">GitHub for more details</a>.</p>
 <hr>
 <h2 id="flickr-roulette">Flickr roulette</h2>
 <p>See a random (not completely random) photo on the <a href="/projects/flickr_roulette/">Flickr roulette</a>.</p>
@@ -132,34 +131,34 @@ percolation threshold (site percolation).</p>
 <h2 id="c-bindings-generator-from-fortran">C-bindings generator from Fortran</h2>
 <p>It was written to automate generation of C bindings for Fortran,
 source code can be found <a href="https://github.com/sharifmarat/fortran_to_c_headers">here</a>.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Fortran" data-lang="Fortran"><span style="color:#75715e">! Example of input Fortran90 code:
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">module </span>SomeModule
-  <span style="color:#66d9ef">use </span>iso_c_binding
-  <span style="color:#66d9ef">implicit none
-</span><span style="color:#66d9ef">  </span><span style="color:#66d9ef">real</span><span style="color:#f92672">*</span><span style="color:#ae81ff">8</span>, <span style="color:#66d9ef">bind</span>(c), <span style="color:#66d9ef">parameter</span>  <span style="color:#66d9ef">::</span> dbl1 <span style="color:#f92672">=</span> <span style="color:#ae81ff">1.0d0</span>
-  <span style="color:#66d9ef">type</span>(<span style="color:#66d9ef">c_ptr</span>), <span style="color:#66d9ef">bind</span>(c, name<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;ptr1&#34;</span>) <span style="color:#66d9ef">::</span> ptr1
-<span style="color:#66d9ef">contains
-</span><span style="color:#66d9ef">  </span><span style="color:#66d9ef">integer </span><span style="color:#66d9ef">function </span>SimpleFunction1() <span style="color:#66d9ef">bind</span>(c, name<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;SimpleFunction1&#34;</span>)
-    <span style="color:#66d9ef">integer</span> <span style="color:#66d9ef">::</span> a
-    <span style="color:#66d9ef">integer </span>b
-    <span style="color:#66d9ef">integer</span> <span style="color:#66d9ef">::</span> c
-    <span style="color:#75715e">!...
-</span><span style="color:#75715e"></span>  <span style="color:#66d9ef">end function </span>SimpleFunction1
-<span style="color:#66d9ef">end module </span>SomeModule
-</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-C++" data-lang="C++"><span style="color:#75715e">// Generated C-bindings:
-</span><span style="color:#75715e"></span><span style="color:#75715e">#ifdef __cplusplus
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">extern</span> <span style="color:#e6db74">&#34;C&#34;</span> {
-<span style="color:#75715e">#endif
-</span><span style="color:#75715e"></span>
-<span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">void</span><span style="color:#f92672">*</span> some_ptr_t;
-<span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">double</span> val_t;
-<span style="color:#66d9ef">double</span> dbl1;
-<span style="color:#66d9ef">void</span><span style="color:#f92672">*</span> ptr1;
-<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">SimpleFunction1</span>();
-<span style="color:#75715e">#ifdef __cplusplus
-</span><span style="color:#75715e"></span>}
-<span style="color:#75715e">#endif
-</span></code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Fortran" data-lang="Fortran"><span style="display:flex;"><span><span style="color:#75715e">! Example of input Fortran90 code:
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">module</span> SomeModule
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">use</span> iso_c_binding
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">implicit</span> <span style="color:#66d9ef">none</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">real</span><span style="color:#f92672">*</span><span style="color:#ae81ff">8</span>, <span style="color:#66d9ef">bind</span>(c), <span style="color:#66d9ef">parameter</span>  <span style="color:#66d9ef">::</span> dbl1 <span style="color:#f92672">=</span> <span style="color:#ae81ff">1.0d0</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">type</span>(<span style="color:#66d9ef">c_ptr</span>), <span style="color:#66d9ef">bind</span>(c, name<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;ptr1&#34;</span>) <span style="color:#66d9ef">::</span> ptr1
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">contains</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">integer</span> <span style="color:#66d9ef">function</span> SimpleFunction1() <span style="color:#66d9ef">bind</span>(c, name<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;SimpleFunction1&#34;</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">integer</span> <span style="color:#66d9ef">::</span> a
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">integer</span> b
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">integer</span> <span style="color:#66d9ef">::</span> c
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">!...
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#66d9ef">end</span> <span style="color:#66d9ef">function</span> SimpleFunction1
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span> <span style="color:#66d9ef">module</span> SomeModule
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C++" data-lang="C++"><span style="display:flex;"><span><span style="color:#75715e">// Generated C-bindings:
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#75715e">#ifdef __cplusplus
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">extern</span> <span style="color:#e6db74">&#34;C&#34;</span> {
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#endif
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">void</span><span style="color:#f92672">*</span> some_ptr_t;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">double</span> val_t;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">double</span> dbl1;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span><span style="color:#f92672">*</span> ptr1;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">SimpleFunction1</span>();
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#ifdef __cplusplus
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#endif
+</span></span></span></code></pre></div>
         </div>
 
         
@@ -193,7 +192,7 @@ source code can be found <a href="https://github.com/sharifmarat/fortran_to_c_he
     <footer id="footer">
     <div class="outer">
         <div id="footer-info" class="inner">
-            &copy; 2022 Marat Sharifullin&nbsp;
+            &copy; 2023 Marat Sharifullin&nbsp;
             Powered by <a href="https://gohugo.io" target="_blank">Hugo</a> with theme <a href="https://github.com/carsonip/hugo-theme-minos">Minos</a>
         </div>
     </div>

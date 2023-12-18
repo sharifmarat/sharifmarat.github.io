@@ -16,7 +16,6 @@
     <meta property="og:url" content="//sharifmarat.github.io/articles/setting_up_raspberry_pi/" />
     
 
-    <link href="" rel="alternate" type="application/rss+xml" title="Marat Sharifullin" />
     <link rel="shortcut icon" href="/favicon.ico">
 
     <link href="//sharifmarat.github.io/webfonts/ptserif/main.css" rel='stylesheet' type='text/css'>
@@ -28,7 +27,7 @@
 
     
 
-    <meta name="generator" content="Hugo 0.92.1" />
+    <meta name="generator" content="Hugo 0.111.3">
 </head>
 
 
@@ -113,20 +112,20 @@ I connected it to my WIFI router and started Internet surfing (with terrible mou
 It worked a little bit until the WIFI connection dropped out. Interesting. The distance to router was quite small, around 4 meters without any obstacles.
 When the connection came back I have checked pings and it was terrible. The WIFI connection kept dropping every few minutes.
 After googling a little bit I have found people claiming that it might be related to power management.  Let&rsquo;s check if it helps:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">sudo iwconfig wlan0 power off
-</code></pre></div><p>During the next 10 minutes connection never dropped out and pings looked much better.
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>sudo iwconfig wlan0 power off
+</span></span></code></pre></div><p>During the next 10 minutes connection never dropped out and pings looked much better.
 Ok, now let&rsquo;s make it permanent, otherwise the power management would be back after the next reboot.
 It can be disabled in <code>/etc/network/interfaces</code> by adding post-up <code>iwconfig wlan0 power off || true</code> for all wireless interfaces:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">allow-hotplug wlan0
-iface wlan0 inet manual
-    post-up iwconfig wlan0 power off <span style="color:#f92672">||</span> true
-    wpa-conf /etc/wpa_supplicant/wpa_supplicant.conf
-
-allow-hotplug wlan1
-iface wlan1 inet manual
-    post-up iwconfig wlan1 power off <span style="color:#f92672">||</span> true
-    wpa-conf /etc/wpa_supplicant/wpa_supplicant.conf
-</code></pre></div><h3 id="autossh-service">Autossh service</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>allow-hotplug wlan0
+</span></span><span style="display:flex;"><span>iface wlan0 inet manual
+</span></span><span style="display:flex;"><span>    post-up iwconfig wlan0 power off <span style="color:#f92672">||</span> true
+</span></span><span style="display:flex;"><span>    wpa-conf /etc/wpa_supplicant/wpa_supplicant.conf
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>allow-hotplug wlan1
+</span></span><span style="display:flex;"><span>iface wlan1 inet manual
+</span></span><span style="display:flex;"><span>    post-up iwconfig wlan1 power off <span style="color:#f92672">||</span> true
+</span></span><span style="display:flex;"><span>    wpa-conf /etc/wpa_supplicant/wpa_supplicant.conf
+</span></span></code></pre></div><h3 id="autossh-service">Autossh service</h3>
 <p>The next step is to setup autossh service. I want to connect to Raspberry pi via ssh from outside my local network.
 The easiest choice for me is reverse ssh tunnel. ssh daemon is already present in Raspbian.
 Installation of autossh is trivial: <code>sudo apt-get install autossh</code>.</p>
@@ -134,9 +133,9 @@ Installation of autossh is trivial: <code>sudo apt-get install autossh</code>.</
 And here I realize upstart is missing from Raspbian. I was very surprised by that fact. Does it still use plain sysv?
 Ok, should not be a problem: sudo apt-get install upstart. It gives some warnings, ignore them. Upstart is ready.
 Then I created upstart service <code>/etc/init/autossh.conf</code> to start autossh on boot. Verifying that it works:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">sudo service autossh start
-ps aux | grep ssh
-</code></pre></div><p>Great, but on the next reboot autossh did not start. It was not even mentioned anywhere in <code>/var/log/syslog</code>.
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>sudo service autossh start
+</span></span><span style="display:flex;"><span>ps aux | grep ssh
+</span></span></code></pre></div><p>Great, but on the next reboot autossh did not start. It was not even mentioned anywhere in <code>/var/log/syslog</code>.
 I took around 2 hours before I realized that Raspbian uses systemd. systemd, really? That was fast.</p>
 <p>Not all people are in favor of switching to systemd. It&rsquo;s maintly due to attidue of systemd developers.
 As example you can read their responses in this  <a href="http://lkml.iu.edu/hypermail/linux/kernel/1404.0/01327.html">email discussions</a> about kernel failure due to systemd.
@@ -152,8 +151,8 @@ Description=autossh tunnel
 After=network-target nss-lookup.target
 
 [Service]
-Environment=&quot;AUTOSSH_GATETIME=0&quot;  # avoids stopping after first ssh failure
-ExecStart=/usr/bin/autossh -M 0 -N -R 70000:127.0.0.1:22 -o &quot;ServerAliveInterval 60&quot; -o &quot;ServerAliveCountMax 3&quot; -o &quot;StrictHostKeyChecking=no&quot; -o &quot;BatchMode=yes&quot; -i private_key pi@remotecomputer
+Environment=&#34;AUTOSSH_GATETIME=0&#34;  # avoids stopping after first ssh failure
+ExecStart=/usr/bin/autossh -M 0 -N -R 70000:127.0.0.1:22 -o &#34;ServerAliveInterval 60&#34; -o &#34;ServerAliveCountMax 3&#34; -o &#34;StrictHostKeyChecking=no&#34; -o &#34;BatchMode=yes&#34; -i private_key pi@remotecomputer
 
 [Install]
 WantedBy=multi-user.target
@@ -207,7 +206,7 @@ WantedBy=multi-user.target
     <footer id="footer">
     <div class="outer">
         <div id="footer-info" class="inner">
-            &copy; 2022 Marat Sharifullin&nbsp;
+            &copy; 2023 Marat Sharifullin&nbsp;
             Powered by <a href="https://gohugo.io" target="_blank">Hugo</a> with theme <a href="https://github.com/carsonip/hugo-theme-minos">Minos</a>
         </div>
     </div>

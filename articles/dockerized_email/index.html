@@ -16,7 +16,6 @@
     <meta property="og:url" content="//sharifmarat.github.io/articles/dockerized_email/" />
     
 
-    <link href="" rel="alternate" type="application/rss+xml" title="Marat Sharifullin" />
     <link rel="shortcut icon" href="/favicon.ico">
 
     <link href="//sharifmarat.github.io/webfonts/ptserif/main.css" rel='stylesheet' type='text/css'>
@@ -28,7 +27,7 @@
 
     
 
-    <meta name="generator" content="Hugo 0.92.1" />
+    <meta name="generator" content="Hugo 0.111.3">
 </head>
 
 
@@ -144,11 +143,11 @@ exec spamd --max-children 5
 <h3 id="encrypted-mailboxes">Encrypted mailboxes</h3>
 <p>All mailboxes are encrypted by default with dovecot <code>mail-crypt</code> plugin. <code>/etc/dovecot/users</code> is used to configure user passwords.
 To generate a new password you can use</p>
-<pre tabindex="0"><code>doveadm pw -s SHA512-CRYPT -p &quot;&lt;PASSWORD&gt;&quot;
+<pre tabindex="0"><code>doveadm pw -s SHA512-CRYPT -p &#34;&lt;PASSWORD&gt;&#34;
 </code></pre><p><strong>NOTE:</strong> If user&rsquo;s password is lost, mailbox cannot be decrypted anymore</p>
 <p>To change user&rsquo;s password it is not enough to change it in <code>/etc/dovecot/users</code>. Prevoius email won&rsquo;t be possible to decrypt anymore.
 To set new password for the private key run:</p>
-<pre tabindex="0"><code>doveadm mailbox cryptokey password -u &quot;$user&quot; -n &quot;$password_new1&quot; -o &quot;$password_old&quot;
+<pre tabindex="0"><code>doveadm mailbox cryptokey password -u &#34;$user&#34; -n &#34;$password_new1&#34; -o &#34;$password_old&#34;
 </code></pre><h2 id="certificates">Certificates</h2>
 <p>To support renewable certificates it is better to mount the whole folder and provide <code>CERT_LOCATION</code> and <code>CERT_KEY_LOCATION</code>.
 If you mount files directly, inode might change during certificate renewal and postfix/dovecot won&rsquo;t be able to use new cert until container is restarted.</p>
@@ -255,7 +254,7 @@ Later I plan to simplify it.</p>
     <footer id="footer">
     <div class="outer">
         <div id="footer-info" class="inner">
-            &copy; 2022 Marat Sharifullin&nbsp;
+            &copy; 2023 Marat Sharifullin&nbsp;
             Powered by <a href="https://gohugo.io" target="_blank">Hugo</a> with theme <a href="https://github.com/carsonip/hugo-theme-minos">Minos</a>
         </div>
     </div>

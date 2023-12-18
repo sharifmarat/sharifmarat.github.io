@@ -16,7 +16,6 @@
     <meta property="og:url" content="//sharifmarat.github.io/articles/duolingo_challenge/" />
     
 
-    <link href="" rel="alternate" type="application/rss+xml" title="Marat Sharifullin" />
     <link rel="shortcut icon" href="/favicon.ico">
 
     <link href="//sharifmarat.github.io/webfonts/ptserif/main.css" rel='stylesheet' type='text/css'>
@@ -28,7 +27,7 @@
 
     
 
-    <meta name="generator" content="Hugo 0.92.1" />
+    <meta name="generator" content="Hugo 0.111.3">
 </head>
 
 
@@ -102,24 +101,24 @@
 </ul>
 <p>API of Duoling is pretty simple: <code>https://www.duolingo.com/users/&lt;username&gt;</code>. It returns lots of information about user: global streak, stats per language, achievements.</p>
 <p>With a simple script it was trivial to extract streak per language data:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Python" data-lang="Python"><span style="color:#75715e">#!/usr/bin/env python3</span>
-<span style="color:#f92672">import</span> urllib.request
-<span style="color:#f92672">import</span> json
-
-<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">getUserDataAsJSON</span>(user):
-    <span style="color:#66d9ef">with</span> urllib<span style="color:#f92672">.</span>request<span style="color:#f92672">.</span>urlopen(<span style="color:#e6db74">&#34;https://www.duolingo.com/users/&#34;</span> <span style="color:#f92672">+</span> user) <span style="color:#66d9ef">as</span> url:
-        <span style="color:#66d9ef">return</span> json<span style="color:#f92672">.</span>loads(url<span style="color:#f92672">.</span>read()<span style="color:#f92672">.</span>decode())
-    <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">None</span>
-
-<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">getLanguage</span>(userData, languageCode):
-    languages <span style="color:#f92672">=</span> userData[<span style="color:#e6db74">&#39;languages&#39;</span>]
-    <span style="color:#66d9ef">return</span> next(language <span style="color:#66d9ef">for</span> (index, language) <span style="color:#f92672">in</span> enumerate(userData[<span style="color:#e6db74">&#39;languages&#39;</span>]) <span style="color:#66d9ef">if</span> language[<span style="color:#e6db74">&#34;language&#34;</span>] <span style="color:#f92672">==</span> languageCode)
-
-<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">getStreak</span>(user, languageCode):
-    userData <span style="color:#f92672">=</span> getUserDataAsJSON(user)
-    languageData <span style="color:#f92672">=</span> getLanguage(userData, languageCode)
-    <span style="color:#66d9ef">return</span> languageData[<span style="color:#e6db74">&#34;streak&#34;</span>]
-</code></pre></div><h3 id="issues">Issues</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Python" data-lang="Python"><span style="display:flex;"><span><span style="color:#75715e">#!/usr/bin/env python3</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> urllib.request
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> json
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">getUserDataAsJSON</span>(user):
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">with</span> urllib<span style="color:#f92672">.</span>request<span style="color:#f92672">.</span>urlopen(<span style="color:#e6db74">&#34;https://www.duolingo.com/users/&#34;</span> <span style="color:#f92672">+</span> user) <span style="color:#66d9ef">as</span> url:
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> json<span style="color:#f92672">.</span>loads(url<span style="color:#f92672">.</span>read()<span style="color:#f92672">.</span>decode())
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">None</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">getLanguage</span>(userData, languageCode):
+</span></span><span style="display:flex;"><span>    languages <span style="color:#f92672">=</span> userData[<span style="color:#e6db74">&#39;languages&#39;</span>]
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> next(language <span style="color:#66d9ef">for</span> (index, language) <span style="color:#f92672">in</span> enumerate(userData[<span style="color:#e6db74">&#39;languages&#39;</span>]) <span style="color:#66d9ef">if</span> language[<span style="color:#e6db74">&#34;language&#34;</span>] <span style="color:#f92672">==</span> languageCode)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">getStreak</span>(user, languageCode):
+</span></span><span style="display:flex;"><span>    userData <span style="color:#f92672">=</span> getUserDataAsJSON(user)
+</span></span><span style="display:flex;"><span>    languageData <span style="color:#f92672">=</span> getLanguage(userData, languageCode)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> languageData[<span style="color:#e6db74">&#34;streak&#34;</span>]
+</span></span></code></pre></div><h3 id="issues">Issues</h3>
 <p>For more than 30 days the script did the job. Unfortunately I have encountered a few issues with this approach.</p>
 <p>The first issue is the definition of a language streak. For a global streak user must earn specified amount of experience. This amount can be adjusted. But to stay on a language streak minimum experience is enough. In the beginning we agreed to earn at least 20 exp, but with this API 10 exp was enough.</p>
 <p>The second issue was much worse. It was encountered when switching time zones. I was travelling from UTC+1 to UTC+2 for holidays. When I opened Duolingo app in a different zone I noticied that I lost both global and local streaks. Possible reason was that I like to walk on the edge and I was doing exercise 20 minutes before midnight. It looks like Duolingo dropped some streak days. Immediately I changed timezone on my phone. It fixed my global streak at least. But the language streak was lost forever.</p>
@@ -170,7 +169,7 @@
     <footer id="footer">
     <div class="outer">
         <div id="footer-info" class="inner">
-            &copy; 2022 Marat Sharifullin&nbsp;
+            &copy; 2023 Marat Sharifullin&nbsp;
             Powered by <a href="https://gohugo.io" target="_blank">Hugo</a> with theme <a href="https://github.com/carsonip/hugo-theme-minos">Minos</a>
         </div>
     </div>

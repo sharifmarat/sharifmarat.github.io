@@ -16,7 +16,6 @@
     <meta property="og:url" content="//sharifmarat.github.io/articles/remote_console_alternative/" />
     
 
-    <link href="" rel="alternate" type="application/rss+xml" title="Marat Sharifullin" />
     <link rel="shortcut icon" href="/favicon.ico">
 
     <link href="//sharifmarat.github.io/webfonts/ptserif/main.css" rel='stylesheet' type='text/css'>
@@ -28,7 +27,7 @@
 
     
 
-    <meta name="generator" content="Hugo 0.92.1" />
+    <meta name="generator" content="Hugo 0.111.3">
 </head>
 
 
@@ -97,13 +96,13 @@
 especially when LUKS and/or LVM is used. Rescue mode, on the other hand, is offered. That
 removes the need for a remote console in most of the cases.</p>
 <p>Reboot your machine in the rescue mode. Check devices with <code>lsblk</code>:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">sda                   8:0    <span style="color:#ae81ff">0</span> 232.9G  <span style="color:#ae81ff">0</span> disk
-├─sda1                8:1    <span style="color:#ae81ff">0</span>     1G  <span style="color:#ae81ff">0</span> part
-└─sda2                8:2    <span style="color:#ae81ff">0</span> 231.9G  <span style="color:#ae81ff">0</span> part
-</code></pre></div><p>In my case, <code>/dev/sda1/</code> contains un-encrypted boot partition (it is 1GB for historical reasons) and <code>/dev/sda2/</code> is LUKS-encrypted LVM root partition.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>sda                   8:0    <span style="color:#ae81ff">0</span> 232.9G  <span style="color:#ae81ff">0</span> disk
+</span></span><span style="display:flex;"><span>├─sda1                8:1    <span style="color:#ae81ff">0</span>     1G  <span style="color:#ae81ff">0</span> part
+</span></span><span style="display:flex;"><span>└─sda2                8:2    <span style="color:#ae81ff">0</span> 231.9G  <span style="color:#ae81ff">0</span> part
+</span></span></code></pre></div><p>In my case, <code>/dev/sda1/</code> contains un-encrypted boot partition (it is 1GB for historical reasons) and <code>/dev/sda2/</code> is LUKS-encrypted LVM root partition.</p>
 <p>I had issues with the booting and could not use the remote console. QEMU helped me to diagnose the issue from rescue:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">qemu-system-x86_64 -snapshot -vnc 0.0.0.0:0 -m 5G -enable-kvm -hda /dev/sda
-</code></pre></div><ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>qemu-system-x86_64 -snapshot -vnc 0.0.0.0:0 -m 5G -enable-kvm -hda /dev/sda
+</span></span></code></pre></div><ul>
 <li>
 <p><code>-snapshot</code>, with this option changes won&rsquo;t be written to <code>/dev/sda</code>. This option is useful if <code>/dev/sda</code> is mounted together with <code>qemu</code> running.</p>
 </li>
@@ -117,8 +116,8 @@ removes the need for a remote console in most of the cases.</p>
 <p>With this running you can use <code>Remmina</code> with VNC protocol to connect to the machine and debug boot-issues:</p>
 <p><img src="grub.png" alt="Grub in QEMU"></p>
 <p>To test issues of bootloader with raid just add another drive:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">qemu-system-x86_64 -snapshot -vnc 0.0.0.0:0 -m 5G -enable-kvm -hda /dev/sda -hdb /deb/sdb
-</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>qemu-system-x86_64 -snapshot -vnc 0.0.0.0:0 -m 5G -enable-kvm -hda /dev/sda -hdb /deb/sdb
+</span></span></code></pre></div>
         </div>
 
         
@@ -157,7 +156,7 @@ removes the need for a remote console in most of the cases.</p>
     <footer id="footer">
     <div class="outer">
         <div id="footer-info" class="inner">
-            &copy; 2022 Marat Sharifullin&nbsp;
+            &copy; 2023 Marat Sharifullin&nbsp;
             Powered by <a href="https://gohugo.io" target="_blank">Hugo</a> with theme <a href="https://github.com/carsonip/hugo-theme-minos">Minos</a>
         </div>
     </div>

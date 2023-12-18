@@ -101,7 +101,7 @@ Surprisingly for myself I signed up for the exam. But there is a catch.&lt;/p&gt
       <pubDate>Wed, 08 May 2019 00:00:00 +0000</pubDate>
       
       <guid>//sharifmarat.github.io/mabsurdation/enough-writing/</guid>
-      <description></description>
+      <description> </description>
     </item>
     
     <item>
@@ -121,7 +121,7 @@ It turned out that the issue was quite different, but simple.&lt;/p&gt;</descrip
       <pubDate>Wed, 23 Jan 2019 00:00:00 +0000</pubDate>
       
       <guid>//sharifmarat.github.io/mabsurdation/grootoog_en_kleinoog/</guid>
-      <description>Перевод голландской сказки &#34;Grootoog en Kleinoog&#34; Жили-были два не родных брата. Одного звали Большой глаз, а другого - Маленький глаз. Оба были фермерами. Большой глаз был богат и цедил 12 коров, Маленький глаз был беден и доил только одну корову. Однажды, корова Маленького глаза сорвалась и убежала пастись на участок Большого глаза. Большой глаз пришел к своему брату и сказал: &amp;ldquo;Если твоя корова еще раз придет - я ее зарежу. Можешь в этом не сомневаться&amp;rdquo;.</description>
+      <description>Перевод голландской сказки &#34;Grootoog en Kleinoog&#34; Жили-были два не родных брата. Одного звали Большой глаз, а другого - Маленький глаз. Оба были фермерами. Большой глаз был богат и цедил 12 коров, Маленький глаз был беден и доил только одну корову. Однажды, корова Маленького глаза сорвалась и убежала пастись на участок Большого глаза. Большой глаз пришел к своему брату и сказал: &amp;ldquo;Если твоя корова еще раз придет - я ее зарежу.</description>
     </item>
     
     <item>
@@ -562,7 +562,7 @@ in DHCP or setting up parental control. If you are interested how to get full ac
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>//sharifmarat.github.io/contact/</guid>
-      <description>var lower_bound = 32; //including var upper_bound = 126; //excluding var count = upper_bound - lower_bound; function scramble(str, key, scramble = true) { if (key.length == 0) return str; var scrambled = []; for (var i = 0; i = upper_bound) &amp;&amp; it = upper_bound) { c = Math.abs(c) % count + lower_bound; } scrambled.push(String.fromCharCode(c)); } } return scrambled.join(&#34;&#34;); } function unscramble(str, key) { return scramble(str, key, false); } var origValues = []; function updateInfo(event) { var key = document.</description>
+      <description> Email`VhTi6\[dhab!dhZ Map-codeAA:q(/!;C@ What3Wordscd[g#icZ[V]$g]_a&amp;#96;[e To decode info type the result of expression 106 + 7 × 4 here: </description>
     </item>
     
     <item>
@@ -571,7 +571,7 @@ in DHCP or setting up parental control. If you are interested how to get full ac
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>//sharifmarat.github.io/projects/flickr_roulette/</guid>
-      <description>function jsonFlickrApi(obj) { var p = obj.photos.photo[Math.floor(Math.random() * obj.photos.total)]; var raw_url = &#34;https://farm&#34; + p.farm + &#34;.static.flickr.com/&#34; + p.server + &#34;/&#34;+ p.id + &#34;_&#34; + p.secret + &#34;_b.jpg&#34;; var flickr_url = &#34;https://www.flickr.com/photos/&#34; + p.owner + &#34;/&#34; + p.id; document.getElementById(&#34;pic&#34;).src = raw_url; document.getElementById(&#34;source&#34;).innerText = &#34;Check the license &#34; + flickr_url + &#34; before using this photo&#34;; } function reload() { var head = document.getElementsByTagName(&#39;head&#39;)[0]; var script = document.</description>
+      <description> </description>
     </item>
     
     <item>
@@ -581,8 +581,7 @@ in DHCP or setting up parental control. If you are interested how to get full ac
       
       <guid>//sharifmarat.github.io/projects/percolation/</guid>
       <description>Imagine the grid where every pixel is open with some probability p. What is the probability to get from left side of the grid to right via open pixels (site percolation)?
-
-**Result**:  Probability to enable a pixel (0 to 100):  Pixel size: 1 2 4 8 10 20 40  Note: If you want to get an idea of critical percolation threshold (high probability that long-range connectivity occurs), it is possible to run multiple iterations for all probabilities (0 to 100) and calculate how many times long-range connectivity occured.</description>
+**Result**: Probability to enable a pixel (0 to 100): Pixel size: 1 2 4 8 10 20 40 Note: If you want to get an idea of critical percolation threshold (high probability that long-range connectivity occurs), it is possible to run multiple iterations for all probabilities (0 to 100) and calculate how many times long-range connectivity occured.</description>
     </item>
     
     <item>
@@ -594,10 +593,10 @@ in DHCP or setting up parental control. If you are interested how to get full ac
       <description>Dockerized email Managing my own email server with the following setup. Read here for more details.
 Source of the docker image is on GitHub.
 Web 1.0 version of Wordle/Lingo Web 1.0 (no react and fancy stuff) clone of wordle/lingo supporting 4 languages:
- English Dutch Russian Tatar  Play here or here.
+English Dutch Russian Tatar Play here or here.
 Sources are on GitHub.
 Auto solver is part of the game:
- When the field is empty, click 3 times on DEL, followed by 3 clicks on ENTER.</description>
+When the field is empty, click 3 times on DEL, followed by 3 clicks on ENTER.</description>
     </item>
     
   </channel>
