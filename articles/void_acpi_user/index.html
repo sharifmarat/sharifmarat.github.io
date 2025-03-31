@@ -101,9 +101,9 @@ export USER=$(ps -o user --no-headers $PID)
 </code></pre><p>But it fails, because there are two <code>dbus-launch</code> processes on my Void Linux:</p>
 <pre tabindex="0"><code># ps auxf | grep dbus-launch
 root       981  Dec16   0:00 dbus-launch --autolaunch 47a2e --binary-syntax --close-stderr
-marat     1038  Dec16   0:00 dbus-launch --sh-syntax --exit-with-session
+mrt       1038  Dec16   0:00 dbus-launch --sh-syntax --exit-with-session
 </code></pre><p>With such snapshot of current processes, <code>/etc/acpi/handler.sh</code> would find that <code>PID=981</code> and <code>USER=root</code>. Later running
-<code>sudo -u $USER mate-screensaver-command -l</code> would not lock the screen, because <code>USER</code> is not `marat.</p>
+<code>sudo -u $USER mate-screensaver-command -l</code> would not lock the screen, because <code>USER</code> is not `mrt.</p>
 <p>Quick workaround is to update <code>/etc/acpi/handler.sh</code> and iterate over all <code>dbus-lanuch</code> processes:</p>
 <pre tabindex="0"><code>USER=
 PIDS=$(pgrep dbus-launch)
